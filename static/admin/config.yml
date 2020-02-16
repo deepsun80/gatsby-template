@@ -1,0 +1,42 @@
+backend:
+  name: github
+  repo: deepsun80/gatsby-template
+
+media_folder: static/assets
+public_folder: assets
+
+collections:
+  - label: 'Pages'
+    name: 'pages'
+    files:
+      - label: 'Home Page'
+        name: 'home'
+        file: 'content/home.md'
+        fields:
+          - { label: Banner Header, name: bannerHeader, widget: string }
+          - { label: Banner Text, name: bannerText, widget: string }
+          - { label: Banner Image, name: bannerImage, widget: image }
+
+          - { label: Section1 Header, name: section1Header, widget: string }
+          - { label: Section1 Text, name: section1Text, widget: text }
+          - { label: Section1 Button, name: section1Button, widget: string }
+          - { label: Section1 Image, name: section1Image, widget: image }
+
+          - { label: Section2 Header1, name: section2Header1, widget: string }
+          - { label: Section2 Text1, name: section2Text1, widget: string }
+          - { label: Section2 Image1, name: section2Image1, widget: image }
+          - { label: Section2 Header2, name: section2Header2, widget: string }
+          - { label: Section2 Text2, name: section2Text2, widget: string }
+          - { label: Section2 Image2, name: section2Image2, widget: image }
+
+          - { label: Section3 Header1, name: section3Header1, widget: string }
+          - { label: Section3 Header2, name: section3Header2, widget: string }
+          - { label: Section3 Text1, name: section3Text1, widget: text }
+          - { label: Section3 Author1, name: section3Author1, widget: string }
+          - { label: Section3 Image1, name: section3Image1, widget: image }
+          - { label: Section3 Text2, name: section3Text2, widget: text }
+          - { label: Section3 Author2, name: section3Author2, widget: string }
+          - { label: Section3 Image2, name: section3Image2, widget: image }
+
+          - { label: Footer Text1, name: footerText1, widget: string }
+          - { label: Footer Text2, name: footerText2, widget: string }
