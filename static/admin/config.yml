@@ -13,11 +13,13 @@ collections:
         name: 'home'
         file: 'content/home.md'
         fields:
-          - { label: Banner Header, name: bannerHeader, widget: string }
+          - { label: Banner Header1, name: bannerHeader1, widget: string }
+          - { label: Banner Header2, name: bannerHeader2, widget: string }
           - { label: Banner Text, name: bannerText, widget: string }
           - { label: Banner Image, name: bannerImage, widget: image }
 
-          - { label: Section1 Header, name: section1Header, widget: string }
+          - { label: Section1 Header1, name: section1Header1, widget: string }
+          - { label: Section1 Header2, name: section1Header2, widget: string }
           - { label: Section1 Text, name: section1Text, widget: text }
           - { label: Section1 Button, name: section1Button, widget: string }
           - { label: Section1 Image, name: section1Image, widget: image }
@@ -31,6 +33,7 @@ collections:
 
           - { label: Section3 Header1, name: section3Header1, widget: string }
           - { label: Section3 Header2, name: section3Header2, widget: string }
+          - { label: Section3 Header3, name: section3Header3, widget: string }
           - { label: Section3 Text1, name: section3Text1, widget: text }
           - { label: Section3 Author1, name: section3Author1, widget: string }
           - { label: Section3 Image1, name: section3Image1, widget: image }
