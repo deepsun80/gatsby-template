@@ -1,17 +1,18 @@
 backend:
   name: github
   repo: deepsun80/gatsby-template
+  branch: netlify-cms
 
-media_folder: static/assets
-public_folder: assets
+media_folder: static/img
+public_folder: /img
 
 collections:
-  - label: 'Pages'
-    name: 'pages'
+  - label: 'pages'
+    name: 'Pages'
     files:
-      - label: 'Home Page'
-        name: 'home'
-        file: 'content/home.md'
+      - label: 'src/pages/index.md'
+        name: 'Home Page'
+        file: 'index'
         fields:
           - { label: Banner Header1, name: bannerHeader1, widget: string }
           - { label: Banner Header2, name: bannerHeader2, widget: string }
