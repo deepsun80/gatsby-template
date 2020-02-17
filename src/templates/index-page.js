@@ -8,6 +8,7 @@ const IndexPageTemplate = () => {
   return (
     <>
       <Banner />
+      <Banner />
       <Section1 />
       <Section2 />
       <Testimonials />
