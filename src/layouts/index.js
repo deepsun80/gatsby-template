@@ -7,6 +7,7 @@ import Footer from "../components/Footer/Footer1"
 import theme from "../utils/theme"
 import logo from "../images/logo.png"
 import { useStaticQuery, graphql } from "gatsby"
+import "./layout.css"
 
 const Layout = ({ children }) => {
   const query = useStaticQuery(

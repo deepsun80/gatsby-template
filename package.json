@@ -35,7 +35,8 @@
     "react-helmet": "latest",
     "react-icons": "^3.9.0",
     "react-reveal": "^1.2.2",
-    "react-scrollable-anchor": "^0.6.1"
+    "react-scrollable-anchor": "^0.6.1",
+    "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
