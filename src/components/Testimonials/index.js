@@ -1,32 +1,23 @@
-import React, { useState } from 'react'
-import Container from '@material-ui/core/Container'
-import Pagination from '@material-ui/lab/Pagination'
-import Typography from '@material-ui/core/Typography'
-import Fade from 'react-reveal/Fade'
-import Testimonial from './Testimonial'
-import { useStaticQuery, graphql } from 'gatsby'
-import useStyles from './style'
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import Container from "@material-ui/core/Container"
+import Pagination from "@material-ui/lab/Pagination"
+import Typography from "@material-ui/core/Typography"
+import Fade from "react-reveal/Fade"
+import Testimonial from "./Testimonial"
+import useStyles from "./style"
 
-const Testimonials = () => {
-  const images = useStaticQuery(graphql`
-    query {
-      image1: file(relativePath: { eq: "testimonialsImg1.jpg" }) {
-        childImageSharp {
-          fluid {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-      image2: file(relativePath: { eq: "testimonialsImg2.jpg" }) {
-        childImageSharp {
-          fluid {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
-
+const Testimonials = ({
+  section3SmallHeader,
+  section3Header,
+  section3HeaderSpan,
+  testimonial1Author,
+  testimonial1Text,
+  testimonial1Image,
+  testimonial2Author,
+  testimonial2Text,
+  testimonial2Image,
+}) => {
   const classes = useStyles()
 
   const [page, setPage] = useState(1)
@@ -37,37 +28,33 @@ const Testimonials = () => {
       <Fade duration={1500} ssrFadeout>
         <Container className={classes.container}>
           <Typography variant="h4" color="primary">
-            our
+            <i>{section3SmallHeader}</i>
           </Typography>
           <div className={classes.flex}>
             <Typography variant="h3" color="primary">
-              client
+              {section3Header}
             </Typography>
             <Typography
               variant="h3"
               color="secondary"
               className={classes.rightLetter}
             >
-              reviews
+              {section3HeaderSpan}
             </Typography>
           </div>
           <div className={classes.innerContainer} />
           {page === 1 && (
             <Testimonial
-              author="john doe"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam!"
-              image={images.image1.childImageSharp.fluid}
+              author={testimonial1Author}
+              text={testimonial1Text.testimonial1Text}
+              image={testimonial1Image.fluid}
             />
           )}
           {page === 2 && (
             <Testimonial
-              author="jane doe"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam!"
-              image={images.image2.childImageSharp.fluid}
+              author={testimonial2Author}
+              text={testimonial2Text.testimonial2Text}
+              image={testimonial2Image.fluid}
             />
           )}
           <Pagination
@@ -81,6 +68,18 @@ const Testimonials = () => {
       </Fade>
     </section>
   )
+}
+
+Testimonials.propTypes = {
+  section3SmallHeader: PropTypes.string.isRequired,
+  section3Header: PropTypes.string.isRequired,
+  section3HeaderSpan: PropTypes.string.isRequired,
+  testimonial1Author: PropTypes.string.isRequired,
+  testimonial1Text: PropTypes.object.isRequired,
+  testimonial1Image: PropTypes.object.isRequired,
+  testimonial2Author: PropTypes.string.isRequired,
+  testimonial2Text: PropTypes.object.isRequired,
+  testimonial2Image: PropTypes.object.isRequired,
 }
 
 export default Testimonials

@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
-import FacebookIcon from '@material-ui/icons/Facebook'
-import InstagramIcon from '@material-ui/icons/Instagram'
-import LinkedInIcon from '@material-ui/icons/LinkedIn'
-import useStyles from './style'
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
+import Divider from "@material-ui/core/Divider"
+import Typography from "@material-ui/core/Typography"
+import FacebookIcon from "@material-ui/icons/Facebook"
+import InstagramIcon from "@material-ui/icons/Instagram"
+import LinkedInIcon from "@material-ui/icons/LinkedIn"
+import useStyles from "./style"
 
-const Footer1 = ({ logo, siteTitle }) => {
+const Footer1 = ({ logo, siteTitle, text }) => {
   const classes = useStyles()
 
   return (
@@ -24,7 +24,7 @@ const Footer1 = ({ logo, siteTitle }) => {
                 648.244.1060
               </Typography>
               <Typography variant="body1" color="primary">
-                get in touch with us
+                {text}
               </Typography>
             </Grid>
             <Grid
@@ -67,7 +67,7 @@ const Footer1 = ({ logo, siteTitle }) => {
               lg={6}
               xs={12}
               className={classes.copyrightContainer}
-              style={{ textAlign: 'right' }}
+              style={{ textAlign: "right" }}
             >
               <Typography
                 variant="caption"
@@ -87,6 +87,7 @@ const Footer1 = ({ logo, siteTitle }) => {
 Footer1.propTypes = {
   logo: PropTypes.string.isRequired,
   siteTitle: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 }
 
 export default Footer1

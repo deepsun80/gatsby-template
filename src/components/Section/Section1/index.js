@@ -1,27 +1,21 @@
-import React from 'react'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Img from 'gatsby-image'
-import Fade from 'react-reveal/Fade'
-import useStyles from './style'
-import { useStaticQuery, graphql } from 'gatsby'
+import React from "react"
+import PropTypes from "prop-types"
+import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import Img from "gatsby-image"
+import Fade from "react-reveal/Fade"
+import useStyles from "./style"
 
-const Section1 = () => {
-  const { image } = useStaticQuery(graphql`
-    query {
-      image: file(relativePath: { eq: "section1img.jpg" }) {
-        childImageSharp {
-          fluid {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
-
+const Section1 = ({
+  section1Header,
+  section1HeaderSpan,
+  section1Button,
+  section1Text,
+  section1Image,
+}) => {
   const classes = useStyles()
 
   return (
@@ -33,14 +27,14 @@ const Section1 = () => {
               <Grid item lg={6} xs={12}>
                 <div className={classes.flex}>
                   <Typography variant="h3" color="primary">
-                    about
+                    {section1Header}
                   </Typography>
                   <Typography
                     variant="h3"
                     color="secondary"
                     className={classes.rightLetter}
                   >
-                    us
+                    {section1HeaderSpan}
                   </Typography>
                 </div>
                 <Typography
@@ -48,10 +42,7 @@ const Section1 = () => {
                   color="primary"
                   className={classes.text}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                  {section1Text.section1Text}
                 </Typography>
                 <Button
                   variant="outlined"
@@ -59,15 +50,12 @@ const Section1 = () => {
                   color="secondary"
                   className={classes.button}
                 >
-                  more about us
+                  {section1Button}
                 </Button>
               </Grid>
               <div className={classes.grow} />
               <Grid item lg={6} xs={12}>
-                <Img
-                  fluid={image.childImageSharp.fluid}
-                  className={classes.image}
-                />
+                <Img fluid={section1Image.fluid} className={classes.image} />
               </Grid>
             </Grid>
           </Fade>
@@ -75,6 +63,14 @@ const Section1 = () => {
       </Paper>
     </section>
   )
+}
+
+Section1.propTypes = {
+  section1Header: PropTypes.string.isRequired,
+  section1HeaderSpan: PropTypes.string.isRequired,
+  section1Button: PropTypes.string.isRequired,
+  section1Text: PropTypes.object.isRequired,
+  section1Image: PropTypes.object.isRequired,
 }
 
 export default Section1

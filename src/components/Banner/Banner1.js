@@ -1,36 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Hidden from '@material-ui/core/Hidden'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import BackgroundImage from 'gatsby-background-image'
-import { AiOutlineDown } from 'react-icons/ai'
-import Fade from 'react-reveal/Fade'
-import scrollTo from 'gatsby-plugin-smoothscroll'
-import { configureAnchors, removeHash } from 'react-scrollable-anchor'
-import useStyles from './style'
-import { useStaticQuery, graphql } from 'gatsby'
+import React, { useState, useEffect } from "react"
+import PropTypes from "prop-types"
+import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+import Hidden from "@material-ui/core/Hidden"
+import Paper from "@material-ui/core/Paper"
+import Typography from "@material-ui/core/Typography"
+import BackgroundImage from "gatsby-background-image"
+import { AiOutlineDown } from "react-icons/ai"
+import Fade from "react-reveal/Fade"
+import scrollTo from "gatsby-plugin-smoothscroll"
+import { configureAnchors, removeHash } from "react-scrollable-anchor"
+import useStyles from "./style"
 
-const Banner1 = () => {
-  const { image } = useStaticQuery(graphql`
-    query {
-      image: file(relativePath: { eq: "banner1bg.jpg" }) {
-        childImageSharp {
-          fluid {
-            ...GatsbyImageSharpFluid_withWebp
-          }
-        }
-      }
-    }
-  `)
-
+const Banner1 = ({ header, headerSpan, subHeader, bannerImage }) => {
   const classes = useStyles()
 
   let windowScrollTop
 
-  if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-    windowScrollTop = window.pageYOffset / 4
+  if (typeof window !== "undefined") {
+    windowScrollTop = window.pageYOffset / 3
   } else {
     windowScrollTop = 0
   }
@@ -40,7 +28,7 @@ const Banner1 = () => {
   )
 
   const resetTransform = () => {
-    const windowScrollTop = window.pageYOffset / 4
+    const windowScrollTop = window.pageYOffset / 3
     setTransform(`translate3d(0,${windowScrollTop}px,0)`)
   }
 
@@ -52,12 +40,12 @@ const Banner1 = () => {
   }, [])
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-      window.addEventListener('scroll', resetTransform)
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", resetTransform)
     }
     return function cleanup() {
-      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-        window.removeEventListener('scroll', resetTransform)
+      if (typeof window !== "undefined") {
+        window.removeEventListener("scroll", resetTransform)
       }
     }
   })
@@ -72,11 +60,11 @@ const Banner1 = () => {
           <BackgroundImage
             Tag="section"
             style={{
-              height: '100%',
-              backgroundSize: 'cover',
+              height: "100%",
+              backgroundSize: "cover",
               transform,
             }}
-            fluid={image.childImageSharp.fluid}
+            fluid={bannerImage.fluid}
           />
         </Grid>
       </Grid>
@@ -84,30 +72,37 @@ const Banner1 = () => {
         <Paper elevation={1} className={classes.paper}>
           <Fade left duration={1500} distance="80px" ssrFadeout>
             <Typography variant="h1" color="primary">
-              medical website
+              {header}
             </Typography>
             <Typography variant="h1" color="secondary">
-              template
+              {headerSpan}
             </Typography>
             <Typography
               variant="subtitle1"
               color="primary"
               className={classes.subtitle}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              {subHeader}
             </Typography>
           </Fade>
           <div className={classes.flex}>
             <AiOutlineDown
               className={classes.icon}
-              onClick={() => scrollTo('.some-id')}
+              onClick={() => scrollTo(".scroll-down")}
             />
           </div>
         </Paper>
       </Container>
-      <div className="some-id" />
+      <div className="scroll-down" />
     </section>
   )
+}
+
+Banner1.propTypes = {
+  header: PropTypes.string.isRequired,
+  headerSpan: PropTypes.string.isRequired,
+  subHeader: PropTypes.string.isRequired,
+  bannerImage: PropTypes.object.isRequired,
 }
 
 export default Banner1

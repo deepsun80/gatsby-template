@@ -1,29 +1,29 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
   container: {
-    paddingTop: '5vh',
-    paddingBottom: '12vh',
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: '12vh',
-      paddingBottom: '15vh',
+    paddingTop: "5vh",
+    paddingBottom: "12vh",
+    [theme.breakpoints.up("xl")]: {
+      paddingTop: "12vh",
+      paddingBottom: "15vh",
     },
   },
   paper: {
-    position: 'relative',
+    position: "relative",
     zIndex: 1,
   },
   flex: {
-    display: 'flex',
-    justifyContent: 'flex-start',
+    display: "flex",
+    justifyContent: "flex-start",
   },
   button: {
     marginTop: 50,
-    '&:hover': {
-      color: '#fff',
+    "&:hover": {
+      color: "#fff",
       background: theme.palette.secondary.light,
       border: `1px solid ${theme.palette.secondary.light}`,
     },

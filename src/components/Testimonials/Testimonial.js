@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Img from 'gatsby-image'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import Fade from 'react-reveal/Fade'
-import useStyles from './style'
+import React from "react"
+import PropTypes from "prop-types"
+import Img from "gatsby-image"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import Typography from "@material-ui/core/Typography"
+import Fade from "react-reveal/Fade"
+import useStyles from "./style"
 
 const Testimonial = ({ text, author, image }) => {
   const classes = useStyles()
@@ -36,7 +36,7 @@ const Testimonial = ({ text, author, image }) => {
 Testimonial.propTypes = {
   text: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
 }
 
 export default Testimonial

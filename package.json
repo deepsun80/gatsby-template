@@ -10,6 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.42",
     "@material-ui/styles": "latest",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "gatsby": "latest",
     "gatsby-background-image": "^0.9.17",
     "gatsby-image": "latest",
@@ -22,6 +23,8 @@
     "gatsby-plugin-sharp": "latest",
     "gatsby-plugin-smoothscroll": "^1.0.4",
     "gatsby-plugin-transition-link": "^1.17.7",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-contentful": "^2.1.86",
     "gatsby-source-filesystem": "latest",
     "gatsby-transformer-sharp": "latest",
     "gsap": "^3.1.1",
@@ -32,8 +35,7 @@
     "react-helmet": "latest",
     "react-icons": "^3.9.0",
     "react-reveal": "^1.2.2",
-    "react-scrollable-anchor": "^0.6.1",
-    "typeface-roboto": "latest"
+    "react-scrollable-anchor": "^0.6.1"
   },
   "devDependencies": {
     "prettier": "^1.18.2"

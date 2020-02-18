@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import { useState, useEffect } from 'react'
-import AniLink from 'gatsby-plugin-transition-link/AniLink'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import { IoIosMenu } from 'react-icons/io'
-import headerIndex from '../../utils/headerIndex'
-import useStyles from './style'
+import React from "react"
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import { useState, useEffect } from "react"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import IconButton from "@material-ui/core/IconButton"
+import MenuItem from "@material-ui/core/MenuItem"
+import Menu from "@material-ui/core/Menu"
+import { IoIosMenu } from "react-icons/io"
+import headerIndex from "../../utils/headerIndex"
+import useStyles from "./style"
 
 const Navbar = ({ logo, scroll, siteTitle }) => {
   const classes = useStyles()
@@ -30,11 +30,11 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
 
   useEffect(() => {
     if (scroll) {
-      window.addEventListener('scroll', headerColorChange)
+      window.addEventListener("scroll", headerColorChange)
     }
     return function cleanup() {
       if (scroll) {
-        window.removeEventListener('scroll', headerColorChange)
+        window.removeEventListener("scroll", headerColorChange)
       }
     }
   })
@@ -65,14 +65,14 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
     </AniLink>
   )
 
-  const mobileMenuId = 'menu-mobile'
+  const mobileMenuId = "menu-mobile"
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
