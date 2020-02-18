@@ -1,4 +1,30 @@
-div {
-  background: red;
-  color: white;
+html {
+  text-decoration: none;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100;
+  src: local("Roboto Thin "), local("Roboto-Thin"),
+    url("../../node_modules/typeface-roboto/files/roboto-latin-100.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */
+      url("../../node_modules/typeface-roboto/files/roboto-latin-100.woff")
+      format("woff"); /* Modern Browsers */
 }

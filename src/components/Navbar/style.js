@@ -81,9 +81,6 @@ const useStyles = makeStyles(theme => ({
   iconSecondaryColor: {
     color: theme.palette.primary.main,
   },
-  link: {
-    textDecoration: "none",
-  },
   navLink: {
     fontFamily: "Roboto Condensed, sans-serif",
     textTransform: "uppercase",

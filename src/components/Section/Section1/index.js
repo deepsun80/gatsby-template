@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 import Img from "gatsby-image"
 import Fade from "react-reveal/Fade"
 import useStyles from "./style"
@@ -44,14 +45,16 @@ const Section1 = ({
                 >
                   {section1Text.section1Text}
                 </Typography>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  color="secondary"
-                  className={classes.button}
-                >
-                  {section1Button}
-                </Button>
+                <AniLink fade to={"/about"}>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    color="secondary"
+                    className={classes.button}
+                  >
+                    {section1Button}
+                  </Button>
+                </AniLink>
               </Grid>
               <div className={classes.grow} />
               <Grid item lg={6} xs={12}>
