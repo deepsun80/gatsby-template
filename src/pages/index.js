@@ -1,5 +1,5 @@
 import React from "react"
-import Banner from "../components/Banner/Banner1"
+import Banner1 from "../components/Banner/Banner1"
 import Section1 from "../components/Section/Section1"
 import Section2 from "../components/Section/Section2"
 import Testimonials from "../components/Testimonials"
@@ -38,7 +38,7 @@ const index = ({ data }) => {
   return (
     <>
       <SEO title={title} />
-      <Banner
+      <Banner1
         header={header}
         headerSpan={headerSpan}
         subHeader={subHeader}

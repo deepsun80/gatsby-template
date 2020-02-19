@@ -47,6 +47,12 @@ const useStyles = makeStyles(theme => ({
       marginLeft: 30,
     },
   },
+  link: {
+    transition: "all 0.5s",
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
   divider: {
     margin: "30px auto",
   },

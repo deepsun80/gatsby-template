@@ -9,9 +9,10 @@ import Typography from "@material-ui/core/Typography"
 import FacebookIcon from "@material-ui/icons/Facebook"
 import InstagramIcon from "@material-ui/icons/Instagram"
 import LinkedInIcon from "@material-ui/icons/LinkedIn"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 import useStyles from "./style"
 
-const Footer1 = ({ logo, siteTitle, text }) => {
+const Footer1 = ({ logo, siteTitle, text, tel }) => {
   const classes = useStyles()
 
   return (
@@ -21,11 +22,17 @@ const Footer1 = ({ logo, siteTitle, text }) => {
           <Grid container className={classes.grid}>
             <Grid item lg={4} xs={12}>
               <Typography variant="body1" color="secondary">
-                648.244.1060
+                {tel}
               </Typography>
-              <Typography variant="body1" color="primary">
-                {text}
-              </Typography>
+              <AniLink to={"/contact"}>
+                <Typography
+                  variant="body1"
+                  color="primary"
+                  className={classes.link}
+                >
+                  {text}
+                </Typography>
+              </AniLink>
             </Grid>
             <Grid
               item
@@ -88,6 +95,7 @@ Footer1.propTypes = {
   logo: PropTypes.string.isRequired,
   siteTitle: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  tel: PropTypes.string.isRequired,
 }
 
 export default Footer1

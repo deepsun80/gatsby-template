@@ -7,6 +7,9 @@ module.exports = {
     title: `Gatsby Template`,
     description: `Gatsby template for static sites.`,
     author: `Sandeep Chandran`,
+    data: {
+      tel: "648.244.1060",
+    },
   },
   plugins: [
     `gatsby-plugin-layout`,

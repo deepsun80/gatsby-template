@@ -16,6 +16,9 @@ const Layout = ({ children }) => {
         site {
           siteMetadata {
             title
+            data {
+              tel
+            }
           }
         }
         footer: contentfulHomePage {
@@ -34,6 +37,7 @@ const Layout = ({ children }) => {
         logo={logo}
         siteTitle={query.site.siteMetadata.title}
         text={query.footer.footerText}
+        tel={query.site.siteMetadata.data.tel}
       />
     </ThemeProvider>
   )
