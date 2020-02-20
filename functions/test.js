@@ -2,7 +2,6 @@ const axios = require("axios")
 
 exports.handler = async (event, context, callback) => {
   const parsedBody = JSON.parse(event.body)
-  console.log(parsedBody)
   try {
     const response = await axios({
       method: "post",

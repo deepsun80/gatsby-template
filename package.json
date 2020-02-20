@@ -38,6 +38,8 @@
     "react-icons": "^3.9.0",
     "react-reveal": "^1.2.2",
     "react-scrollable-anchor": "^0.6.1",
+    "react-stripe-elements": "^6.1.0",
+    "stripe": "^8.19.0",
     "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
