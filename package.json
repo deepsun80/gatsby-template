@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
+    "faunadb": "^2.11.1",
     "gatsby": "latest",
     "gatsby-background-image": "^0.9.17",
     "gatsby-image": "latest",
@@ -38,7 +39,6 @@
     "react-icons": "^3.9.0",
     "react-reveal": "^1.2.2",
     "react-scrollable-anchor": "^0.6.1",
-    "react-stripe-elements": "^6.1.0",
     "stripe": "^8.19.0",
     "typeface-roboto": "0.0.75"
   },
@@ -53,6 +53,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "prod": "npm run build; npm run build:lambda",
+    "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",

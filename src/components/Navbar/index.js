@@ -48,7 +48,7 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
   }
 
   const renderMenu = (link, linkTitle, linkId) => (
-    <AniLink fade to={link}>
+    <AniLink fade to={null}>
       <MenuItem
         title={`${siteTitle} ${link}`}
         alt={`${siteTitle} ${link}`}

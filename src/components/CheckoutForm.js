@@ -4,13 +4,9 @@ import {
   CardNumberElement,
   CardExpiryElement,
   CardCVCElement,
-  PostalCodeElement,
 } from "react-stripe-elements"
 
 import axios from "axios"
-import AddressSection from "./AddressSection"
-import CardSection from "./CardSection"
-import Success from "./Success"
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -126,30 +122,18 @@ class CheckoutForm extends Component {
                 required
               />
             </label>
-
             <hr />
-
-            <label>
-              Card number
-              <CardNumberElement />
-            </label>
-            <label>
-              CVC
-              <CardCVCElement />
-            </label>
-            <label>
-              Expiration date
-              <CardExpiryElement />
-            </label>
-            <label>
-              Postal code
-              <PostalCodeElement />
-            </label>
+            Card number
+            <CardNumberElement />
+            CVC
+            <CardCVCElement />
+            Expiration date
+            <CardExpiryElement />
           </div>
         ) : (
           <h3>Success!!</h3>
         )}
-        <Button>Pay $1</Button>
+        <button>Pay $1</button>
       </form>
     )
   }

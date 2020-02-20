@@ -45,7 +45,7 @@ const Section1 = ({
                 >
                   {section1Text.section1Text}
                 </Typography>
-                <AniLink fade to={"/about"}>
+                <AniLink fade to={null}>
                   <Button
                     variant="outlined"
                     size="large"
