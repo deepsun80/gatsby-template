@@ -70,3 +70,6 @@ yarn-error.log
 
 # lambda functions build output
 /lambda
+
+# Local Netlify folder
+.netlify

@@ -24,7 +24,7 @@ const Footer1 = ({ logo, siteTitle, text, tel }) => {
               <Typography variant="body1" color="secondary">
                 {tel}
               </Typography>
-              <AniLink to={null}>
+              <AniLink to={"#"}>
                 <Typography
                   variant="body1"
                   color="primary"
