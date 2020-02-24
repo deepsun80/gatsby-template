@@ -53,8 +53,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
+    "build": "npm run clean && gatsby build",
+    "develop": "npm run clean && gatsby develop",
     "prod": "npm run build; npm run build:lambda",
     "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
     "format": "prettier --write src/**/*.{js,jsx}",
