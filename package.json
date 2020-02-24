@@ -13,6 +13,7 @@
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
     "faunadb": "^2.11.1",
+    "fs": "0.0.1-security",
     "gatsby": "latest",
     "gatsby-background-image": "^0.9.17",
     "gatsby-image": "latest",
@@ -29,6 +30,7 @@
     "gatsby-source-contentful": "^2.1.86",
     "gatsby-source-filesystem": "latest",
     "gatsby-transformer-sharp": "latest",
+    "googleapis": "^39.2.0",
     "gsap": "^3.1.1",
     "intersection-observer": "^0.7.0",
     "netlify-lambda": "^1.6.3",
@@ -39,6 +41,7 @@
     "react-icons": "^3.9.0",
     "react-reveal": "^1.2.2",
     "react-scrollable-anchor": "^0.6.1",
+    "readline": "^1.3.0",
     "stripe": "^8.19.0",
     "typeface-roboto": "0.0.75"
   },
