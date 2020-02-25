@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
     fontFamily: "Roboto Condensed, sans-serif",
     textTransform: "uppercase",
     padding: 0,
-    margin: "0 15px",
+    margin: "1.3vh 15px 0px",
     fontSize: "0.9rem",
     transition: "all 0.2s",
     [theme.breakpoints.up("md")]: {
@@ -90,6 +90,13 @@ const useStyles = makeStyles(theme => ({
       background: "transparent",
     },
     paddingBottom: "1vh",
+  },
+  navButton: {
+    color: "#fff",
+    border: "1px solid #fff",
+  },
+  mobileButton: {
+    margin: "1vh 2vw",
   },
 }))
 

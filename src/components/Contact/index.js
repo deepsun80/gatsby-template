@@ -2,7 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
-import Typography from "@material-ui/core/Typography"
+import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const Contact = ({ children, text }) => {
@@ -12,7 +12,9 @@ const Contact = ({ children, text }) => {
     <section>
       <Container className={classes.container}>
         <Paper elevation={1} className={classes.paper}>
-          {children}
+          <Fade duration={1500} ssrFadeout>
+            {children}
+          </Fade>
         </Paper>
       </Container>
     </section>

@@ -4,6 +4,7 @@ import classNames from "classnames"
 import { useState, useEffect } from "react"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 import AppBar from "@material-ui/core/AppBar"
+import Button from "@material-ui/core/Button"
 import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -81,6 +82,16 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
           <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
         )
       })}
+      <AniLink fade to={"/schedule"}>
+        <Button
+          variant="outlined"
+          size="small"
+          color="secondary"
+          className={classes.mobileButton}
+        >
+          Schedule Online
+        </Button>
+      </AniLink>
     </Menu>
   )
 
@@ -116,6 +127,16 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
                 </div>
               )
             })}
+            <AniLink fade to={"/schedule"}>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="secondary"
+                className={menuColor && classes.navButton}
+              >
+                Schedule Online
+              </Button>
+            </AniLink>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

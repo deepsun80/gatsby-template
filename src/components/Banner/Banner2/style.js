@@ -21,18 +21,31 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
   },
   flex: {
-    display: "flex",
-    justifyContent: "flex-start",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      justifyContent: "flex-start",
+    },
   },
   header: {
-    fontSize: "2.5rem"
+    fontSize: "1.8rem",
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "2.5rem",
+    },
   },
   rightLetter: {
-    fontSize: "2.5rem",
-    marginLeft: 15,
+    fontSize: "1.8rem",
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "2.5rem",
+      marginLeft: 15,
+    },
   },
   subtitle: {
-    lineHeight: "2rem"
+    marginTop: "1vh",
+    fontSize: "0.7rem",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "1rem",
+      lineHeight: "2rem",
+    },
   },
 }))
 

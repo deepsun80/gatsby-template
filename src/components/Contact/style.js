@@ -8,11 +8,11 @@ const useStyles = makeStyles(theme => ({
     padding: "12vh 0vw",
   },
   paper: {
-      padding: 30,
-      boxShadow: `30px 30px ${theme.palette.secondary.light}`,
-      border: `1px solid ${theme.palette.secondary.light}`,
-      position: "relative",
-      zIndex: 1
+    padding: 30,
+    boxShadow: `30px 30px ${theme.palette.secondary.light}`,
+    border: `1px solid ${theme.palette.secondary.light}`,
+    position: "relative",
+    zIndex: 1,
   },
 }))
 
