@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-// import { navigateTo } from "gatsby-link"
 import Banner2 from "../components/Banner/Banner2"
 import Contact from "../components/Contact"
 import TextField from "@material-ui/core/TextField"
@@ -7,11 +6,11 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import { graphql } from "gatsby"
 
-// const encode = data => {
-//   return Object.keys(data)
-//     .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-//     .join("&")
-// }
+const encode = data => {
+  return Object.keys(data)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&")
+}
 
 const Schedule = ({ data }) => {
   const [values, setValues] = useState({
@@ -20,6 +19,7 @@ const Schedule = ({ data }) => {
     phone: "",
     message: "",
   })
+  const [success, setSuccess] = useState(false)
 
   const handleChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value })
@@ -27,21 +27,29 @@ const Schedule = ({ data }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(values)
-    // const form = e.target
-    // try {
-    //   fetch("/", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //     body: encode({
-    //       "form-name": form.getAttribute("name"),
-    //       ...values,
-    //     }),
-    //   })
-    //   navigateTo(form.getAttribute("action"))
-    // } catch (error) {
-    //   alert(error)
-    // }
+    const form = e.target
+    try {
+      // fetch("/", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      //   body: encode({
+      //     "form-name": form.getAttribute("name"),
+      //     ...values,
+      //   }),
+      // })
+      axios({
+        url: "/",
+        method: "post",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: encode({
+          "form-name": form.getAttribute("name"),
+          ...values,
+        }),
+      })
+      setSuccess(true)
+    } catch (error) {
+      alert(error)
+    }
   }
 
   const validateEmail = mail => {
@@ -63,7 +71,6 @@ const Schedule = ({ data }) => {
         <form
           name="schedule"
           method="post"
-          action="/thanks/"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           onSubmit={handleSubmit}
@@ -129,6 +136,12 @@ const Schedule = ({ data }) => {
               Please enter a valid email
             </Typography>
           )}
+          {success && (
+            <Typography variant="body2" color="secondary">
+              Thank you for scheduling you appointment. We will get in touch
+              with you very soon.
+            </Typography>
+          )}
           <Button
             type="submit"
             variant="contained"
@@ -156,7 +169,7 @@ export const data = graphql`
     background: file(relativePath: { eq: "bannerBg.jpg" }) {
       childImageSharp {
         fluid {
-          src
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }

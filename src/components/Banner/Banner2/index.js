@@ -51,12 +51,12 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
   return (
     <BackgroundImage
       Tag="section"
+      fluid={bannerImage.fluid}
       style={{
         height: "300px",
         backgroundSize: "cover",
         transform,
       }}
-      fluid={bannerImage.fluid}
     >
       <div
         style={{

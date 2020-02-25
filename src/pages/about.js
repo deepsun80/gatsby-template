@@ -26,14 +26,14 @@ export const data = graphql`
     background: file(relativePath: { eq: "bannerBg.jpg" }) {
       childImageSharp {
         fluid {
-          src
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
     image: file(relativePath: { eq: "section1img.jpg" }) {
       childImageSharp {
         fluid {
-          src
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
