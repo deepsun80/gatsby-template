@@ -20,13 +20,19 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.secondary.light,
     overflow: "hidden",
   },
-  subtitle: {},
   flex: {
     display: "flex",
     justifyContent: "flex-start",
   },
+  header: {
+    fontSize: "2.5rem"
+  },
   rightLetter: {
+    fontSize: "2.5rem",
     marginLeft: 15,
+  },
+  subtitle: {
+    lineHeight: "2rem"
   },
 }))
 

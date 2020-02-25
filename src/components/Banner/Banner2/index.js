@@ -66,7 +66,7 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
               <Grid item xs={10} className={classes.grid}>
                 <Fade duration={1500} ssrFadeout>
                   <div className={classes.flex}>
-                    <Typography variant="h1" color="primary">
+                    <Typography variant="h1" color="primary" className={classes.header}>
                       {header}
                     </Typography>
                     <Typography

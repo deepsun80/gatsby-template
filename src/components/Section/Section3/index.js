@@ -9,7 +9,7 @@ const Section2 = ({ section3Text, section3Image }) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.background}>
+    <section className={classes.background}>
       <Container className={classes.container}>
         <Grid container>
           <Grid item md={6} xs={12}>
@@ -20,7 +20,7 @@ const Section2 = ({ section3Text, section3Image }) => {
           </Grid>
         </Grid>
       </Container>
-    </div>
+    </section>
   )
 }
 

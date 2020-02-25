@@ -15,7 +15,7 @@ const Section2 = ({
   const classes = useStyles()
 
   return (
-    <div className={classes.background}>
+    <section className={classes.background}>
       <Container className={classes.container}>
         <ImageSection
           image={section2Image2.fluid}
@@ -30,7 +30,7 @@ const Section2 = ({
           text={section2Text2}
         />
       </Container>
-    </div>
+    </section>
   )
 }
 

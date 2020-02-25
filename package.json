@@ -16,6 +16,7 @@
     "gatsby": "latest",
     "gatsby-background-image": "^0.9.17",
     "gatsby-image": "latest",
+    "gatsby-link": "^2.2.29",
     "gatsby-plugin-layout": "^1.1.22",
     "gatsby-plugin-manifest": "latest",
     "gatsby-plugin-material-ui": "latest",

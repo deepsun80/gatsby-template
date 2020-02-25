@@ -23,7 +23,7 @@ const about = ({ data }) => {
 
 export const data = graphql`
   {
-    background: file(relativePath: { eq: "banner1bg.jpg" }) {
+    background: file(relativePath: { eq: "bannerBg.jpg" }) {
       childImageSharp {
         fluid {
           src
