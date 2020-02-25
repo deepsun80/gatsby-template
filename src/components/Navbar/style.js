@@ -5,15 +5,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   appPadding: {
-    // [theme.breakpoints.up('md')]: {
-    //   paddingLeft: '10vw',
-    //   paddingRight: '10vw',
-    //   paddingTop: '1vh',
-    // },
-    // [theme.breakpoints.down('sm')]: {
-    //   paddingLeft: '5vw',
-    //   paddingTop: '1vh',
-    // },
     transition: "all 0.5s",
     paddingTop: "1vh",
     [theme.breakpoints.up("sm")]: {

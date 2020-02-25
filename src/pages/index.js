@@ -8,32 +8,35 @@ import { graphql } from "gatsby"
 
 const index = ({ data }) => {
   const {
+    bannerImage,
+    section1Image,
+    section2Image1,
+    section2Image2,
+    testimonial1Image,
+    testimonial2Image,
+  } = data
+
+  const {
     title,
     header,
     headerSpan,
     subHeader,
-    bannerImage,
     section1Header,
     section1HeaderSpan,
     section1Button,
     section1Text,
-    section1Image,
     section2Header1,
     section2Text1,
-    section2Image1,
     section2Header2,
     section2Text2,
-    section2Image2,
     section3SmallHeader,
     section3Header,
     section3HeaderSpan,
     testimonial1Author,
     testimonial1Text,
-    testimonial1Image,
     testimonial2Author,
-    testimonial2Image,
     testimonial2Text,
-  } = data.home
+  } = data.markdownRemark.frontmatter
 
   return (
     <>
@@ -42,22 +45,22 @@ const index = ({ data }) => {
         header={header}
         headerSpan={headerSpan}
         subHeader={subHeader}
-        bannerImage={bannerImage}
+        bannerImage={bannerImage.childImageSharp}
       />
       <Section1
         section1Header={section1Header}
         section1HeaderSpan={section1HeaderSpan}
         section1Button={section1Button}
         section1Text={section1Text}
-        section1Image={section1Image}
+        section1Image={section1Image.childImageSharp}
       />
       <Section2
         section2Header1={section2Header1}
         section2Text1={section2Text1}
-        section2Image1={section2Image1}
+        section2Image1={section2Image1.childImageSharp}
         section2Header2={section2Header2}
         section2Text2={section2Text2}
-        section2Image2={section2Image2}
+        section2Image2={section2Image2.childImageSharp}
       />
       <Testimonials
         section3SmallHeader={section3SmallHeader}
@@ -65,9 +68,9 @@ const index = ({ data }) => {
         section3HeaderSpan={section3HeaderSpan}
         testimonial1Author={testimonial1Author}
         testimonial1Text={testimonial1Text}
-        testimonial1Image={testimonial1Image}
+        testimonial1Image={testimonial1Image.childImageSharp}
         testimonial2Author={testimonial2Author}
-        testimonial2Image={testimonial2Image}
+        testimonial2Image={testimonial2Image.childImageSharp}
         testimonial2Text={testimonial2Text}
       />
     </>
@@ -76,60 +79,67 @@ const index = ({ data }) => {
 
 export const data = graphql`
   query {
-    home: contentfulHomePage {
-      title
-      header
-      headerSpan
-      subHeader
-      section1Header
-      section1HeaderSpan
-      section1Button
-      section2Header1
-      section2Text1
-      section2Header2
-      section2Text2
-      section3SmallHeader
-      section3Header
-      section3HeaderSpan
-      testimonial1Author
-      testimonial2Author
-      bannerImage {
+    bannerImage: file(relativePath: { eq: "bannerBg.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      section1Image {
+    }
+    section1Image: file(relativePath: { eq: "section1img.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      section2Image1 {
+    }
+    section2Image1: file(relativePath: { eq: "section2img1.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      section2Image2 {
+    }
+    section2Image2: file(relativePath: { eq: "section2img2.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      testimonial1Image {
+    }
+    testimonial1Image: file(relativePath: { eq: "testimonialsImg1.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      testimonial2Image {
+    }
+    testimonial2Image: file(relativePath: { eq: "testimonialsImg2.jpg" }) {
+      childImageSharp {
         fluid {
-          ...GatsbyContentfulFluid
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
-      section1Text {
+    }
+    markdownRemark(frontmatter: { path: { eq: "/" } }) {
+      frontmatter {
+        header
+        headerSpan
+        subHeader
+        section1Header
+        section1HeaderSpan
+        section1Button
+        section2Header1
+        section2Text1
+        section2Header2
+        section2Text2
+        section3SmallHeader
+        section3Header
+        section3HeaderSpan
+        testimonial1Author
+        testimonial2Author
         section1Text
-      }
-      testimonial1Text {
         testimonial1Text
-      }
-      testimonial2Text {
         testimonial2Text
       }
     }

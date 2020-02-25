@@ -43,7 +43,7 @@ const Section1 = ({
                   color="primary"
                   className={classes.text}
                 >
-                  {section1Text.section1Text}
+                  {section1Text}
                 </Typography>
                 <AniLink fade to={"#"}>
                   <Button
@@ -72,7 +72,7 @@ Section1.propTypes = {
   section1Header: PropTypes.string.isRequired,
   section1HeaderSpan: PropTypes.string.isRequired,
   section1Button: PropTypes.string.isRequired,
-  section1Text: PropTypes.object.isRequired,
+  section1Text: PropTypes.string.isRequired,
   section1Image: PropTypes.object.isRequired,
 }
 

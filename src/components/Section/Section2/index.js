@@ -36,10 +36,10 @@ const Section2 = ({
 
 Section2.propTypes = {
   section2Header1: PropTypes.string.isRequired,
-  section2Text1: PropTypes.object.isRequired,
+  section2Text1: PropTypes.string.isRequired,
   section2Image1: PropTypes.object.isRequired,
   section2Header2: PropTypes.string.isRequired,
-  section2Text2: PropTypes.object.isRequired,
+  section2Text2: PropTypes.string.isRequired,
   section2Image2: PropTypes.object.isRequired,
 }
 

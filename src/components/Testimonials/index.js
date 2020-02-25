@@ -46,14 +46,14 @@ const Testimonials = ({
           {page === 1 && (
             <Testimonial
               author={testimonial1Author}
-              text={testimonial1Text.testimonial1Text}
+              text={testimonial1Text}
               image={testimonial1Image.fluid}
             />
           )}
           {page === 2 && (
             <Testimonial
               author={testimonial2Author}
-              text={testimonial2Text.testimonial2Text}
+              text={testimonial2Text}
               image={testimonial2Image.fluid}
             />
           )}
@@ -75,10 +75,10 @@ Testimonials.propTypes = {
   section3Header: PropTypes.string.isRequired,
   section3HeaderSpan: PropTypes.string.isRequired,
   testimonial1Author: PropTypes.string.isRequired,
-  testimonial1Text: PropTypes.object.isRequired,
+  testimonial1Text: PropTypes.string.isRequired,
   testimonial1Image: PropTypes.object.isRequired,
   testimonial2Author: PropTypes.string.isRequired,
-  testimonial2Text: PropTypes.object.isRequired,
+  testimonial2Text: PropTypes.string.isRequired,
   testimonial2Image: PropTypes.object.isRequired,
 }
 

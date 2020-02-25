@@ -21,8 +21,10 @@ const Layout = ({ children }) => {
             }
           }
         }
-        footer: contentfulHomePage {
-          footerText
+        markdownRemark(frontmatter: { path: { eq: "*" } }) {
+          frontmatter {
+            copy
+          }
         }
       }
     `
@@ -36,7 +38,7 @@ const Layout = ({ children }) => {
       <Footer
         logo={logo}
         siteTitle={query.site.siteMetadata.title}
-        text={query.footer.footerText}
+        text={query.markdownRemark.frontmatter.copy}
         tel={query.site.siteMetadata.data.tel}
       />
     </ThemeProvider>
