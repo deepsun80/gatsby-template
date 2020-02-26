@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 import Banner2 from "../components/Banner/Banner2"
 import Contact from "../components/Contact"
 import TextField from "@material-ui/core/TextField"
@@ -58,6 +59,22 @@ const Schedule = ({ data }) => {
     }
     return false
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = axios({
+          url: "/.netlify/functions/calendar",
+          method: "get",
+        })
+        console.log(JSON.stringify(response))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <>
