@@ -22,6 +22,11 @@ const Schedule = ({ data }) => {
   })
   const [success, setSuccess] = useState(false)
 
+  // Google api variables
+  const [url, setUrl] = useState(null)
+  const [token, setToken] = useState(null)
+  const [events, setEvents] = useState([])
+
   const handleChange = e => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
@@ -60,30 +65,55 @@ const Schedule = ({ data }) => {
     return false
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = axios({
-          url: "/.netlify/functions/calendar",
-          method: "get",
-        })
-        console.log(JSON.stringify(response))
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  const geturlparams = name => {
+    // courtesy of https://stackoverflow.com/a/5158301/3216524 //
+    var match = RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search)
+    return match && decodeURIComponent(match[1].replace(/\+/g, " "))
+  }
 
-    fetchData()
+  const getCalendarEvents = () => {
+    var start = new Date()
+    start.setHours(0, 0, 0, 0)
+    var end = new Date()
+    end.setHours(23, 59, 59, 999)
+
+    axios
+      .get(
+        `https://www.googleapis.com/calendar/v3/calendars/primary/events?singleEvents=true&timeMax=${end.toISOString()}&timeMin=${start.toISOString()}&orderBy=startTime`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(res => {
+        return res.data.items
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    if (window.location.search.indexOf("token") > -1) {
+      setToken(geturlparams("token"))
+      getCalendarEvents()
+    } else {
+      axios.get("/.netlify/functions/google-auth").then(res => {
+        console.log(res)
+        // setUrl(res.data.redirectURL)
+      })
+    }
   }, [])
+
+  // console.log(url)
 
   return (
     <>
-      <Banner2
+      {/* <Banner2
         header="schedule"
         headerSpan="appointment"
         subHeader="please fill out the form below and select a date to schedule an appointment."
         bannerImage={data.background.childImageSharp}
-      />
+      /> */}
       <Contact>
         <form
           name="schedule"
