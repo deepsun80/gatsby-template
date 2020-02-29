@@ -23,7 +23,6 @@ const Schedule = ({ data }) => {
   const [success, setSuccess] = useState(false)
 
   // Google api variables
-  const [url, setUrl] = useState(null)
   const [token, setToken] = useState(null)
   const [events, setEvents] = useState([])
 
@@ -65,12 +64,6 @@ const Schedule = ({ data }) => {
     return false
   }
 
-  const geturlparams = name => {
-    // courtesy of https://stackoverflow.com/a/5158301/3216524 //
-    var match = RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search)
-    return match && decodeURIComponent(match[1].replace(/\+/g, " "))
-  }
-
   const getCalendarEvents = () => {
     var start = new Date()
     start.setHours(0, 0, 0, 0)
@@ -87,24 +80,42 @@ const Schedule = ({ data }) => {
         }
       )
       .then(res => {
-        return res.data.items
+        console.log(res.data.items)
       })
       .catch(err => console.log(err))
   }
 
   useEffect(() => {
-    if (window.location.search.indexOf("token") > -1) {
-      setToken(geturlparams("token"))
-      getCalendarEvents()
-    } else {
-      axios.get("/.netlify/functions/google-auth").then(res => {
-        console.log(res)
-        // setUrl(res.data.redirectURL)
-      })
+    const getAuth = async () => {
+      try {
+        const res = await axios.get("/.netlify/functions/google-calendar")
+        setToken(res.data.access_token)
+      } catch (err) {
+        console.log(err)
+      }
     }
-  }, [])
 
-  // console.log(url)
+    const getCalendarEvents = async () => {
+      const start = new Date()
+      start.setHours(0, 0, 0, 0)
+
+      const res = await axios.get(
+        `https://www.googleapis.com/calendar/v3/calendars/${
+          process.env.GATSBY_GOOGLE_CALENDAR_ID
+        }/events?singleEvents=true&timeMin=${start.toISOString()}&orderBy=startTime&maxResults=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      console.log(res)
+    }
+
+    getAuth()
+
+    if (token !== null) getCalendarEvents()
+  }, [token])
 
   return (
     <>

@@ -38,8 +38,6 @@ const index = ({ data }) => {
     testimonial2Text,
   } = data.markdownRemark.frontmatter
 
-  console.log(process.env.STRIPE_SECRET_KEY)
-
   return (
     <>
       <SEO title={title} />
