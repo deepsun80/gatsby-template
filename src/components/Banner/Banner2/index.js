@@ -16,7 +16,7 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
   let windowScrollTop
 
   if (typeof window !== "undefined") {
-    windowScrollTop = window.pageYOffset / 3
+    windowScrollTop = window.pageYOffset / 5
   } else {
     windowScrollTop = 0
   }
@@ -26,7 +26,7 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
   )
 
   const resetTransform = () => {
-    const windowScrollTop = window.pageYOffset / 3
+    const windowScrollTop = window.pageYOffset / 5
     setTransform(`translate3d(0,${windowScrollTop}px,0)`)
   }
 
