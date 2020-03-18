@@ -1,4 +1,5 @@
 import React from "react"
+import Layout from "../layouts"
 import Banner1 from "../components/Banner/Banner1"
 import Section1 from "../components/Section/Section1"
 import Section2 from "../components/Section/Section2"
@@ -39,7 +40,7 @@ const index = ({ data }) => {
   } = data.markdownRemark.frontmatter
 
   return (
-    <>
+    <Layout>
       <SEO title={title} />
       <Banner1
         header={header}
@@ -73,7 +74,7 @@ const index = ({ data }) => {
         testimonial2Image={testimonial2Image.childImageSharp}
         testimonial2Text={testimonial2Text}
       />
-    </>
+    </Layout>
   )
 }
 

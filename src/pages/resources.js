@@ -1,10 +1,11 @@
 import React from "react"
+import Layout from "../layouts"
 
 const resources = () => {
   return (
-    <div>
+    <Layout>
       <h1>Resources</h1>
-    </div>
+    </Layout>
   )
 }
 

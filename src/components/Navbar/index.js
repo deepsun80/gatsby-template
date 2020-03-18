@@ -13,7 +13,7 @@ import { IoIosMenu } from "react-icons/io"
 import headerIndex from "../../utils/headerIndex"
 import useStyles from "./style"
 
-const Navbar = ({ logo, scroll, siteTitle }) => {
+const Navbar = ({ logo, scroll, web, siteTitle }) => {
   const classes = useStyles()
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -49,7 +49,7 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
   }
 
   const renderMenu = (link, linkTitle, linkId) => (
-    <AniLink fade to={"#"}>
+    <AniLink fade to={link}>
       <MenuItem
         title={`${siteTitle} ${link}`}
         alt={`${siteTitle} ${link}`}
@@ -77,21 +77,44 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {headerIndex.map((link, index) => {
-        return (
-          <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
-        )
-      })}
-      <AniLink fade to={"/schedule"}>
-        <Button
-          variant="outlined"
-          size="small"
-          color="secondary"
-          className={classes.mobileButton}
-        >
-          Schedule Online
-        </Button>
-      </AniLink>
+      {web
+        ? headerIndex.web.map((link, index) => {
+            return (
+              <div key={index}>
+                {renderMenu(link.path, link.name, link.name)}
+              </div>
+            )
+          })
+        : headerIndex.admin.map((link, index) => {
+            return (
+              <div key={index}>
+                {renderMenu(link.path, link.name, link.name)}
+              </div>
+            )
+          })}
+      {web ? (
+        <AniLink fade to={"/schedule"}>
+          <Button
+            variant="outlined"
+            size="small"
+            color="secondary"
+            className={classes.mobileButton}
+          >
+            schedule online
+          </Button>
+        </AniLink>
+      ) : (
+        <AniLink fade to={"/"}>
+          <Button
+            variant="text"
+            size="small"
+            color="secondary"
+            className={classes.mobileButton}
+          >
+            sign out
+          </Button>
+        </AniLink>
+      )}
     </Menu>
   )
 
@@ -120,23 +143,44 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
           </AniLink>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {headerIndex.map((link, index) => {
-              return (
-                <div key={index}>
-                  {renderMenu(link.path, link.name, link.name)}
-                </div>
-              )
-            })}
-            <AniLink fade to={"/schedule"}>
-              <Button
-                variant="outlined"
-                size="medium"
-                color="secondary"
-                className={menuColor && classes.navButton}
-              >
-                Schedule Online
-              </Button>
-            </AniLink>
+            {web
+              ? headerIndex.web.map((link, index) => {
+                  return (
+                    <div key={index}>
+                      {renderMenu(link.path, link.name, link.name)}
+                    </div>
+                  )
+                })
+              : headerIndex.admin.map((link, index) => {
+                  return (
+                    <div key={index}>
+                      {renderMenu(link.path, link.name, link.name)}
+                    </div>
+                  )
+                })}
+            {web ? (
+              <AniLink fade to={"/schedule"}>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  className={menuColor && classes.navButton}
+                >
+                  schedule online
+                </Button>
+              </AniLink>
+            ) : (
+              <AniLink fade to={"/"}>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  className={menuColor && classes.navButton}
+                >
+                  sign out
+                </Button>
+              </AniLink>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -160,9 +204,14 @@ const Navbar = ({ logo, scroll, siteTitle }) => {
   )
 }
 
+Navbar.defaultProps = {
+  web: false,
+}
+
 Navbar.propTypes = {
   logo: PropTypes.string.isRequired,
   scroll: PropTypes.bool.isRequired,
+  web: PropTypes.bool,
   siteTitle: PropTypes.string.isRequired,
 }
 

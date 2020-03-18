@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Navbar logo={logo} siteTitle={query.site.siteMetadata.title} scroll />
+      <Navbar logo={logo} siteTitle={query.site.siteMetadata.title} scroll web/>
       <main>{children}</main>
       <Footer
         logo={logo}

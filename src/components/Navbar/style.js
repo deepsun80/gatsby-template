@@ -57,15 +57,6 @@ const useStyles = makeStyles(theme => ({
     boxShadow:
       " 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)",
   },
-  navLinkPrimaryColor: {
-    color: theme.palette.primary.dark,
-    [theme.breakpoints.up("md")]: {
-      color: "#fff",
-    },
-  },
-  navLinkSecondaryColor: {
-    color: theme.palette.primary.dark,
-  },
   iconPrimaryColor: {
     color: "#fff",
   },
@@ -90,6 +81,18 @@ const useStyles = makeStyles(theme => ({
       background: "transparent",
     },
     paddingBottom: "1vh",
+  },
+  navLinkPrimaryColor: {
+    color: theme.palette.primary.dark,
+    [theme.breakpoints.up("md")]: {
+      color: "#fff",
+    },
+  },
+  navLinkSecondaryColor: {
+    color: theme.palette.primary.dark,
+    "&:hover": {
+      borderBottom: `2px solid ${theme.palette.secondary.main}`,
+    },
   },
   navButton: {
     color: "#fff",
