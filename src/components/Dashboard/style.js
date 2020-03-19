@@ -12,9 +12,16 @@ const useStyles = makeStyles(theme => ({
     paddingTop: "15vh",
   },
   paper: {
-    padding: 50,
-    minHeight: "80vh",
+    padding: "30px 0",
     maxWidth: "100%",
+    [theme.breakpoints.up("md")]: {
+      padding: 50,
+    },
+  },
+  header: {
+    fontSize: "1.3rem",
+    textTransform: "uppercase",
+    marginBottom: 30,
   },
   icon: {
     transition: "all 0.3s",

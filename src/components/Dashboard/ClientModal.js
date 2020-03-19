@@ -9,7 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
 import useStyles from "./style"
 
-function Modal({ onClose, open, data }) {
+function ClientModal({ onClose, open, data, header }) {
   const classes = useStyles()
 
   const handleClose = () => {
@@ -26,11 +26,11 @@ function Modal({ onClose, open, data }) {
     >
       <DialogTitle id="modal-title" className={classes.modalHeaderSection}>
         <Typography
-          variant="body2"
+          variant="body1"
           color="primary"
           className={classes.modalHeader}
         >
-          Customer Details
+          {header}
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -74,10 +74,11 @@ function Modal({ onClose, open, data }) {
   )
 }
 
-Modal.propTypes = {
+ClientModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired,
+  header: PropTypes.string.isRequired,
 }
 
-export default Modal
+export default ClientModal

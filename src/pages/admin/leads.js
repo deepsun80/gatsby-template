@@ -1,16 +1,16 @@
 import React from "react"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import { ThemeProvider } from "@material-ui/core/styles"
-import Navbar from "../components/Navbar"
-import Dashboard from "../components/Dashboard"
-import theme from "../utils/theme"
-import logo from "../images/logo.png"
+import Navbar from "../../components/Navbar"
+import Dashboard from "../../components/Dashboard"
+import theme from "../../utils/theme"
+import logo from "../../images/logo.png"
 import { graphql } from "gatsby"
-import "../layouts/layout.css"
+import "../../layouts/layout.css"
 
-const Admin = ({ data }) => {
+const Leads = ({ data }) => {
   const {
-    customer,
+    lead,
     customerDetails,
     customerDelete,
   } = data.markdownRemark.frontmatter
@@ -20,7 +20,7 @@ const Admin = ({ data }) => {
       <CssBaseline />
       <Navbar logo={logo} siteTitle={data.site.siteMetadata.title} />
       <Dashboard
-        header={customer}
+        header={lead}
         customerDetails={customerDetails}
         customerDelete={customerDelete}
       />
@@ -46,4 +46,4 @@ export const data = graphql`
   }
 `
 
-export default Admin
+export default Leads
