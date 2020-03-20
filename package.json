@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-material-ui",
+  "name": "gatsby-template",
   "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby and Material UI",
   "version": "0.1.0",
-  "author": "Dominic Abela <djmabela@gmail.com>",
+  "author": "Sandeep Chandran",
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
@@ -53,20 +53,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "bootstrap": "node ./scripts/bootstrap-fauna-db.js",
+    "bootstrap": "netlify dev:exec node ./scripts/bootstrap-fauna-db.js",
+    "start": "netlify dev",
     "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
-    "build": "gatsby build && netlify-lambda build functions -c ./webpack.config.js",
-    "develop": "gatsby develop",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "format": "prettier --write src/**/*.{js,jsx}",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui"
-  },
-  "bugs": {
-    "url": "https://github.com/dominicabela/gatsby-starter-material-ui/issues"
+    "build": "gatsby build",
+    "format": "prettier --write src/**/*.{js,jsx}"
   }
 }
