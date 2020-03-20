@@ -20,6 +20,18 @@ const useStyles = makeStyles(theme => ({
   button: {
     marginTop: 30,
   },
+  successMessage: {
+    color: theme.palette.success.main,
+    display: "block",
+    marginTop: 30,
+    fontWeight: 500,
+  },
+  errorMessage: {
+    color: theme.palette.error.main,
+    display: "block",
+    marginTop: 30,
+    fontWeight: 500,
+  },
 }))
 
 export default useStyles

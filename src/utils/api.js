@@ -15,6 +15,14 @@ const readAll = () => {
   })
 }
 
+const search = data => {
+  return fetch("/.netlify/functions/fauna-search", {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
 const update = (clientId, data) => {
   return fetch(`/.netlify/functions/fauna-update/${clientId}`, {
     body: JSON.stringify(data),
@@ -46,6 +54,7 @@ const batchDeleteclient = clientIds => {
 export default {
   create: create,
   readAll: readAll,
+  search: search,
   update: update,
   delete: deleteclient,
   batchDelete: batchDeleteclient,

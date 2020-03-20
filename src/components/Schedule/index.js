@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button"
 import api from "../../utils/api"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
+import { Typography } from "@material-ui/core"
 
 const Schedule = () => {
   const classes = useStyles()
@@ -21,7 +22,10 @@ const Schedule = () => {
     phone: "(1  )    -    ",
     address: "",
   })
-  // const [isEqual, setIsEqual] = useState(false)
+  const [validation, setValidation] = useState({
+    success: false,
+    error: false,
+  })
 
   const handleChange = event => {
     setValues({
@@ -33,7 +37,7 @@ const Schedule = () => {
   const handleSubmit = async event => {
     event.preventDefault()
 
-    const response = await api.readAll()
+    const response = await api.search(values.email)
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -48,21 +52,23 @@ const Schedule = () => {
       return false
     }
 
-    const tempArray = []
-
-    response.forEach(client => {
-      if (client.data.email === values.email) {
-        console.log("client already exists:", client.data.email)
-        tempArray.push(client)
-      }
-    })
-
-    if (tempArray.length <= 0) {
+    if (response.hasOwnProperty("data")) {
       try {
-        const response = await api.create(values)
-        console.log(response)
-      } catch (err) {
-        console.log("An API error occurred", err)
+        const res = await api.update(response.ref["@ref"].id, values)
+        console.log("client updated:", res)
+        setValidation({ success: true, error: false })
+      } catch (err1) {
+        console.log("An API error occurred", err1)
+        setValidation({ success: false, error: true })
+      }
+    } else {
+      try {
+        const ret = await api.create(values)
+        console.log("new client added:", ret)
+        setValidation({ success: true, error: false })
+      } catch (err2) {
+        console.log("An API error occurred", err2)
+        setValidation({ success: false, error: true })
       }
     }
   }
@@ -107,6 +113,20 @@ const Schedule = () => {
                 onChange={handleChange}
                 className={classes.field}
               />
+              {validation.success && (
+                <Typography
+                  variant="caption"
+                  className={classes.successMessage}
+                >
+                  Thank you for scheduling with us. We will get back to you
+                  shortly.
+                </Typography>
+              )}
+              {validation.error && (
+                <Typography variant="caption" className={classes.errorMessage}>
+                  Something went wrong, please try again or give us a call.
+                </Typography>
+              )}
               <Button
                 variant="contained"
                 color="secondary"
