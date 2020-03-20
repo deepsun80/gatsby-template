@@ -55,9 +55,7 @@
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap-fauna-db.js",
     "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
-    "build": "npm-run-all --parallel build:**",
-    "build:app": "gatsby build",
-    "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
+    "build": "gatsby build && netlify-lambda build functions -c ./webpack.config.js",
     "develop": "gatsby develop",
     "start": "npm run develop",
     "serve": "gatsby serve",
