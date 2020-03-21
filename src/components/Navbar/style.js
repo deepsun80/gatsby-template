@@ -101,6 +101,9 @@ const useStyles = makeStyles(theme => ({
   mobileButton: {
     margin: "1vh 2vw",
   },
+  modalBody: {
+    margin: "20px auto",
+  },
 }))
 
 export default useStyles

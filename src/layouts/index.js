@@ -16,8 +16,10 @@ const Layout = ({ children }) => {
         site {
           siteMetadata {
             title
+            author
             data {
               tel
+              company
             }
           }
         }
@@ -33,11 +35,18 @@ const Layout = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Navbar logo={logo} siteTitle={query.site.siteMetadata.title} scroll web/>
+      <Navbar
+        logo={logo}
+        siteTitle={query.site.siteMetadata.title}
+        scroll
+        web
+      />
       <main>{children}</main>
       <Footer
         logo={logo}
         siteTitle={query.site.siteMetadata.title}
+        author={query.site.siteMetadata.author}
+        company={query.site.siteMetadata.data.company}
         text={query.markdownRemark.frontmatter.copy}
         tel={query.site.siteMetadata.data.tel}
       />

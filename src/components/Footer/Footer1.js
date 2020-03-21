@@ -12,7 +12,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 import useStyles from "./style"
 
-const Footer1 = ({ logo, siteTitle, text, tel }) => {
+const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
   const classes = useStyles()
 
   return (
@@ -24,7 +24,7 @@ const Footer1 = ({ logo, siteTitle, text, tel }) => {
               <Typography variant="body1" color="secondary">
                 {tel}
               </Typography>
-              <AniLink to={"#"}>
+              <AniLink fade to="/contact">
                 <Typography
                   variant="body1"
                   color="primary"
@@ -66,7 +66,7 @@ const Footer1 = ({ logo, siteTitle, text, tel }) => {
                 color="primary"
                 className={classes.copyright}
               >
-                © {new Date().getFullYear()} company name
+                © {new Date().getFullYear()} {company}
               </Typography>
             </Grid>
             <Grid
@@ -81,7 +81,7 @@ const Footer1 = ({ logo, siteTitle, text, tel }) => {
                 color="primary"
                 className={classes.copyright}
               >
-                website by sandeep chandran
+                website by {author}
               </Typography>
             </Grid>
           </Grid>
@@ -96,6 +96,8 @@ Footer1.propTypes = {
   siteTitle: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   tel: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  company: PropTypes.string.isRequired,
 }
 
 export default Footer1

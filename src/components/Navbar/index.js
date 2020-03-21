@@ -9,15 +9,25 @@ import Toolbar from "@material-ui/core/Toolbar"
 import IconButton from "@material-ui/core/IconButton"
 import MenuItem from "@material-ui/core/MenuItem"
 import Menu from "@material-ui/core/Menu"
+import SignoutModal from "./SignoutModal"
 import { IoIosMenu } from "react-icons/io"
 import headerIndex from "../../utils/headerIndex"
 import useStyles from "./style"
 
-const Navbar = ({ logo, scroll, web, siteTitle }) => {
+const Navbar = ({
+  logo,
+  scroll,
+  web,
+  siteTitle,
+  signoutHeader,
+  setFilter,
+  logout,
+}) => {
   const classes = useStyles()
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
   const [menuColor, setMenuColor] = useState(!!scroll)
+  const [modal, setModal] = useState(false)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
   const headerColorChange = () => {
@@ -27,6 +37,14 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
     } else {
       setMenuColor(true)
     }
+  }
+
+  const handleOpen = () => {
+    setModal(true)
+  }
+
+  const handleClose = () => {
+    setModal(false)
   }
 
   useEffect(() => {
@@ -77,22 +95,54 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {web
-        ? headerIndex.web.map((link, index) => {
-            return (
-              <div key={index}>
-                {renderMenu(link.path, link.name, link.name)}
-              </div>
-            )
-          })
-        : headerIndex.admin.map((link, index) => {
-            return (
-              <div key={index}>
-                {renderMenu(link.path, link.name, link.name)}
-              </div>
-            )
-          })}
       {web ? (
+        headerIndex.map((link, index) => {
+          return (
+            <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
+          )
+        })
+      ) : (
+        <>
+          <MenuItem
+            title={`${siteTitle} leads`}
+            alt={`${siteTitle} leads`}
+            className={classNames(
+              classes.navLink,
+              menuColor
+                ? classes.navLinkPrimaryColor
+                : classes.navLinkSecondaryColor
+            )}
+            id="leads"
+            onClick={() => setFilter(true)}
+          >
+            customers
+          </MenuItem>
+          <MenuItem
+            title={`${siteTitle} leads`}
+            alt={`${siteTitle} leads`}
+            className={classNames(
+              classes.navLink,
+              menuColor
+                ? classes.navLinkPrimaryColor
+                : classes.navLinkSecondaryColor
+            )}
+            id="leads"
+            onClick={() => setFilter(false)}
+          >
+            leads
+          </MenuItem>
+          <Button
+            variant="text"
+            size="small"
+            color="secondary"
+            className={classes.mobileButton}
+            onClick={handleOpen}
+          >
+            sign out
+          </Button>
+        </>
+      )}
+      {web && (
         <AniLink fade to={"/schedule"}>
           <Button
             variant="outlined"
@@ -101,17 +151,6 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
             className={classes.mobileButton}
           >
             schedule online
-          </Button>
-        </AniLink>
-      ) : (
-        <AniLink fade to={"/"}>
-          <Button
-            variant="text"
-            size="small"
-            color="secondary"
-            className={classes.mobileButton}
-          >
-            sign out
           </Button>
         </AniLink>
       )}
@@ -143,22 +182,56 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
           </AniLink>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {web
-              ? headerIndex.web.map((link, index) => {
-                  return (
-                    <div key={index}>
-                      {renderMenu(link.path, link.name, link.name)}
-                    </div>
-                  )
-                })
-              : headerIndex.admin.map((link, index) => {
-                  return (
-                    <div key={index}>
-                      {renderMenu(link.path, link.name, link.name)}
-                    </div>
-                  )
-                })}
             {web ? (
+              headerIndex.map((link, index) => {
+                return (
+                  <div key={index}>
+                    {renderMenu(link.path, link.name, link.name)}
+                  </div>
+                )
+              })
+            ) : (
+              <>
+                <MenuItem
+                  title={`${siteTitle} leads`}
+                  alt={`${siteTitle} leads`}
+                  className={classNames(
+                    classes.navLink,
+                    menuColor
+                      ? classes.navLinkPrimaryColor
+                      : classes.navLinkSecondaryColor
+                  )}
+                  id="leads"
+                  onClick={() => setFilter(true)}
+                >
+                  customers
+                </MenuItem>
+                <MenuItem
+                  title={`${siteTitle} leads`}
+                  alt={`${siteTitle} leads`}
+                  className={classNames(
+                    classes.navLink,
+                    menuColor
+                      ? classes.navLinkPrimaryColor
+                      : classes.navLinkSecondaryColor
+                  )}
+                  id="leads"
+                  onClick={() => setFilter(false)}
+                >
+                  leads
+                </MenuItem>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  className={menuColor && classes.navButton}
+                  onClick={handleOpen}
+                >
+                  sign out
+                </Button>
+              </>
+            )}
+            {web && (
               <AniLink fade to={"/schedule"}>
                 <Button
                   variant="outlined"
@@ -167,17 +240,6 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
                   className={menuColor && classes.navButton}
                 >
                   schedule online
-                </Button>
-              </AniLink>
-            ) : (
-              <AniLink fade to={"/"}>
-                <Button
-                  variant="outlined"
-                  size="medium"
-                  color="secondary"
-                  className={menuColor && classes.navButton}
-                >
-                  sign out
                 </Button>
               </AniLink>
             )}
@@ -200,12 +262,20 @@ const Navbar = ({ logo, scroll, web, siteTitle }) => {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
+      <SignoutModal
+        onClose={handleClose}
+        open={modal}
+        header={signoutHeader}
+        logout={logout}
+      />
     </>
   )
 }
 
 Navbar.defaultProps = {
   web: false,
+  setFilter: () => {},
+  logout: () => {},
 }
 
 Navbar.propTypes = {
@@ -213,6 +283,9 @@ Navbar.propTypes = {
   scroll: PropTypes.bool.isRequired,
   web: PropTypes.bool,
   siteTitle: PropTypes.string.isRequired,
+  signout: PropTypes.string.isRequired,
+  setFilter: PropTypes.func,
+  logout: PropTypes.func,
 }
 
 export default Navbar

@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     minHeight: "100vh",
-    background: theme.palette.secondary.light,
+    background: theme.palette.primary.light,
   },
   container: {
     paddingTop: "15vh",

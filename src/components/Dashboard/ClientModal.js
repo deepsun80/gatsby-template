@@ -42,13 +42,16 @@ function ClientModal({ onClose, open, data, header }) {
           >
             <span className={classes.modalLabel}>Name</span>: {data.name}
           </Typography>
-          <Typography
-            variant="body2"
-            color="primary"
-            className={classes.modalBody}
-          >
-            <span className={classes.modalLabel}>Address</span>: {data.address}
-          </Typography>
+          {data.customer && (
+            <Typography
+              variant="body2"
+              color="primary"
+              className={classes.modalBody}
+            >
+              <span className={classes.modalLabel}>Address</span>:{" "}
+              {data.address}
+            </Typography>
+          )}
           <Typography
             variant="body2"
             color="primary"

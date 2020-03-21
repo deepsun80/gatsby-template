@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
 import Fade from "react-reveal/Fade"
@@ -8,12 +9,14 @@ import Input from "@material-ui/core/Input"
 import InputLabel from "@material-ui/core/InputLabel"
 import TextMaskCustom from "./TextMaskCustom"
 import Button from "@material-ui/core/Button"
+import { AiOutlineLeft } from "react-icons/ai"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 import api from "../../utils/api"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 import { Typography } from "@material-ui/core"
 
-const Schedule = () => {
+const Schedule = ({ successMessage, errorMessage }) => {
   const classes = useStyles()
 
   const [values, setValues] = useState({
@@ -54,7 +57,10 @@ const Schedule = () => {
 
     if (response.hasOwnProperty("data")) {
       try {
-        const res = await api.update(response.ref["@ref"].id, values)
+        const res = await api.update(response.ref["@ref"].id, {
+          ...values,
+          customer: true,
+        })
         console.log("client updated:", res)
         setValidation({ success: true, error: false })
       } catch (err1) {
@@ -63,7 +69,7 @@ const Schedule = () => {
       }
     } else {
       try {
-        const ret = await api.create(values)
+        const ret = await api.create({ ...values, customer: true })
         console.log("new client added:", ret)
         setValidation({ success: true, error: false })
       } catch (err2) {
@@ -74,74 +80,112 @@ const Schedule = () => {
   }
 
   return (
-    <section>
+    <section className={classes.section}>
       <Container className={classes.container}>
         <Paper elevation={1} className={classes.paper}>
           <Fade duration={1500} ssrFadeout>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                id="standard-basic"
-                label="Full Name"
-                name="name"
-                fullWidth
-                onChange={handleChange}
-                className={classes.field}
-              />
-              <TextField
-                id="standard-basic"
-                label="Email"
-                name="email"
-                fullWidth
-                onChange={handleChange}
-                className={classes.field}
-              />
-              <FormControl fullWidth className={classes.field}>
-                <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                <Input
-                  value={values.phone}
-                  onChange={handleChange}
-                  name="phone"
-                  id="phone"
-                  inputComponent={TextMaskCustom}
-                />
-              </FormControl>
-              <TextField
-                id="standard-basic"
-                label="Address"
-                name="address"
-                fullWidth
-                onChange={handleChange}
-                className={classes.field}
-              />
+            <>
+              {!validation.success && !validation.error && (
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    id="standard-basic"
+                    label="Full Name"
+                    name="name"
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
+                  <TextField
+                    id="standard-basic"
+                    label="Email"
+                    name="email"
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
+                  <FormControl fullWidth className={classes.field}>
+                    <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                    <Input
+                      value={values.phone}
+                      onChange={handleChange}
+                      name="phone"
+                      id="phone"
+                      inputComponent={TextMaskCustom}
+                    />
+                  </FormControl>
+                  <TextField
+                    id="standard-basic"
+                    label="Address"
+                    name="address"
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    value="Submit"
+                    className={classes.button}
+                  >
+                    submit
+                  </Button>
+                </form>
+              )}
               {validation.success && (
-                <Typography
-                  variant="caption"
-                  className={classes.successMessage}
-                >
-                  Thank you for scheduling with us. We will get back to you
-                  shortly.
-                </Typography>
+                <>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.successMessage}
+                  >
+                    {successMessage}
+                  </Typography>
+                  <AniLink fade to="/" className={classes.link}>
+                    <AiOutlineLeft className={classes.icon} />
+                    <Typography
+                      variant="body2"
+                      color="primary"
+                      className={classes.iconText}
+                    >
+                      home
+                    </Typography>
+                  </AniLink>
+                </>
               )}
+
               {validation.error && (
-                <Typography variant="caption" className={classes.errorMessage}>
-                  Something went wrong, please try again or give us a call.
-                </Typography>
+                <>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.errorMessage}
+                  >
+                    {errorMessage}
+                  </Typography>
+                  <AniLink fade to="/" className={classes.link}>
+                    <AiOutlineLeft className={classes.icon} />
+                    <Typography
+                      variant="body2"
+                      color="primary"
+                      className={classes.iconText}
+                    >
+                      home
+                    </Typography>
+                  </AniLink>
+                </>
               )}
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                value="Submit"
-                className={classes.button}
-              >
-                submit
-              </Button>
-            </form>
+            </>
           </Fade>
         </Paper>
       </Container>
     </section>
   )
+}
+
+Schedule.propTypes = {
+  successMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string.isRequired,
 }
 
 export default Schedule

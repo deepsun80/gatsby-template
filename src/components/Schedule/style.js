@@ -4,8 +4,11 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
+  section: {
+    minHeight: "80vh",
+  },
   container: {
-    padding: "12vh 0vw",
+    paddingTop: "12vh",
   },
   paper: {
     padding: 30,
@@ -21,16 +24,40 @@ const useStyles = makeStyles(theme => ({
     marginTop: 30,
   },
   successMessage: {
-    color: theme.palette.success.main,
+    color: theme.palette.secondary.main,
     display: "block",
-    marginTop: 30,
     fontWeight: 500,
   },
   errorMessage: {
     color: theme.palette.error.main,
     display: "block",
-    marginTop: 30,
     fontWeight: 500,
+  },
+  link: {
+    display: "flex",
+    justifyContent: "flex-start",
+    marginTop: "12vh",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  icon: {
+    color: theme.palette.primary.main,
+    fontSize: "1.6rem",
+    "&:hover": {
+      transition: "all 0.5s",
+      color: theme.palette.secondary.light,
+    },
+  },
+  iconText: {
+    color: theme.palette.primary.main,
+    textTransform: "capitalize",
+    fontSize: "1.2rem",
+    marginLeft: 10,
+    "&:hover": {
+      transition: "all 0.5s",
+      color: theme.palette.secondary.light,
+    },
   },
 }))
 

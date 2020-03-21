@@ -9,6 +9,7 @@ module.exports = {
     author: `Sandeep Chandran`,
     data: {
       tel: "648.244.1060",
+      company: "Company Name",
     },
   },
   plugins: [
@@ -54,6 +55,16 @@ module.exports = {
     },
     {
       resolve: `gatsby-plugin-material-ui`,
+    },
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/admin/*`] },
+    },
+    {
+      resolve: `gatsby-plugin-netlify-identity`,
+      options: {
+        url: "https://gatsby-template.netlify.com",
+      },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

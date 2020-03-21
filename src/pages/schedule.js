@@ -5,6 +5,8 @@ import Schedule from "../components/Schedule"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
+  const { success, error } = data.markdownRemark.frontmatter
+
   return (
     <Layout>
       <Banner2
@@ -13,13 +15,13 @@ const schedule = ({ data }) => {
         subHeader="schedule your appointment online"
         bannerImage={data.background.childImageSharp}
       />
-      <Schedule />
+      <Schedule successMessage={success} errorMessage={error} />
     </Layout>
   )
 }
 
 export const data = graphql`
-  {
+  query {
     background: file(relativePath: { eq: "bannerBg.jpg" }) {
       childImageSharp {
         fluid {
@@ -32,6 +34,12 @@ export const data = graphql`
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
+      }
+    }
+    markdownRemark(frontmatter: { path: { eq: "/schedule" } }) {
+      frontmatter {
+        success
+        error
       }
     }
   }

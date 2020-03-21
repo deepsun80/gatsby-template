@@ -10,11 +10,21 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import ClientModal from "./ClientModal"
 import DeleteModal from "./DeleteModal"
+import Navbar from "../Navbar"
 import api from "../../utils/api"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 
-const Dashboard = ({ header, customerDetails, customerDelete }) => {
+const Dashboard = ({
+  customerHeader,
+  leadHeader,
+  customerDetails,
+  customerDelete,
+  logo,
+  siteTitle,
+  signoutHeader,
+  logout,
+}) => {
   const classes = useStyles()
 
   const [clients, setClients] = useState([])
@@ -22,6 +32,7 @@ const Dashboard = ({ header, customerDetails, customerDelete }) => {
   const [deleteModal, setDeleteModal] = useState(false)
   const [modalData, setModalData] = useState({})
   const [targetClient, setTargetClient] = useState({})
+  const [filter, setFilter] = useState(true)
 
   const handleClientModalOpen = data => {
     setClientModal(true)
@@ -51,6 +62,10 @@ const Dashboard = ({ header, customerDetails, customerDelete }) => {
     }
   }
 
+  const handleFilter = bool => {
+    setFilter(bool)
+  }
+
   useEffect(() => {
     const getClients = async () => {
       const response = await api.readAll()
@@ -68,61 +83,80 @@ const Dashboard = ({ header, customerDetails, customerDelete }) => {
         return false
       }
 
-      setClients(response)
+      if (filter) setClients(response.filter(client => client.data.customer))
+      else setClients(response.filter(client => !client.data.customer))
     }
 
     getClients()
-  }, [])
+  }, [filter])
 
   return (
-    <main className={classes.root}>
-      <Container maxWidth="xl" className={classes.container}>
-        <Typography variant="h1" color="primary" className={classes.header}>
-          {header}
-        </Typography>
-        <Paper elevation={1} className={classes.paper}>
-          {clients.map(client => (
-            <List aria-label="client list" key={client.ts}>
-              <ListItem button>
-                <ListItemText
-                  primary={
-                    <Typography variant="body2" color="primary">
-                      {client.data.name}
-                    </Typography>
-                  }
-                  onClick={() => handleClientModalOpen(client.data)}
-                />
-                <ListItemIcon>
-                  <DeleteForeverIcon
-                    className={classes.icon}
-                    onClick={() => handleDeleteModalOpen(client)}
+    <>
+      <Navbar
+        logo={logo}
+        siteTitle={siteTitle}
+        signoutHeader={signoutHeader}
+        setFilter={handleFilter}
+        logout={logout}
+      />
+      <main className={classes.root}>
+        <Container maxWidth="xl" className={classes.container}>
+          <Typography variant="h1" color="primary" className={classes.header}>
+            {filter ? customerHeader : leadHeader}
+          </Typography>
+          <Paper elevation={1} className={classes.paper}>
+            {clients.map(client => (
+              <List aria-label="client list" key={client.ts}>
+                <ListItem button>
+                  <ListItemText
+                    primary={
+                      <Typography variant="body2" color="primary">
+                        {client.data.name}
+                      </Typography>
+                    }
+                    onClick={() => handleClientModalOpen(client.data)}
                   />
-                </ListItemIcon>
-              </ListItem>
-            </List>
-          ))}
-        </Paper>
-        <ClientModal
-          open={clientModal}
-          onClose={handleClientModalClose}
-          data={modalData}
-          header={customerDetails}
-        />
-        <DeleteModal
-          open={deleteModal}
-          onClose={handleDeleteModalClose}
-          header={customerDelete}
-          handleDelete={handleDelete}
-        />
-      </Container>
-    </main>
+                  <ListItemIcon>
+                    <DeleteForeverIcon
+                      className={classes.icon}
+                      onClick={() => handleDeleteModalOpen(client)}
+                    />
+                  </ListItemIcon>
+                </ListItem>
+              </List>
+            ))}
+          </Paper>
+          <ClientModal
+            open={clientModal}
+            onClose={handleClientModalClose}
+            data={modalData}
+            header={customerDetails}
+          />
+          <DeleteModal
+            open={deleteModal}
+            onClose={handleDeleteModalClose}
+            header={customerDelete}
+            handleDelete={handleDelete}
+          />
+        </Container>
+      </main>
+    </>
   )
 }
 
+Dashboard.defaultProps = {
+  logout: () => {},
+}
+
 Dashboard.propTypes = {
-  header: PropTypes.string.isRequired,
+  customerHeader: PropTypes.string.isRequired,
+  leadHeader: PropTypes.string.isRequired,
   customerDetails: PropTypes.string.isRequired,
   customerDelete: PropTypes.string.isRequired,
+  logo: PropTypes.string.isRequired,
+  siteTitle: PropTypes.string.isRequired,
+  signoutHeader: PropTypes.string.isRequired,
+  logout: PropTypes.func,
 }
 
 export default Dashboard
