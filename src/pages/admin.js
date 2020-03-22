@@ -44,6 +44,8 @@ const Admin = ({ data }) => {
           siteTitle={data.site.siteMetadata.title}
           signoutHeader={navbar}
           logout={identity.logoutUser}
+          author={data.site.siteMetadata.author}
+          company={data.site.siteMetadata.data.company}
         />
       ) : (
         <IdentityModal

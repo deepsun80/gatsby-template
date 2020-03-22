@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import Typography from "@material-ui/core/Typography"
 import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -24,6 +25,8 @@ const Dashboard = ({
   siteTitle,
   signoutHeader,
   logout,
+  author,
+  company,
 }) => {
   const classes = useStyles()
 
@@ -140,6 +143,36 @@ const Dashboard = ({
           />
         </Container>
       </main>
+      <footer className={classes.footer}>
+        <Container maxWidth="xl">
+          <Grid container>
+            <Grid item lg={6} xs={12} className={classes.copyrightContainer}>
+              <Typography
+                variant="caption"
+                color="primary"
+                className={classes.copyright}
+              >
+                © {new Date().getFullYear()} {company}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              lg={6}
+              xs={12}
+              className={classes.copyrightContainer}
+              style={{ textAlign: "right" }}
+            >
+              <Typography
+                variant="caption"
+                color="primary"
+                className={classes.copyright}
+              >
+                website by {author}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </footer>
     </>
   )
 }
@@ -157,6 +190,8 @@ Dashboard.propTypes = {
   siteTitle: PropTypes.string.isRequired,
   signoutHeader: PropTypes.string.isRequired,
   logout: PropTypes.func,
+  author: PropTypes.string.isRequired,
+  company: PropTypes.string.isRequired,
 }
 
 export default Dashboard

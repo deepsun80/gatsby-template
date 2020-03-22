@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import AniLink from "gatsby-plugin-transition-link/AniLink"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import Dialog from "@material-ui/core/Dialog"
@@ -37,11 +36,9 @@ function SignoutModal({ onClose, open, header, logout }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <AniLink fade to={"/"}>
-          <Button variant="outlined" onClick={handleClose} color="secondary">
-            Yes
-          </Button>
-        </AniLink>
+        <Button variant="outlined" onClick={handleClose} color="secondary">
+          Yes
+        </Button>
         <Button variant="contained" onClick={handleClose} color="secondary">
           No
         </Button>

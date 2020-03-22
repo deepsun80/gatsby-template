@@ -43,6 +43,15 @@ const useStyles = makeStyles(theme => ({
   modalLabel: {
     fontWeight: 600,
   },
+  footer: {
+    background: theme.palette.primary.light,
+  },
+  copyrightContainer: {
+    marginBottom: 10,
+  },
+  copyright: {
+    textTransform: "capitalize",
+  },
 }))
 
 export default useStyles
