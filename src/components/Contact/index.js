@@ -18,7 +18,7 @@ import { Typography } from "@material-ui/core"
 
 const encode = data => {
   return Object.keys(data)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
     .join("&")
 }
 
@@ -118,7 +118,12 @@ const Contact = ({ successMessage, errorMessage }) => {
                 !validation.error &&
                 !message.success &&
                 !message.error && (
-                  <form onSubmit={handleSubmit}>
+                  <form
+                    method="post"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                  >
                     <TextField
                       id="standard-basic"
                       label="Full Name"
