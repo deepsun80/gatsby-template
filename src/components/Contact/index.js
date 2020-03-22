@@ -16,6 +16,12 @@ import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 import { Typography } from "@material-ui/core"
 
+const encode = data => {
+  return Object.keys(data)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join("&")
+}
+
 const Contact = ({ successMessage, errorMessage }) => {
   const classes = useStyles()
 
@@ -26,6 +32,10 @@ const Contact = ({ successMessage, errorMessage }) => {
     message: "",
   })
   const [validation, setValidation] = useState({
+    success: false,
+    error: false,
+  })
+  const [message, setMessage] = useState({
     success: false,
     error: false,
   })
@@ -65,21 +75,9 @@ const Contact = ({ successMessage, errorMessage }) => {
         })
         console.log("client updated:", res)
         setValidation({ success: true, error: false })
-        setValues({
-          name: "",
-          email: "",
-          phone: "(1  )    -    ",
-          message: "",
-        })
       } catch (err1) {
         console.log("An API error occurred", err1)
         setValidation({ success: false, error: true })
-        setValues({
-          name: "",
-          email: "",
-          phone: "(1  )    -    ",
-          message: "",
-        })
       }
     } else {
       try {
@@ -91,23 +89,23 @@ const Contact = ({ successMessage, errorMessage }) => {
         })
         console.log("new client added:", ret)
         setValidation({ success: true, error: false })
-        setValues({
-          name: "",
-          email: "",
-          phone: "(1  )    -    ",
-          message: "",
-        })
       } catch (err2) {
         console.log("An API error occurred", err2)
         setValidation({ success: false, error: true })
-        setValues({
-          name: "",
-          email: "",
-          phone: "(1  )    -    ",
-          message: "",
-        })
       }
     }
+
+    const result = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({
+        "form-name": "website-contact-form",
+        ...values,
+      }),
+    })
+
+    if (result.status === 200) setMessage({ success: true, error: false })
+    else setMessage({ success: false, error: true })
   }
 
   return (
@@ -116,56 +114,59 @@ const Contact = ({ successMessage, errorMessage }) => {
         <Paper elevation={1} className={classes.paper}>
           <Fade duration={1500} ssrFadeout>
             <>
-              {!validation.success && !validation.error && (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    id="standard-basic"
-                    label="Full Name"
-                    name="name"
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
-                  <TextField
-                    id="standard-basic"
-                    label="Email"
-                    name="email"
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
-                  <FormControl fullWidth className={classes.field}>
-                    <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                    <Input
-                      value={values.phone}
+              {!validation.success &&
+                !validation.error &&
+                !message.success &&
+                !message.error && (
+                  <form onSubmit={handleSubmit}>
+                    <TextField
+                      id="standard-basic"
+                      label="Full Name"
+                      name="name"
+                      fullWidth
                       onChange={handleChange}
-                      name="phone"
-                      id="phone"
-                      inputComponent={TextMaskCustom}
+                      className={classes.field}
                     />
-                  </FormControl>
-                  <TextField
-                    id="standard-basic"
-                    label="Message/Question"
-                    name="message"
-                    multiline
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    value="Submit"
-                    className={classes.button}
-                  >
-                    submit
-                  </Button>
-                </form>
-              )}
+                    <TextField
+                      id="standard-basic"
+                      label="Email"
+                      name="email"
+                      fullWidth
+                      onChange={handleChange}
+                      className={classes.field}
+                    />
+                    <FormControl fullWidth className={classes.field}>
+                      <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                      <Input
+                        value={values.phone}
+                        onChange={handleChange}
+                        name="phone"
+                        id="phone"
+                        inputComponent={TextMaskCustom}
+                      />
+                    </FormControl>
+                    <TextField
+                      id="standard-basic"
+                      label="Message/Question"
+                      name="message"
+                      multiline
+                      fullWidth
+                      onChange={handleChange}
+                      className={classes.field}
+                    />
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      type="submit"
+                      value="Submit"
+                      className={classes.button}
+                    >
+                      submit
+                    </Button>
+                  </form>
+                )}
 
-              {validation.success && (
+              {validation.success && message.success && (
                 <>
                   <Typography
                     variant="body1"
@@ -187,7 +188,7 @@ const Contact = ({ successMessage, errorMessage }) => {
                 </>
               )}
 
-              {validation.error && (
+              {(validation.error || message.error) && (
                 <>
                   <Typography
                     variant="body1"
