@@ -63,7 +63,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-netlify-identity`,
       options: {
-        url: "https://gatsby-template.netlify.com/admin",
+        url: "https://gatsby-template.netlify.com",
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
