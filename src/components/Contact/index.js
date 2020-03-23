@@ -119,6 +119,7 @@ const Contact = ({ successMessage, errorMessage }) => {
                 !message.success &&
                 !message.error && (
                   <form
+                    name="website-contact-form"
                     method="post"
                     data-netlify="true"
                     data-netlify-honeypot="bot-field"
@@ -136,7 +137,6 @@ const Contact = ({ successMessage, errorMessage }) => {
                         <input name="bot-field" onChange={handleChange} />
                       </label>
                     </p>
-                    <p></p>
                     <TextField
                       id="standard-basic"
                       label="Full Name"
