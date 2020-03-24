@@ -9,6 +9,7 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import ClientModal from "./ClientModal"
 import DeleteModal from "./DeleteModal"
 import Navbar from "../Navbar"
@@ -36,6 +37,7 @@ const Dashboard = ({
   const [modalData, setModalData] = useState({})
   const [targetClient, setTargetClient] = useState({})
   const [filter, setFilter] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const handleClientModalOpen = data => {
     setClientModal(true)
@@ -56,12 +58,15 @@ const Dashboard = ({
   }
 
   const handleDelete = async () => {
+    setLoading(true)
     try {
       const response = await api.delete(targetClient.ref["@ref"].id)
       const filteredClients = clients.filter(item => item.ts !== response.ts)
       setClients(filteredClients)
+      setLoading(false)
     } catch (err) {
       console.log(`There was an error removing client`, err)
+      setLoading(false)
     }
   }
 
@@ -71,6 +76,8 @@ const Dashboard = ({
 
   useEffect(() => {
     const getClients = async () => {
+      setLoading(true)
+
       const response = await api.readAll()
 
       if (response.message === "unauthorized") {
@@ -83,11 +90,17 @@ const Dashboard = ({
             "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
           )
         }
+        setLoading(false)
         return false
       }
 
-      if (filter) setClients(response.filter(client => client.data.customer))
-      else setClients(response.filter(client => !client.data.customer))
+      if (filter) {
+        setLoading(false)
+        setClients(response.filter(client => client.data.customer))
+      } else {
+        setLoading(false)
+        setClients(response.filter(client => !client.data.customer))
+      }
     }
 
     getClients()
@@ -104,6 +117,11 @@ const Dashboard = ({
       />
       <main className={classes.root}>
         <Container maxWidth="xl" className={classes.container}>
+          {loading && (
+            <div className={classes.loader}>
+              <CircularProgress color="secondary" size="100px" thickness={1} />
+            </div>
+          )}
           <Typography variant="h1" color="primary" className={classes.header}>
             {filter ? customerHeader : leadHeader}
           </Typography>

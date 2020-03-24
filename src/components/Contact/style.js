@@ -33,6 +33,10 @@ const useStyles = makeStyles(theme => ({
     display: "block",
     margin: "30px auto",
   },
+  validationMessage: {
+    color: theme.palette.error.main,
+    marginTop: 20,
+  },
   link: {
     display: "flex",
     justifyContent: "flex-start",
@@ -46,18 +50,28 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.6rem",
     "&:hover": {
       transition: "all 0.5s",
+      "&::-webkit-transition": "all 0.5s",
       color: theme.palette.secondary.light,
     },
   },
   iconText: {
     color: theme.palette.primary.main,
     textTransform: "capitalize",
+
     fontSize: "1.2rem",
     marginLeft: 10,
     "&:hover": {
       transition: "all 0.5s",
       color: theme.palette.secondary.light,
     },
+  },
+  loader: {
+    position: "absolute",
+    left: "50vw",
+    top: "50vh",
+    zIndex: 2,
+    transform: " translateX(-50%)",
+    "&::-webkit-transform": " translateX(-50%)",
   },
 }))
 

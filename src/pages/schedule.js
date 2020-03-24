@@ -5,7 +5,7 @@ import Schedule from "../components/Schedule"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
-  const { success, error } = data.markdownRemark.frontmatter
+  const { success, error, validation, email } = data.markdownRemark.frontmatter
 
   return (
     <Layout>
@@ -15,7 +15,12 @@ const schedule = ({ data }) => {
         subHeader="schedule your appointment online"
         bannerImage={data.background.childImageSharp}
       />
-      <Schedule successMessage={success} errorMessage={error} />
+      <Schedule
+        successMessage={success}
+        errorMessage={error}
+        validationMessage={validation}
+        emailMessage={email}
+      />
     </Layout>
   )
 }
@@ -40,6 +45,8 @@ export const data = graphql`
       frontmatter {
         success
         error
+        validation
+        email
       }
     }
   }

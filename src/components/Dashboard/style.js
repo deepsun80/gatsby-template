@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     transition: "all 0.3s",
+    "&::-webkit-transition": "all 0.3s",
     color: theme.palette.primary.light,
     "&:hover": {
       color: theme.palette.secondary.main,
@@ -51,6 +52,13 @@ const useStyles = makeStyles(theme => ({
   },
   copyright: {
     textTransform: "capitalize",
+  },
+  loader: {
+    position: "absolute",
+    left: "50vw",
+    top: "25vh",
+    transform: " translateX(-50%)",
+    "&::-webkit-transform": " translateX(-50%)",
   },
 }))
 

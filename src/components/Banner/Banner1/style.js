@@ -10,17 +10,21 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     transform: "translateY(-35vh)",
+    "&::-webkit-transform": " translateY(-35vh)",
     marginBottom: "-30vh",
     [theme.breakpoints.up("sm")]: {
       transform: "translateY(-40vh)",
+      "&::-webkit-transform": "translateY(-40vh)",
       marginBottom: "-35vh",
     },
     [theme.breakpoints.up("lg")]: {
       transform: "translate(-15vw, -65vh)",
+      "&::-webkit-transform": "translate(-15vw, -65vh)",
       marginBottom: "-50vh",
     },
     [theme.breakpoints.up("xl")]: {
       transform: "translate(-15vw, -75vh)",
+      "&::-webkit-transform": "translate(-15vw, -65vh)",
       marginBottom: "-60vh",
     },
   },
@@ -39,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     padding: 10,
     "&:hover": {
       transition: "all 0.5s",
+      "&::-webkit-transition": "all 0.5s",
       cursor: "pointer",
       background: theme.palette.secondary.light,
       color: "#fff",

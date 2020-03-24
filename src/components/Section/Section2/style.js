@@ -18,15 +18,19 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: "15px 0px 15px 15px",
     transform: "translate(-10px, -50px)",
+    "&::-webkit-transform": "translate(-10px, -50px)",
     [theme.breakpoints.up("sm")]: {
       transform: "translate(-10px, -80px)",
+      "&::-webkit-transform": "translate(-10px, -80px)",
     },
     [theme.breakpoints.up("md")]: {
       transform: "translate(-20px, -190px)",
+      "&::-webkit-transform": "translate(-20px, -190px)",
     },
     [theme.breakpoints.up("lg")]: {
       width: 450,
       transform: "translate(-115px, -210px)",
+      "&::-webkit-transform": "translate(-20px, -190px)",
     },
     display: "flex",
     justifyContent: "space-between",

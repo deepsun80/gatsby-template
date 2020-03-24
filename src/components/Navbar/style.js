@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
   },
   appPadding: {
     transition: "all 0.5s",
+    "&::-webkit-transition": "all 0.5s",
     paddingTop: "1vh",
     [theme.breakpoints.up("sm")]: {
       paddingTop: "2vh",
@@ -17,6 +18,7 @@ const useStyles = makeStyles(theme => ({
   logo: {
     cursor: "pointer",
     transition: "all 0.5s",
+    "&::-webkit-transition": "all 0.5s",
   },
   logoPrimaryHeight: {
     maxHeight: 60,
@@ -70,6 +72,7 @@ const useStyles = makeStyles(theme => ({
     margin: "1.3vh 15px 0px",
     fontSize: "0.9rem",
     transition: "all 0.2s",
+    "&::-webkit-transition": "all 0.2s",
     [theme.breakpoints.up("md")]: {
       borderBottom: "2px solid transparent",
     },

@@ -9,8 +9,10 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     transform: "translateY(100px)",
+    "&::-webkit-transform": "translateY(100px)",
     [theme.breakpoints.up("md")]: {
       transform: "translateY(135px)",
+      "&::-webkit-transform": "translateY(135px)",
     },
   },
   content: {

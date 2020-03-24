@@ -24,13 +24,16 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "95%",
     margin: "auto",
     transform: "translateY(-50vh)",
+    "&::-webkit-transform": "translateY(-50vh)",
     marginBottom: "-40vh",
     [theme.breakpoints.up("md")]: {
       transform: "translateY(-12vh)",
+      "&::-webkit-transform": "translateY(-12vh)",
       marginBottom: "-8vh",
     },
     [theme.breakpoints.up("xl")]: {
       transform: "translateY(-20vh)",
+      "&::-webkit-transform": "translateY(-12vh)",
       marginBottom: "-15vh",
     },
   },

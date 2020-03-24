@@ -38,10 +38,12 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     transition: "all 0.5s",
+    "&::-webkit-transition": "all 0.5s",
     "&:hover": {
       color: theme.palette.secondary.main,
       cursor: "pointer",
       transform: "translateY(-5px)",
+      "&::-webkit-transform": "translateY(-5px)",
     },
     [theme.breakpoints.up("lg")]: {
       marginLeft: 30,
@@ -49,6 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     transition: "all 0.5s",
+    "&::-webkit-transition": "all 0.5s",
     "&:hover": {
       color: theme.palette.secondary.main,
     },
