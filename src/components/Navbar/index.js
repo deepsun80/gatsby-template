@@ -85,7 +85,7 @@ const Navbar = ({
   )
 
   const mobileMenuId = "menu-mobile"
-  const renderMobileMenu = (
+  const renderMobileMenu = web ? (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -95,65 +95,69 @@ const Navbar = ({
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {web ? (
-        headerIndex.map((link, index) => {
-          return (
-            <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
-          )
-        })
-      ) : (
-        <>
-          <MenuItem
-            title={`${siteTitle} leads`}
-            alt={`${siteTitle} leads`}
-            className={classNames(
-              classes.navLink,
-              menuColor
-                ? classes.navLinkPrimaryColor
-                : classes.navLinkSecondaryColor
-            )}
-            id="leads"
-            onClick={() => setFilter(true)}
-          >
-            customers
-          </MenuItem>
-          <MenuItem
-            title={`${siteTitle} leads`}
-            alt={`${siteTitle} leads`}
-            className={classNames(
-              classes.navLink,
-              menuColor
-                ? classes.navLinkPrimaryColor
-                : classes.navLinkSecondaryColor
-            )}
-            id="leads"
-            onClick={() => setFilter(false)}
-          >
-            leads
-          </MenuItem>
-          <Button
-            variant="text"
-            size="small"
-            color="secondary"
-            className={classes.mobileButton}
-            onClick={handleOpen}
-          >
-            sign out
-          </Button>
-        </>
-      )}
-      {web && (
-        <AniLink fade to={"/schedule"}>
-          <Button
-            variant="outlined"
-            size="small"
-            color="secondary"
-            className={classes.mobileButton}
-          >
-            schedule online
-          </Button>
-        </AniLink>
-      )}
+      {headerIndex.map((link, index) => {
+        return (
+          <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
+        )
+      })}
+      <AniLink fade to={"/schedule"}>
+        <Button
+          variant="outlined"
+          size="small"
+          color="secondary"
+          className={classes.mobileButton}
+        >
+          schedule online
+        </Button>
+      </AniLink>
+    </Menu>
+  ) : (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem
+        title={`${siteTitle} leads`}
+        alt={`${siteTitle} leads`}
+        className={classNames(
+          classes.navLink,
+          menuColor
+            ? classes.navLinkPrimaryColor
+            : classes.navLinkSecondaryColor
+        )}
+        id="leads"
+        onClick={() => setFilter(true)}
+      >
+        customers
+      </MenuItem>
+      <MenuItem
+        title={`${siteTitle} leads`}
+        alt={`${siteTitle} leads`}
+        className={classNames(
+          classes.navLink,
+          menuColor
+            ? classes.navLinkPrimaryColor
+            : classes.navLinkSecondaryColor
+        )}
+        id="leads"
+        onClick={() => setFilter(false)}
+      >
+        leads
+      </MenuItem>
+      <Button
+        variant="text"
+        size="small"
+        color="secondary"
+        className={classes.mobileButton}
+        onClick={handleOpen}
+      >
+        sign out
+      </Button>
     </Menu>
   )
 
@@ -224,7 +228,7 @@ const Navbar = ({
                   variant="outlined"
                   size="medium"
                   color="secondary"
-                  className={menuColor && classes.navButton}
+                  className={menuColor ? classes.navButton : null}
                   onClick={handleOpen}
                 >
                   sign out
@@ -237,7 +241,7 @@ const Navbar = ({
                   variant="outlined"
                   size="medium"
                   color="secondary"
-                  className={menuColor && classes.navButton}
+                  className={menuColor ? classes.navButton : null}
                 >
                   schedule online
                 </Button>
@@ -274,16 +278,18 @@ const Navbar = ({
 
 Navbar.defaultProps = {
   web: false,
+  scroll: false,
+  signoutHeader: "",
   setFilter: () => {},
   logout: () => {},
 }
 
 Navbar.propTypes = {
   logo: PropTypes.string.isRequired,
-  scroll: PropTypes.bool.isRequired,
+  scroll: PropTypes.bool,
   web: PropTypes.bool,
   siteTitle: PropTypes.string.isRequired,
-  signout: PropTypes.string.isRequired,
+  signoutHeader: PropTypes.string,
   setFilter: PropTypes.func,
   logout: PropTypes.func,
 }

@@ -99,9 +99,11 @@ const theme = createMuiTheme({
       },
       body2: {
         fontFamily: "Roboto, sans-serif",
+        textTransform: "none",
       },
       caption: {
         fontFamily: "Roboto, sans-serif",
+        textTransform: "none",
       },
     },
   },

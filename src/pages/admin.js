@@ -18,6 +18,8 @@ const Admin = ({ data }) => {
     customerDetails,
     customerDelete,
     navbar,
+    customerConvert,
+    leadConvert,
   } = data.markdownRemark.frontmatter
 
   const identity = useIdentityContext()
@@ -44,6 +46,8 @@ const Admin = ({ data }) => {
           logout={identity.logoutUser}
           author={data.site.siteMetadata.author}
           company={data.site.siteMetadata.data.company}
+          customerConvert={customerConvert}
+          leadConvert={leadConvert}
         />
       ) : (
         <IdentityModal
@@ -75,6 +79,8 @@ export const data = graphql`
         customerDetails
         customerDelete
         navbar
+        customerConvert
+        leadConvert
       }
     }
   }

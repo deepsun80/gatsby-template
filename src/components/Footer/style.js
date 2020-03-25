@@ -59,8 +59,14 @@ const useStyles = makeStyles(theme => ({
   divider: {
     margin: "30px auto",
   },
-  copyrightContainer: {
+  copyrightContainerLeft: {
     marginBottom: 10,
+  },
+  copyrightContainerRight: {
+    marginBottom: 10,
+    [theme.breakpoints.up("lg")]: {
+      textAlign: "right",
+    },
   },
   copyright: {
     textTransform: "capitalize",

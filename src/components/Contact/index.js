@@ -157,7 +157,7 @@ const Contact = ({
                       </label>
                     </p>
                     <TextField
-                      id="outlined-basic"
+                      id="name"
                       variant="outlined"
                       label="Full Name"
                       name="name"
@@ -166,7 +166,7 @@ const Contact = ({
                       className={classes.field}
                     />
                     <TextField
-                      id="outlined-basic"
+                      id="email"
                       variant="outlined"
                       label="Email"
                       name="email"
@@ -195,7 +195,7 @@ const Contact = ({
                       />
                     </FormControl>
                     <TextField
-                      id="outlined-basic"
+                      id="message"
                       variant="outlined"
                       label="Message/Question"
                       name="message"

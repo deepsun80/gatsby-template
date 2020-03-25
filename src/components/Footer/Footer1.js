@@ -60,7 +60,12 @@ const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
           </Grid>
           <Divider variant="middle" className={classes.divider} />
           <Grid container>
-            <Grid item lg={6} xs={12} className={classes.copyrightContainer}>
+            <Grid
+              item
+              lg={6}
+              xs={12}
+              className={classes.copyrightContainerLeft}
+            >
               <Typography
                 variant="caption"
                 color="primary"
@@ -73,8 +78,7 @@ const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
               item
               lg={6}
               xs={12}
-              className={classes.copyrightContainer}
-              style={{ textAlign: "right" }}
+              className={classes.copyrightContainerRight}
             >
               <Typography
                 variant="caption"

@@ -18,6 +18,12 @@ const useStyles = makeStyles(theme => ({
       padding: 50,
     },
   },
+  searchField: {
+    width: 320,
+    maxWidth: "100%",
+    marginBottom: 30,
+    display: "inline-block",
+  },
   header: {
     fontSize: "1.3rem",
     textTransform: "uppercase",
@@ -59,6 +65,9 @@ const useStyles = makeStyles(theme => ({
     top: "25vh",
     transform: " translateX(-50%)",
     "&::-webkit-transform": " translateX(-50%)",
+  },
+  input: {
+    paddingLeft: 10,
   },
 }))
 

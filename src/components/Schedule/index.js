@@ -106,7 +106,7 @@ const Schedule = ({
               {!validation.success && !validation.error && (
                 <form onSubmit={handleSubmit}>
                   <TextField
-                    id="outlined-basic"
+                    id="name"
                     variant="outlined"
                     label="Full Name"
                     name="name"
@@ -115,7 +115,7 @@ const Schedule = ({
                     className={classes.field}
                   />
                   <TextField
-                    id="outlined-basic"
+                    id="email"
                     variant="outlined"
                     label="Email"
                     name="email"
@@ -144,7 +144,7 @@ const Schedule = ({
                     />
                   </FormControl>
                   <TextField
-                    id="outlined-basic"
+                    id="address"
                     variant="outlined"
                     label="Address"
                     name="address"

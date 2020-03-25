@@ -7,7 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
 import useStyles from "./style"
 
-function DeleteModal({ onClose, open, handleDelete, header }) {
+function ConvertModal({ onClose, open, handleConvert, header }) {
   const classes = useStyles()
 
   const handleClose = () => {
@@ -35,7 +35,7 @@ function DeleteModal({ onClose, open, handleDelete, header }) {
         <Button
           variant="outlined"
           onClick={() => {
-            handleDelete()
+            handleConvert()
             handleClose()
           }}
           color="secondary"
@@ -50,11 +50,11 @@ function DeleteModal({ onClose, open, handleDelete, header }) {
   )
 }
 
-DeleteModal.propTypes = {
+ConvertModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  handleConvert: PropTypes.func.isRequired,
   header: PropTypes.string.isRequired,
 }
 
-export default DeleteModal
+export default ConvertModal
