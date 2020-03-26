@@ -3,26 +3,23 @@ var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 module.exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
-  return stripe.invoiceItems
+  return stripe.customers
     .create({
-      customer: requestBody.customer,
-      amount: requestBody.amount,
-      currency: "usd",
-      description: requestBody.description,
+      email: requestBody.email,
+      name: requestBody.name,
+      phone: requestBody.phone,
     })
     .then(result => {
-      // Success response
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: `Invoice created succesfully!`,
+          message: `Stripe customer created succesfully`,
           result,
         }),
       }
       callback(null, response)
     })
     .catch(err => {
-      // Error response
       const response = {
         statusCode: 500,
         body: JSON.stringify({

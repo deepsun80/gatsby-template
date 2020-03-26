@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { AiOutlineLeft } from "react-icons/ai"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
-import api from "../../utils/api"
+import faunaApi from "../../utils/faunaApi"
 import validateEmail from "../../utils/validateEmail"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
@@ -60,7 +60,7 @@ const Contact = ({
 
     setLoading(true)
 
-    const response = await api.search(values.email)
+    const response = await faunaApi.search(values.email)
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -77,7 +77,7 @@ const Contact = ({
 
     if (response.hasOwnProperty("data")) {
       try {
-        const res = await api.update(response.ref["@ref"].id, {
+        const res = await faunaApi.update(response.ref["@ref"].id, {
           name: values.name,
           email: values.email,
           phone: values.phone,
@@ -92,7 +92,7 @@ const Contact = ({
       setLoading(false)
     } else {
       try {
-        const ret = await api.create({
+        const ret = await faunaApi.create({
           name: values.name,
           email: values.email,
           phone: values.phone,

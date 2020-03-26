@@ -12,7 +12,8 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { AiOutlineLeft } from "react-icons/ai"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
-import api from "../../utils/api"
+import faunaApi from "../../utils/faunaApi"
+import stripeApi from "../../utils/stripeApi"
 import validateEmail from "../../utils/validateEmail"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
@@ -50,7 +51,7 @@ const Schedule = ({
 
     setLoading(true)
 
-    const response = await api.search(values.email)
+    const response = await faunaApi.search(values.email)
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -68,12 +69,25 @@ const Schedule = ({
 
     if (response.hasOwnProperty("data")) {
       try {
-        const res = await api.update(response.ref["@ref"].id, {
+        const ret = await faunaApi.update(response.ref["@ref"].id, {
           ...values,
+          stripe_id: response.data.stripe_id,
           customer: true,
         })
-        console.log("client updated:", res)
-        setValidation({ success: true, error: false })
+        console.log("client updated:", ret)
+
+        try {
+          const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+          })
+          console.log("client updated on Stripe:", ret2)
+          setValidation({ success: true, error: false })
+        } catch (err) {
+          console.log("An API error occurred", err)
+          setValidation({ success: false, error: true })
+        }
       } catch (err1) {
         console.log("An API error occurred", err1)
         setValidation({ success: false, error: true })
@@ -81,11 +95,23 @@ const Schedule = ({
       setLoading(false)
     } else {
       try {
-        const ret = await api.create({ ...values, customer: true })
-        console.log("new client added:", ret)
-        setValidation({ success: true, error: false })
-      } catch (err2) {
-        console.log("An API error occurred", err2)
+        const ret = await stripeApi.createClient(values)
+        console.log("new added to Stripe:", ret)
+
+        try {
+          const ret2 = await faunaApi.create({
+            ...values,
+            stripe_id: ret.result.id,
+            customer: true,
+          })
+          console.log("new client added:", ret2)
+          setValidation({ success: true, error: false })
+        } catch (err) {
+          console.log("An API error occurred", err)
+          setValidation({ success: false, error: true })
+        }
+      } catch (err1) {
+        console.log("An API error occurred", err1)
         setValidation({ success: false, error: true })
       }
       setLoading(false)

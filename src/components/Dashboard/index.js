@@ -19,7 +19,8 @@ import ClientModal from "./ClientModal"
 import DeleteModal from "./DeleteModal"
 import ConvertModal from "./ConvertModal"
 import Navbar from "../Navbar"
-import api from "../../utils/api"
+import faunaApi from "../../utils/faunaApi"
+import stripeApi from "../../utils/stripeApi"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 
@@ -84,7 +85,7 @@ const Dashboard = ({
     setLoading(true)
     if (filter) {
       try {
-        const response = await api.update(targetClient.ref["@ref"].id, {
+        const response = await faunaApi.update(targetClient.ref["@ref"].id, {
           ...targetClient.data,
           customer: false,
         })
@@ -99,7 +100,7 @@ const Dashboard = ({
       setLoading(false)
     } else {
       try {
-        const response = await api.update(targetClient.ref["@ref"].id, {
+        const response = await faunaApi.update(targetClient.ref["@ref"].id, {
           ...targetClient.data,
           customer: true,
         })
@@ -118,13 +119,21 @@ const Dashboard = ({
   const handleDelete = async () => {
     setLoading(true)
     try {
-      const response = await api.delete(targetClient.ref["@ref"].id)
-      console.log("client deleted:", response)
-      const filteredClients = clients.filter(item => item.ts !== response.ts)
-      setClients(filteredClients)
-      setLoading(false)
-    } catch (err) {
-      alert("There was an error removing client", err)
+      const res1 = await faunaApi.delete(targetClient.ref["@ref"].id)
+      console.log("client deleted:", res1)
+
+      try {
+        const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
+        console.log("client deleted from Stripe:", res2)
+        const filteredClients = clients.filter(item => item.ts !== res1.ts)
+        setClients(filteredClients)
+        setLoading(false)
+      } catch (err1) {
+        console.log("There was an error removing client", err1)
+        setLoading(false)
+      }
+    } catch (err2) {
+      console.log("There was an error removing client", err2)
       setLoading(false)
     }
   }
@@ -147,7 +156,7 @@ const Dashboard = ({
   const handleReset = async () => {
     setLoading(true)
 
-    const response = await api.readAll()
+    const response = await faunaApi.readAll()
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -176,7 +185,7 @@ const Dashboard = ({
     const getClients = async () => {
       setLoading(true)
 
-      const response = await api.readAll()
+      const response = await faunaApi.readAll()
 
       if (response.message === "unauthorized") {
         if (isLocalHost()) {
