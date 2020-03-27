@@ -12,17 +12,11 @@ import TableCell from "@material-ui/core/TableCell"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
+import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import useStyles from "./style"
 
-const rows = [
-  { name: "Frozen yoghurt", calories: 159, fat: 6.0 },
-  { name: "Ice cream sandwich", calories: 237, fat: 9.0 },
-  { name: "Eclair", calories: 262, fat: 16.0 },
-  { name: "Cupcake", calories: 305, fat: 3.7 },
-  { name: "Gingerbread", calories: 356, fat: 16.0 },
-]
-
-function InvoicesModal({ onClose, open, data, header }) {
+function InvoicesModal({ onClose, open, data, header, loading }) {
   const classes = useStyles()
 
   const handleClose = () => {
@@ -37,6 +31,11 @@ function InvoicesModal({ onClose, open, data, header }) {
       fullWidth
       maxWidth="md"
     >
+      {loading && (
+        <div className={classes.modalLoader}>
+          <CircularProgress color="secondary" size="100px" thickness={1} />
+        </div>
+      )}
       <DialogTitle id="modal-title" className={classes.modalHeaderSection}>
         <Typography
           variant="body1"
@@ -51,19 +50,35 @@ function InvoicesModal({ onClose, open, data, header }) {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Dessert</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat</TableCell>
+                <TableCell className={classes.tableHeader}>
+                  Amount Due
+                </TableCell>
+                <TableCell className={classes.tableHeader}>
+                  Amount Paid
+                </TableCell>
+                <TableCell className={classes.tableHeader}>
+                  View Details
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
+              {data.map(row => (
+                <TableRow key={row.id} hover>
+                  <TableCell className={classes.tableBody}>
+                    {(row.amount_due / 100).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell className={classes.tableBody}>
+                    {(row.amount_paid / 100).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    <SettingsApplicationsIcon className={classes.icon} />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -80,15 +95,16 @@ function InvoicesModal({ onClose, open, data, header }) {
 }
 
 InvoicesModal.defaultProps = {
-  data: {},
+  data: [],
   header: "",
 }
 
 InvoicesModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.array,
   header: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 }
 
 export default InvoicesModal

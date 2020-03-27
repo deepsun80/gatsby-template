@@ -341,6 +341,8 @@ const Dashboard = ({
             open={invoicesModal}
             onClose={handleInvoicesModalClose}
             header={`${invoiceName} invoices`}
+            data={invoicesModalData}
+            loading={loading}
           />
         </Container>
       </main>

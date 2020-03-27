@@ -71,12 +71,26 @@ const useStyles = makeStyles(theme => ({
     transform: " translateX(-50%)",
     "&::-webkit-transform": " translateX(-50%)",
   },
+  modalLoader: {
+    position: "absolute",
+    left: "20vw",
+    top: "10vh",
+    transform: " translateX(-50%)",
+    "&::-webkit-transform": " translateX(-50%)",
+  },
   input: {
     paddingLeft: 10,
   },
   flex: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  tableHeader: {
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+  },
+  tableBody: {
+    color: theme.palette.primary.main,
   },
 }))
 
