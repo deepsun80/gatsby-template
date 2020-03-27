@@ -21,7 +21,6 @@ const updateClient = (clientId, data) => {
 }
 
 const deleteClient = clientId => {
-  console.log(clientId)
   return fetch(`/.netlify/functions/stripe-customer-delete/${clientId}`, {
     method: "POST",
   }).then(response => {
@@ -29,11 +28,13 @@ const deleteClient = clientId => {
   })
 }
 
-// const readAll = () => {
-//   return fetch("/.netlify/functions/fauna-read-all").then(response => {
-//     return response.json()
-//   })
-// }
+const listInvoices = clientId => {
+  return fetch(`/.netlify/functions/stripe-invoice-list/${clientId}`).then(
+    response => {
+      return response.json()
+    }
+  )
+}
 
 // const search = data => {
 //   return fetch("/.netlify/functions/fauna-search", {
@@ -59,4 +60,5 @@ export default {
   createClient: createClient,
   updateClient: updateClient,
   deleteClient: deleteClient,
+  listInvoices: listInvoices,
 }

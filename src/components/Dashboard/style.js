@@ -50,6 +50,11 @@ const useStyles = makeStyles(theme => ({
   modalLabel: {
     fontWeight: 600,
   },
+  modalSmallHeader: {
+    fontWeight: 600,
+    marginTop: 20,
+    paddingLeft: 10,
+  },
   footer: {
     background: theme.palette.primary.light,
   },
@@ -68,6 +73,10 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     paddingLeft: 10,
+  },
+  flex: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }))
 

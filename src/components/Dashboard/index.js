@@ -18,6 +18,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import ClientModal from "./ClientModal"
 import DeleteModal from "./DeleteModal"
 import ConvertModal from "./ConvertModal"
+import InvoicesModal from "./InvoicesModal"
 import Navbar from "../Navbar"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
@@ -44,7 +45,10 @@ const Dashboard = ({
   const [clientModal, setClientModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [convertModal, setConvertModal] = useState(false)
+  const [invoiceName, setInvoiceName] = useState("")
+  const [invoicesModal, setInvoicesModal] = useState(false)
   const [modalData, setModalData] = useState({})
+  const [invoicesModalData, setInvoicesModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
   const [filter, setFilter] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -75,6 +79,14 @@ const Dashboard = ({
 
   const handleConvertModalClose = () => {
     setConvertModal(false)
+  }
+
+  const handleInvoicesModalOpen = data => {
+    setInvoicesModal(true)
+  }
+
+  const handleInvoicesModalClose = () => {
+    setInvoicesModal(false)
   }
 
   const handleChange = event => {
@@ -178,6 +190,19 @@ const Dashboard = ({
     } else {
       setLoading(false)
       setClients(response.filter(client => !client.data.customer))
+    }
+  }
+
+  const getInvoices = async id => {
+    setLoading(true)
+    try {
+      const result = await stripeApi.listInvoices(id)
+      console.log("Stripe invoices for customer:", result)
+      setInvoicesModalData(result.result)
+      setLoading(false)
+    } catch (err) {
+      console.log("There was an error getting invoices", err)
+      setLoading(false)
     }
   }
 
@@ -296,6 +321,9 @@ const Dashboard = ({
             onClose={handleClientModalClose}
             data={modalData}
             header={customerDetails}
+            getInvoices={getInvoices}
+            setInvoiceName={setInvoiceName}
+            invoicesModalOpen={handleInvoicesModalOpen}
           />
           <DeleteModal
             open={deleteModal}
@@ -308,6 +336,11 @@ const Dashboard = ({
             onClose={handleConvertModalClose}
             header={filter ? customerConvert : leadConvert}
             handleConvert={handleConvert}
+          />
+          <InvoicesModal
+            open={invoicesModal}
+            onClose={handleInvoicesModalClose}
+            header={`${invoiceName} invoices`}
           />
         </Container>
       </main>
