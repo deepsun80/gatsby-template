@@ -20,6 +20,8 @@ const Admin = ({ data }) => {
     navbar,
     customerConvert,
     leadConvert,
+    invoice,
+    validation,
   } = data.markdownRemark.frontmatter
 
   const identity = useIdentityContext()
@@ -48,6 +50,8 @@ const Admin = ({ data }) => {
           company={data.site.siteMetadata.data.company}
           customerConvert={customerConvert}
           leadConvert={leadConvert}
+          invoiceHeader={invoice}
+          validationMessage={validation}
         />
       ) : (
         <IdentityModal
@@ -81,6 +85,8 @@ export const data = graphql`
         navbar
         customerConvert
         leadConvert
+        invoice
+        validation
       }
     }
   }

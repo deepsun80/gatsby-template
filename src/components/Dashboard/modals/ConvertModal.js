@@ -5,7 +5,7 @@ import Dialog from "@material-ui/core/Dialog"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
-import useStyles from "./style"
+import useStyles from "../style"
 
 function ConvertModal({ onClose, open, handleConvert, header }) {
   const classes = useStyles()
@@ -17,7 +17,7 @@ function ConvertModal({ onClose, open, handleConvert, header }) {
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby="modal-title"
+      aria-labelledby="convert-modal"
       open={open}
       fullWidth
       maxWidth="sm"

@@ -107,8 +107,6 @@ const Contact = ({
       setLoading(false)
     }
 
-    console.log(values)
-
     const result = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },

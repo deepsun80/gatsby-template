@@ -36,29 +36,53 @@ const listInvoices = clientId => {
   )
 }
 
-// const search = data => {
-//   return fetch("/.netlify/functions/fauna-search", {
-//     body: JSON.stringify(data),
-//     method: "POST",
-//   }).then(response => {
-//     return response.json()
-//   })
-// }
+const createInvoice = (clientId, data) => {
+  return fetch(`/.netlify/functions/stripe-invoice-create/${clientId}`, {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
 
-// const batchDeleteclient = clientIds => {
-//   return fetch(`/.netlify/functions/fauna-delete-batch`, {
-//     body: JSON.stringify({
-//       ids: clientIds,
-//     }),
-//     method: "POST",
-//   }).then(response => {
-//     return response.json()
-//   })
-// }
+const deleteInvoice = invoiceId => {
+  return fetch(`/.netlify/functions/stripe-invoice-delete/${invoiceId}`, {
+    method: "DELETE",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const sendInvoice = invoiceId => {
+  return fetch(`/.netlify/functions/stripe-invoice-send/${invoiceId}`, {
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const voidInvoice = invoiceId => {
+  return fetch(`/.netlify/functions/stripe-invoice-void/${invoiceId}`, {
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const listServices = () => {
+  return fetch("/.netlify/functions/stripe-sku-list/").then(response => {
+    return response.json()
+  })
+}
 
 export default {
   createClient: createClient,
   updateClient: updateClient,
   deleteClient: deleteClient,
   listInvoices: listInvoices,
+  createInvoice: createInvoice,
+  deleteInvoice: deleteInvoice,
+  sendInvoice: sendInvoice,
+  voidInvoice: voidInvoice,
+  listServices: listServices,
 }

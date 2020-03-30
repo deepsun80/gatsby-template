@@ -5,7 +5,7 @@ import Dialog from "@material-ui/core/Dialog"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
-import useStyles from "./style"
+import useStyles from "../style"
 
 function DeleteModal({ onClose, open, handleDelete, header }) {
   const classes = useStyles()
@@ -17,7 +17,7 @@ function DeleteModal({ onClose, open, handleDelete, header }) {
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby="modal-title"
+      aria-labelledby="delete-modal"
       open={open}
       fullWidth
       maxWidth="sm"

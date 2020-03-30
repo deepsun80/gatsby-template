@@ -32,3 +32,7 @@ a {
 .RNIW_header {
   display: none !important;
 }
+
+.loadModal .MuiPaper-root {
+  background-color: transparent;
+}

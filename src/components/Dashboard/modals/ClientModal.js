@@ -10,7 +10,8 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
 import IconButton from "@material-ui/core/IconButton"
 import ViewListIcon from "@material-ui/icons/ViewList"
-import useStyles from "./style"
+import AddBoxIcon from "@material-ui/icons/AddBox"
+import useStyles from "../style"
 
 function ClientModal({
   onClose,
@@ -20,6 +21,7 @@ function ClientModal({
   getInvoices,
   setInvoiceName,
   invoicesModalOpen,
+  handleFormModalOpen,
 }) {
   const classes = useStyles()
 
@@ -27,15 +29,19 @@ function ClientModal({
     onClose()
   }
 
+  const invoiceFormOpen = () => {
+    handleFormModalOpen()
+  }
+
   return (
     <Dialog
       onClose={handleClose}
-      aria-labelledby="modal-title"
+      aria-labelledby="client-modal"
       open={open}
       fullWidth
       maxWidth="md"
     >
-      <DialogTitle id="modal-title" className={classes.modalHeaderSection}>
+      <DialogTitle id="client-modal" className={classes.modalHeaderSection}>
         <Typography
           variant="body1"
           color="primary"
@@ -102,8 +108,13 @@ function ClientModal({
               >
                 <ViewListIcon />
               </IconButton>
-              <IconButton color="secondary" aria-label="reset" component="span">
-                <ViewListIcon />
+              <IconButton
+                color="secondary"
+                aria-label="reset"
+                component="span"
+                onClick={invoiceFormOpen}
+              >
+                <AddBoxIcon />
               </IconButton>
               <IconButton color="secondary" aria-label="reset" component="span">
                 <ViewListIcon />
@@ -129,6 +140,7 @@ ClientModal.propTypes = {
   getInvoices: PropTypes.func.isRequired,
   setInvoiceName: PropTypes.func.isRequired,
   invoicesModalOpen: PropTypes.func.isRequired,
+  handleFormModalOpen: PropTypes.func.isRequired,
 }
 
 export default ClientModal

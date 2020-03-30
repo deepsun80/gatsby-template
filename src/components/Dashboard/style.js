@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   searchField: {
     width: 320,
-    maxWidth: "100%",
+    maxWidth: "80%",
     marginBottom: 30,
     display: "inline-block",
   },
@@ -35,10 +35,14 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.light,
     "&:hover": {
       color: theme.palette.secondary.main,
+      cursor: "pointer",
     },
   },
+  disabledIcon: {
+    color: theme.palette.primary.light,
+  },
   modalHeaderSection: {
-    background: theme.palette.secondary.main,
+    background: theme.palette.primary.main,
   },
   modalHeader: {
     color: "#fff",
@@ -65,21 +69,13 @@ const useStyles = makeStyles(theme => ({
     textTransform: "capitalize",
   },
   loader: {
-    position: "absolute",
-    left: "50vw",
-    top: "25vh",
-    transform: " translateX(-50%)",
-    "&::-webkit-transform": " translateX(-50%)",
-  },
-  modalLoader: {
-    position: "absolute",
-    left: "20vw",
-    top: "10vh",
-    transform: " translateX(-50%)",
-    "&::-webkit-transform": " translateX(-50%)",
+    color: "#fff",
+    margin: "auto",
+    overflow: "hidden",
   },
   input: {
     paddingLeft: 10,
+    maxWidth: "76%",
   },
   flex: {
     display: "flex",
@@ -91,6 +87,14 @@ const useStyles = makeStyles(theme => ({
   },
   tableBody: {
     color: theme.palette.primary.main,
+  },
+  tableBodyDisabled: {
+    color: theme.palette.primary.light,
+  },
+  error: {
+    color: theme.palette.error.main,
+    display: "block",
+    fontWeight: 500,
   },
 }))
 
