@@ -1,8 +1,7 @@
 // const axios = require("axios")
 
 exports.handler = async (event, context) => {
-  const parsedBody = JSON.parse(event.body)
-  console.log(parsedBody)
+  // const parsedBody = JSON.parse(event.body)
   try {
     // const response = await axios({
     //   method: "post",
@@ -13,10 +12,10 @@ exports.handler = async (event, context) => {
     // const data = await response.json()
     return {
       statusCode: 200,
-      body: parsedBody,
+      body: event.body,
     }
   } catch (error) {
     console.log(error)
-    return new Error("something went wrong", error)
+    return new Error("something went wrong")
   }
 }
