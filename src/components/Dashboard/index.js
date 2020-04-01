@@ -41,7 +41,6 @@ const Dashboard = ({
   logout,
   author,
   company,
-  validationMessage,
   invoiceHeader,
 }) => {
   const classes = useStyles()
@@ -449,7 +448,6 @@ const Dashboard = ({
             open={formModal}
             onClose={handleFormModalClose}
             header={invoiceHeader}
-            validationMessage={validationMessage}
             handleCreate={handleInvoiceCreate}
             data={formModalData}
           />
@@ -509,7 +507,6 @@ Dashboard.propTypes = {
   logout: PropTypes.func,
   author: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
-  validationMessage: PropTypes.string.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
 }
 

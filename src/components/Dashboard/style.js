@@ -59,6 +59,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20,
     paddingLeft: 10,
   },
+  modalSmallHeaderSpan: {
+    fontWeight: 600,
+    color: theme.palette.secondary.main,
+  },
   footer: {
     background: theme.palette.primary.light,
   },
@@ -91,10 +95,20 @@ const useStyles = makeStyles(theme => ({
   tableBodyDisabled: {
     color: theme.palette.primary.light,
   },
+  formControl: {
+    marginBottom: 30,
+  },
   error: {
     color: theme.palette.error.main,
     display: "block",
     fontWeight: 500,
+  },
+  box: {
+    background: "#ededed",
+    minHeight: "30vh",
+    margin: "10px auto",
+    borderRadius: 10,
+    padding: "5px 0px",
   },
 }))
 

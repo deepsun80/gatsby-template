@@ -40,6 +40,7 @@
     "prop-types": "latest",
     "react": "latest",
     "react-calendar": "^2.19.2",
+    "react-calendly": "0.0.6",
     "react-dom": "latest",
     "react-helmet": "latest",
     "react-icons": "^3.9.0",

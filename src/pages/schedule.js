@@ -2,13 +2,22 @@ import React from "react"
 import Layout from "../layouts"
 import Banner2 from "../components/Banner/Banner2"
 import Schedule from "../components/Schedule"
+import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
-  const { success, error, validation, email } = data.markdownRemark.frontmatter
+  const {
+    title,
+    success,
+    subSuccess,
+    error,
+    validation,
+    email,
+  } = data.markdownRemark.frontmatter
 
   return (
     <Layout>
+      <SEO title={title} />
       <Banner2
         header="schedule"
         headerSpan="appointment"
@@ -17,6 +26,7 @@ const schedule = ({ data }) => {
       />
       <Schedule
         successMessage={success}
+        subSuccessMessage={subSuccess}
         errorMessage={error}
         validationMessage={validation}
         emailMessage={email}
@@ -43,7 +53,9 @@ export const data = graphql`
     }
     markdownRemark(frontmatter: { path: { eq: "/schedule" } }) {
       frontmatter {
+        title
         success
+        subSuccess
         error
         validation
         email

@@ -112,9 +112,9 @@ function InvoicesModal({
                     style={
                       row.status === "draft"
                         ? { color: "steelblue" }
-                        : row.status === "open"
-                        ? { color: "green" }
                         : row.status === "paid"
+                        ? { color: "green" }
+                        : row.status === "open"
                         ? { color: "blue" }
                         : { color: "red" }
                     }
@@ -129,7 +129,8 @@ function InvoicesModal({
                     >
                       <SettingsApplicationsIcon
                         className={
-                          row.attempted || row.status === "void"
+                          row.status !== "uncollectible" &&
+                          row.status !== "draft"
                             ? classes.icon
                             : classes.disabledIcon
                         }
@@ -139,7 +140,7 @@ function InvoicesModal({
                   <TableCell>
                     <ExitToAppIcon
                       className={
-                        row.status === "void"
+                        row.status === "void" || row.status === "paid"
                           ? classes.disabledIcon
                           : classes.icon
                       }
@@ -164,12 +165,18 @@ function InvoicesModal({
                   <TableCell>
                     <BlockIcon
                       className={
-                        row.status === "void" || row.status === "draft"
+                        row.status === "void" ||
+                        row.status === "draft" ||
+                        row.status === "paid"
                           ? classes.disabledIcon
                           : classes.icon
                       }
                       onClick={() => {
-                        if (row.status !== "void" && row.status !== "draft")
+                        if (
+                          row.status !== "void" &&
+                          row.status !== "draft" &&
+                          row.status !== "paid"
+                        )
                           voidInvoice(row.id)
                       }}
                     />

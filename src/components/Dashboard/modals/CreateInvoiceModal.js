@@ -1,44 +1,42 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
+import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogActions from "@material-ui/core/DialogActions"
 import Typography from "@material-ui/core/Typography"
-import Checkbox from "@material-ui/core/Checkbox"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import OutlinedInput from "@material-ui/core/OutlinedInput"
+import InputLabel from "@material-ui/core/InputLabel"
+import Select from "@material-ui/core/Select"
 import useStyles from "../style"
 
-const CreateInvoiceModal = ({
-  onClose,
-  open,
-  header,
-  validationMessage,
-  handleCreate,
-}) => {
+const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
   const classes = useStyles()
 
   const [values, setValues] = useState([])
-  const [checked, setChecked] = React.useState(true)
 
   const handleChange = event => {
-    setChecked(event.target.checked)
+    setValues(event.target.value)
   }
 
   const handleSubmit = async event => {
     event.preventDefault()
 
-    const data = {
-      amount: parseFloat(values.amount) * 100,
-      description: values.description,
-    }
-
-    // handleCreate(data)
-    // onClose()
+    handleCreate(values)
+    onClose()
   }
 
   const handleClose = () => {
+    setValues([])
     onClose()
+  }
+
+  const handleClear = () => {
+    setValues([])
   }
 
   return (
@@ -59,50 +57,77 @@ const CreateInvoiceModal = ({
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit}>
-          <CurrencyTextField
-            fullWidth
-            textAlign="left"
-            label="Invoice Amount"
-            variant="outlined"
-            value={values.amount}
-            currencySymbol="$"
-            outputFormat="string"
-            decimalCharacter="."
-            digitGroupSeparator=","
-            onChange={handleAmtChange}
-            style={{ margin: "30px auto" }}
-          />
-          <TextField
-            id="description"
-            variant="outlined"
-            label="Invoice Description"
-            name="description"
-            fullWidth
-            onChange={handleDescChange}
-            style={{ marginBottom: 30 }}
-          />
-
-          {(values.amount === "" || values.description === "") && (
-            <Typography variant="body2" className={classes.error}>
-              {validationMessage}
-            </Typography>
-          )}
-
-          <Button
-            variant="contained"
-            color="secondary"
-            type="submit"
-            value="Submit"
-            disabled={values.amount === "" || values.description === ""}
+        <Box className={classes.box}>
+          {values.length > 0 &&
+            values.map((value, index) => (
+              <ul key={index}>
+                <li>
+                  <Typography
+                    key={index}
+                    variant="body2"
+                    color="primary"
+                    className={classes.modalSmallHeader}
+                  >
+                    {value.description} -{" "}
+                    <span className={classes.modalSmallHeaderSpan}>
+                      {(value.amount / 100).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </span>
+                  </Typography>
+                </li>
+              </ul>
+            ))}
+        </Box>
+        <FormControl
+          className={classes.formControl}
+          fullWidth
+          onSubmit={handleSubmit}
+        >
+          <InputLabel id="services-label" style={{ paddingLeft: 10 }}>
+            Select all services to add to invoice
+          </InputLabel>
+          <Select
+            labelId="services-label"
+            id="services"
+            multiple
+            value={values}
+            onChange={handleChange}
+            input={<OutlinedInput />}
           >
-            submit
-          </Button>
-        </form>
+            {data.length > 0 &&
+              data.map(sku => (
+                <MenuItem
+                  key={sku.id}
+                  value={{
+                    amount: sku.price,
+                    description: sku.attributes.name,
+                  }}
+                  color="primary"
+                >
+                  {sku.attributes.name}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
       </DialogContent>
       <DialogActions>
+        <Button variant="outlined" onClick={handleClear} color="secondary">
+          clear
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disabled={values.length <= 0}
+          onClick={handleSubmit}
+        >
+          submit
+        </Button>
+        <div className={classes.grow} />
         <Button variant="outlined" onClick={handleClose} color="secondary">
-          Close
+          close
         </Button>
       </DialogActions>
     </Dialog>
@@ -110,10 +135,10 @@ const CreateInvoiceModal = ({
 }
 
 CreateInvoiceModal.propTypes = {
+  data: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   header: PropTypes.string.isRequired,
-  validationMessage: PropTypes.string.isRequired,
   handleCreate: PropTypes.func.isRequired,
 }
 

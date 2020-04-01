@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { AiOutlineLeft } from "react-icons/ai"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
+import { InlineWidget } from "react-calendly"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
 import validateEmail from "../../utils/validateEmail"
@@ -21,6 +22,7 @@ import { Typography } from "@material-ui/core"
 
 const Schedule = ({
   successMessage,
+  subSuccessMessage,
   errorMessage,
   validationMessage,
   emailMessage,
@@ -38,6 +40,8 @@ const Schedule = ({
     error: false,
   })
   const [loading, setLoading] = useState(false)
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
 
   const handleChange = event => {
     setValues({
@@ -48,74 +52,76 @@ const Schedule = ({
 
   const handleSubmit = async event => {
     event.preventDefault()
+    setValidation({ success: true, error: false })
+    setFirstName(values.name.split(" ")[0])
+    setLastName(values.name.split(" ").pop())
+    // setLoading(true)
 
-    setLoading(true)
+    // const response = await faunaApi.search(values.email)
 
-    const response = await faunaApi.search(values.email)
+    // if (response.message === "unauthorized") {
+    //   if (isLocalHost()) {
+    //     alert(
+    //       "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
+    //     )
+    //   } else {
+    //     alert(
+    //       "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
+    //     )
+    //   }
+    //   setLoading(false)
+    //   return false
+    // }
 
-    if (response.message === "unauthorized") {
-      if (isLocalHost()) {
-        alert(
-          "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
-        )
-      } else {
-        alert(
-          "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
-        )
-      }
-      setLoading(false)
-      return false
-    }
+    // if (response.hasOwnProperty("data")) {
+    //   try {
+    //     const ret = await faunaApi.update(response.ref["@ref"].id, {
+    //       ...values,
+    //       stripe_id: response.data.stripe_id,
+    //       customer: true,
+    //     })
+    //     console.log("client updated:", ret)
 
-    if (response.hasOwnProperty("data")) {
-      try {
-        const ret = await faunaApi.update(response.ref["@ref"].id, {
-          ...values,
-          stripe_id: response.data.stripe_id,
-          customer: true,
-        })
-        console.log("client updated:", ret)
+    //     try {
+    //       const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
+    //         name: values.name,
+    //         email: values.email,
+    //         phone: values.phone,
+    //       })
+    //       console.log("client updated on Stripe:", ret2)
+    //       setValidation({ success: true, error: false })
+    //     } catch (err) {
+    //       console.log("An API error occurred", err)
+    //       setValidation({ success: false, error: true })
+    //     }
+    //   } catch (err1) {
+    //     console.log("An API error occurred", err1)
+    //     setValidation({ success: false, error: true })
+    //   }
+    //   setLoading(false)
+    // } else {
+    //   try {
+    //     const ret = await stripeApi.createClient(values)
+    //     console.log("new added to Stripe:", ret)
 
-        try {
-          const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-          })
-          console.log("client updated on Stripe:", ret2)
-          setValidation({ success: true, error: false })
-        } catch (err) {
-          console.log("An API error occurred", err)
-          setValidation({ success: false, error: true })
-        }
-      } catch (err1) {
-        console.log("An API error occurred", err1)
-        setValidation({ success: false, error: true })
-      }
-      setLoading(false)
-    } else {
-      try {
-        const ret = await stripeApi.createClient(values)
-        console.log("new added to Stripe:", ret)
-
-        try {
-          const ret2 = await faunaApi.create({
-            ...values,
-            stripe_id: ret.result.id,
-            customer: true,
-          })
-          console.log("new client added:", ret2)
-          setValidation({ success: true, error: false })
-        } catch (err) {
-          console.log("An API error occurred", err)
-          setValidation({ success: false, error: true })
-        }
-      } catch (err1) {
-        console.log("An API error occurred", err1)
-        setValidation({ success: false, error: true })
-      }
-      setLoading(false)
-    }
+    //     try {
+    //       const ret2 = await faunaApi.create({
+    //         ...values,
+    //         stripe_id: ret.result.id,
+    //         customer: true,
+    //       })
+    //       console.log("new client added:", ret2)
+    //       setValidation({ success: true, error: false })
+    //     } catch (err) {
+    //       console.log("An API error occurred", err)
+    //       setValidation({ success: false, error: true })
+    //     }
+    //   } catch (err1) {
+    //     console.log("An API error occurred", err1)
+    //     setValidation({ success: false, error: true })
+    //   }
+    //   setLoading(false)
+    // }
   }
 
   return (
@@ -190,7 +196,6 @@ const Schedule = ({
                       {validationMessage}
                     </Typography>
                   )}
-
                   <Button
                     variant="contained"
                     color="secondary"
@@ -209,6 +214,8 @@ const Schedule = ({
                   </Button>
                 </form>
               )}
+
+              {/* ---Calendly page--- */}
               {validation.success && (
                 <>
                   <Typography
@@ -218,19 +225,23 @@ const Schedule = ({
                   >
                     {successMessage}
                   </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    className={classes.subSuccessMessage}
+                  >
+                    {subSuccessMessage}
+                  </Typography>
+                  <InlineWidget
+                    styles={{
+                      height: "1000px",
+                    }}
+                    url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&phone=${values.phone}`}
+                  />
                 </>
               )}
 
+              {/* ---Error page--- */}
               {validation.error && (
                 <>
                   <Typography
@@ -262,6 +273,7 @@ const Schedule = ({
 
 Schedule.propTypes = {
   successMessage: PropTypes.string.isRequired,
+  subSuccessMessage: PropTypes.string.isRequired,
   errorMessage: PropTypes.string.isRequired,
   validationMessage: PropTypes.string.isRequired,
   emailMessage: PropTypes.string.isRequired,

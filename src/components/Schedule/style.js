@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
   },
   section: {
     minHeight: "80vh",
+    marginBottom: "15vh",
   },
   container: {
     paddingTop: "12vh",
@@ -27,6 +28,13 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.secondary.main,
     display: "block",
     fontWeight: 500,
+    marginBottom: 10,
+  },
+  subSuccessMessage: {
+    color: theme.palette.primary.main,
+    display: "block",
+    fontWeight: 500,
+    fontStyle: "italic",
   },
   errorMessage: {
     color: theme.palette.error.main,
