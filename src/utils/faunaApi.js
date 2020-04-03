@@ -1,5 +1,6 @@
 /* Api methods to call /functions */
 
+/* ---Clients--- */
 const create = data => {
   return fetch("/.netlify/functions/fauna-customer-create", {
     body: JSON.stringify(data),
@@ -9,7 +10,7 @@ const create = data => {
   })
 }
 
-const readAll = () => {
+const readAllClients = () => {
   return fetch("/.netlify/functions/fauna-customer-read-all").then(response => {
     return response.json()
   })
@@ -51,11 +52,19 @@ const batchDeleteclient = clientIds => {
   })
 }
 
+/* ---Appointments--- */
+const readAllAppts = () => {
+  return fetch("/.netlify/functions/fauna-appt-read-all").then(response => {
+    return response.json()
+  })
+}
+
 export default {
   create: create,
-  readAll: readAll,
+  readAllClients: readAllClients,
   search: search,
   update: update,
   delete: deleteclient,
   batchDelete: batchDeleteclient,
+  readAllAppts: readAllAppts,
 }

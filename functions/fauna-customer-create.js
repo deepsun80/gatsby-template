@@ -11,7 +11,6 @@ const client = new faunadb.Client({
 exports.handler = async (event, context) => {
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body)
-  console.log("Function `fauna-customer-create` invoked", data)
   const clientItem = {
     data: data,
   }
@@ -19,7 +18,6 @@ exports.handler = async (event, context) => {
   return client
     .query(q.Create(q.Ref("classes/clients"), clientItem))
     .then(response => {
-      console.log("success", response)
       /* Success! return the response with statusCode 200 */
       return {
         statusCode: 200,
@@ -27,7 +25,6 @@ exports.handler = async (event, context) => {
       }
     })
     .catch(error => {
-      console.log("error", error)
       /* Error! return the error with statusCode 400 */
       return {
         statusCode: 400,

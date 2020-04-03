@@ -11,7 +11,6 @@ const client = new faunadb.Client({
 exports.handler = async (event, context) => {
   /* parse the string body into a useable JS object */
   const data = JSON.parse(event.body)
-  console.log("Function `fauna-appt-create` invoked", data)
   const apptItem = {
     data: { ...data, invoice: {} },
   }
@@ -22,7 +21,6 @@ exports.handler = async (event, context) => {
     return client
       .query(q.Create(q.Ref("classes/appointments"), apptItem))
       .then(response => {
-        console.log("success", response)
         /* Success! return the response with statusCode 200 */
         return {
           statusCode: 200,
@@ -30,7 +28,6 @@ exports.handler = async (event, context) => {
         }
       })
       .catch(error => {
-        console.log("error", error)
         /* Error! return the error with statusCode 400 */
         return {
           statusCode: 400,
@@ -43,16 +40,14 @@ exports.handler = async (event, context) => {
   return client
     .query(q.Paginate(q.Match(q.Ref("indexes/all_appointments"))))
     .then(response => {
-      const clientRefs = response.data
-      console.log("Client refs", clientRefs)
-      console.log(`${clientRefs.length} clients found`)
+      const apptRefs = response.data
       // create new query out of refs. http://bit.ly/2LG3MLg
-      const getAllClientDataQuery = clientRefs.map(ref => {
+      const getAllApptDataQuery = apptRefs.map(ref => {
         return q.Get(ref)
       })
       // then query the refs
       return client
-        .query(getAllClientDataQuery)
+        .query(getAllApptDataQuery)
         .then(ret => {
           let retValue = ""
           // then find the ref that matches param
@@ -63,14 +58,12 @@ exports.handler = async (event, context) => {
           return client
             .query(q.Delete(q.Ref(`classes/appointments/${retValue}`)))
             .then(response => {
-              console.log("success", response)
               return {
                 statusCode: 200,
                 body: JSON.stringify(response),
               }
             })
             .catch(err1 => {
-              console.log("error", err1)
               return {
                 statusCode: 400,
                 body: JSON.stringify(err1),
@@ -78,7 +71,6 @@ exports.handler = async (event, context) => {
             })
         })
         .catch(err2 => {
-          console.log("error", err2)
           return {
             statusCode: 400,
             body: JSON.stringify(err2),
@@ -86,7 +78,6 @@ exports.handler = async (event, context) => {
         })
     })
     .catch(error => {
-      console.log("error", error)
       return {
         statusCode: 400,
         body: JSON.stringify(error),

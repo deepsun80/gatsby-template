@@ -9,18 +9,15 @@ const client = new faunadb.Client({
 
 exports.handler = async (event, context) => {
   const id = getId(event.path)
-  console.log(`Function 'fauna-customer-delete' invoked. delete id: ${id}`)
   return client
     .query(q.Delete(q.Ref(`classes/clients/${id}`)))
     .then(response => {
-      console.log("success", response)
       return {
         statusCode: 200,
         body: JSON.stringify(response),
       }
     })
     .catch(error => {
-      console.log("error", error)
       return {
         statusCode: 400,
         body: JSON.stringify(error),

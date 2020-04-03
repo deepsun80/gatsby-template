@@ -29,6 +29,8 @@ const Contact = ({
   errorMessage,
   validationMessage,
   emailMessage,
+  localHostError,
+  liveError,
 }) => {
   const classes = useStyles()
 
@@ -64,14 +66,12 @@ const Contact = ({
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
-        alert(
-          "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
-        )
+        alert(localHostError)
       } else {
-        alert(
-          "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
-        )
+        alert(liveError)
       }
+      setLoading(false)
+      setValidation({ success: false, error: true })
       return false
     }
 
@@ -290,6 +290,8 @@ Contact.propTypes = {
   errorMessage: PropTypes.string.isRequired,
   validationMessage: PropTypes.string.isRequired,
   emailMessage: PropTypes.string.isRequired,
+  localHostError: PropTypes.string.isRequired,
+  liveError: PropTypes.string.isRequired,
 }
 
 export default Contact

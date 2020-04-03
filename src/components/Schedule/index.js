@@ -26,6 +26,8 @@ const Schedule = ({
   errorMessage,
   validationMessage,
   emailMessage,
+  localHostError,
+  liveError,
 }) => {
   const classes = useStyles()
 
@@ -56,75 +58,72 @@ const Schedule = ({
     setFirstName(values.name.split(" ")[0])
     setLastName(values.name.split(" ").pop())
     setValidation({ success: true, error: false })
-    // setLoading(true)
+    setLoading(true)
 
-    // const response = await faunaApi.search(values.email)
+    const response = await faunaApi.search(values.email)
 
-    // if (response.message === "unauthorized") {
-    //   if (isLocalHost()) {
-    //     alert(
-    //       "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
-    //     )
-    //   } else {
-    //     alert(
-    //       "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
-    //     )
-    //   }
-    //   setLoading(false)
-    //   return false
-    // }
+    if (response.message === "unauthorized") {
+      if (isLocalHost()) {
+        alert(localHostError)
+      } else {
+        alert(liveError)
+      }
+      setLoading(false)
+      setValidation({ success: false, error: true })
+      return false
+    }
 
-    // if (response.hasOwnProperty("data")) {
-    //   try {
-    //     const ret = await faunaApi.update(response.ref["@ref"].id, {
-    //       ...values,
-    //       stripe_id: response.data.stripe_id,
-    //       customer: true,
-    //       appointment: {},
-    //     })
-    //     console.log("client updated:", ret)
+    if (response.hasOwnProperty("data")) {
+      try {
+        const ret = await faunaApi.update(response.ref["@ref"].id, {
+          ...values,
+          stripe_id: response.data.stripe_id,
+          customer: true,
+          appointment: {},
+        })
+        console.log("client updated:", ret)
 
-    //     try {
-    //       const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
-    //         name: values.name,
-    //         email: values.email,
-    //         phone: values.phone,
-    //       })
-    //       console.log("client updated on Stripe:", ret2)
-    //       setValidation({ success: true, error: false })
-    //     } catch (err) {
-    //       console.log("An API error occurred", err)
-    //       setValidation({ success: false, error: true })
-    //     }
-    //   } catch (err1) {
-    //     console.log("An API error occurred", err1)
-    //     setValidation({ success: false, error: true })
-    //   }
-    //   setLoading(false)
-    // } else {
-    //   try {
-    //     const ret = await stripeApi.createClient(values)
-    //     console.log("new added to Stripe:", ret)
+        try {
+          const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+          })
+          console.log("client updated on Stripe:", ret2)
+          setValidation({ success: true, error: false })
+        } catch (err) {
+          console.log("An API error occurred", err)
+          setValidation({ success: false, error: true })
+        }
+      } catch (err1) {
+        console.log("An API error occurred", err1)
+        setValidation({ success: false, error: true })
+      }
+      setLoading(false)
+    } else {
+      try {
+        const ret = await stripeApi.createClient(values)
+        console.log("new added to Stripe:", ret)
 
-    //     try {
-    //       const ret2 = await faunaApi.create({
-    //         ...values,
-    //         stripe_id: ret.result.id,
-    //         customer: true,
-    //         appointment: {},
-    //       })
-    //       console.log("new client added:", ret2)
-    //       setValidation({ success: true, error: false })
-    //     } catch (err) {
-    //       console.log("An API error occurred", err)
-    //       setValidation({ success: false, error: true })
-    //     }
-    //   } catch (err1) {
-    //     console.log("An API error occurred", err1)
-    //     setValidation({ success: false, error: true })
-    //   }
-    //   setLoading(false)
-    // }
+        try {
+          const ret2 = await faunaApi.create({
+            ...values,
+            stripe_id: ret.result.id,
+            customer: true,
+            appointment: {},
+          })
+          console.log("new client added:", ret2)
+          setValidation({ success: true, error: false })
+        } catch (err) {
+          console.log("An API error occurred", err)
+          setValidation({ success: false, error: true })
+        }
+      } catch (err1) {
+        console.log("An API error occurred", err1)
+        setValidation({ success: false, error: true })
+      }
+      setLoading(false)
+    }
   }
 
   return (
@@ -289,6 +288,8 @@ Schedule.propTypes = {
   errorMessage: PropTypes.string.isRequired,
   validationMessage: PropTypes.string.isRequired,
   emailMessage: PropTypes.string.isRequired,
+  localHostError: PropTypes.string.isRequired,
+  liveError: PropTypes.string.isRequired,
 }
 
 export default Schedule

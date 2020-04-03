@@ -22,6 +22,7 @@ import {
   InvoicesModal,
 } from "./modals"
 import Loading from "./Loading"
+import Appt from "./Appt"
 import Navbar from "../Navbar"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
@@ -31,6 +32,7 @@ import useStyles from "./style"
 const Dashboard = ({
   customerHeader,
   leadHeader,
+  apptHeader,
   customerDetails,
   customerDelete,
   customerConvert,
@@ -42,6 +44,8 @@ const Dashboard = ({
   author,
   company,
   invoiceHeader,
+  localHostError,
+  liveError,
 }) => {
   const classes = useStyles()
 
@@ -55,7 +59,7 @@ const Dashboard = ({
   const [modalData, setModalData] = useState({})
   const [invoicesModalData, setInvoicesModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
-  const [filter, setFilter] = useState(true)
+  const [filter, setFilter] = useState("customers")
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [formModalData, setFormModalData] = useState([])
@@ -112,7 +116,7 @@ const Dashboard = ({
   // --- Faunda API Start ---
   const handleConvert = async () => {
     setLoading(true)
-    if (filter) {
+    if (filter === "customers") {
       try {
         const response = await faunaApi.update(targetClient.ref["@ref"].id, {
           ...targetClient.data,
@@ -127,7 +131,8 @@ const Dashboard = ({
         alert("There was an error converting client", err1)
       }
       setLoading(false)
-    } else {
+    }
+    if (filter === "leads") {
       try {
         const response = await faunaApi.update(targetClient.ref["@ref"].id, {
           ...targetClient.data,
@@ -167,8 +172,8 @@ const Dashboard = ({
     }
   }
 
-  const handleFilter = bool => {
-    setFilter(bool)
+  const handleFilter = value => {
+    setFilter(value)
   }
 
   const handleSubmit = event => {
@@ -185,26 +190,23 @@ const Dashboard = ({
   const handleReset = async () => {
     setLoading(true)
 
-    const response = await faunaApi.readAll()
+    const response = await faunaApi.readAllClients()
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
-        alert(
-          "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
-        )
+        alert(localHostError)
       } else {
-        alert(
-          "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
-        )
+        alert(liveError)
       }
       setLoading(false)
       return false
     }
 
-    if (filter) {
+    if (filter === "customers") {
       setLoading(false)
       setClients(response.filter(client => client.data.customer))
-    } else {
+    }
+    if (filter === "leads") {
       setLoading(false)
       setClients(response.filter(client => !client.data.customer))
     }
@@ -298,26 +300,23 @@ const Dashboard = ({
     const getClients = async () => {
       setLoading(true)
 
-      const response = await faunaApi.readAll()
+      const response = await faunaApi.readAllClients()
 
       if (response.message === "unauthorized") {
         if (isLocalHost()) {
-          alert(
-            "FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info"
-          )
+          alert(localHostError)
         } else {
-          alert(
-            "FaunaDB key is not unauthorized. Verify the key `FAUNADB_SERVER_SECRET` set in Netlify enviroment variables is correct"
-          )
+          alert(liveError)
         }
         setLoading(false)
         return false
       }
 
-      if (filter) {
+      if (filter === "customers") {
         setLoading(false)
         setClients(response.filter(client => client.data.customer))
-      } else {
+      }
+      if (filter === "leads") {
         setLoading(false)
         setClients(response.filter(client => !client.data.customer))
       }
@@ -339,7 +338,7 @@ const Dashboard = ({
 
     getClients()
     getServices()
-  }, [filter])
+  }, [filter, localHostError, liveError])
 
   return (
     <>
@@ -353,104 +352,118 @@ const Dashboard = ({
       <main className={classes.root}>
         <Container maxWidth="xl" className={classes.container}>
           <Typography variant="h1" color="primary" className={classes.header}>
-            {filter ? customerHeader : leadHeader}
+            {filter === "customers"
+              ? customerHeader
+              : filter === "leads"
+              ? leadHeader
+              : apptHeader}
           </Typography>
 
-          <Paper
-            component="form"
-            elevation={1}
-            className={classes.searchField}
-            onSubmit={handleSubmit}
-          >
-            <InputBase
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleChange}
-              name="search"
-              id="search"
-              inputProps={{ "aria-label": "search" }}
-              className={classes.input}
+          {filter === "appts" ? (
+            <Appt
+              localHostError={localHostError}
+              liveError={liveError}
+              setLoading={setLoading}
             />
-            <IconButton type="submit" aria-label="search">
-              <SearchIcon />
-            </IconButton>
-          </Paper>
+          ) : (
+            <>
+              <Paper
+                component="form"
+                elevation={1}
+                className={classes.searchField}
+                onSubmit={handleSubmit}
+              >
+                <InputBase
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleChange}
+                  name="search"
+                  id="search"
+                  inputProps={{ "aria-label": "search" }}
+                  className={classes.input}
+                />
+                <IconButton type="submit" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
 
-          <IconButton
-            color="secondary"
-            aria-label="reset"
-            component="span"
-            onClick={handleReset}
-          >
-            <ReplayIcon />
-          </IconButton>
+              <IconButton
+                color="secondary"
+                aria-label="reset"
+                component="span"
+                onClick={handleReset}
+              >
+                <ReplayIcon />
+              </IconButton>
 
-          <Paper elevation={1} className={classes.paper}>
-            {clients.map(client => (
-              <List aria-label="client list" key={client.ts}>
-                <ListItem button>
-                  <ListItemText
-                    primary={
-                      <Typography variant="body2" color="primary">
-                        {client.data.name}
-                      </Typography>
-                    }
-                    onClick={() => handleClientModalOpen(client.data)}
-                  />
-                  <ListItemIcon>
-                    <RestorePageIcon
-                      className={classes.icon}
-                      onClick={() => handleConvertModalOpen(client)}
-                    />
-                  </ListItemIcon>
-                  <ListItemIcon>
-                    <DeleteForeverIcon
-                      className={classes.icon}
-                      onClick={() => handleDeleteModalOpen(client)}
-                    />
-                  </ListItemIcon>
-                </ListItem>
-              </List>
-            ))}
-          </Paper>
-          <ClientModal
-            open={clientModal}
-            onClose={handleClientModalClose}
-            data={modalData}
-            header={customerDetails}
-            getInvoices={getInvoices}
-            setInvoiceName={setInvoiceName}
-            invoicesModalOpen={handleInvoicesModalOpen}
-            handleFormModalOpen={handleFormModalOpen}
-          />
-          <DeleteModal
-            open={deleteModal}
-            onClose={handleDeleteModalClose}
-            header={customerDelete}
-            handleDelete={handleClientDelete}
-          />
-          <ConvertModal
-            open={convertModal}
-            onClose={handleConvertModalClose}
-            header={filter ? customerConvert : leadConvert}
-            handleConvert={handleConvert}
-          />
-          <InvoicesModal
-            open={invoicesModal}
-            onClose={handleInvoicesModalClose}
-            header={`${invoiceName} invoices`}
-            data={invoicesModalData}
-            handleDelete={handleInvoiceDelete}
-            handleSend={handleSendInvoice}
-            handleVoid={handleVoidInvoice}
-          />
-          <CreateInvoiceModal
-            open={formModal}
-            onClose={handleFormModalClose}
-            header={invoiceHeader}
-            handleCreate={handleInvoiceCreate}
-            data={formModalData}
-          />
+              <Paper elevation={1} className={classes.paper}>
+                {clients.map(client => (
+                  <List aria-label="client list" key={client.ts}>
+                    <ListItem button>
+                      <ListItemText
+                        primary={
+                          <Typography variant="body2" color="primary">
+                            {client.data.name}
+                          </Typography>
+                        }
+                        onClick={() => handleClientModalOpen(client.data)}
+                      />
+                      <ListItemIcon>
+                        <RestorePageIcon
+                          className={classes.icon}
+                          onClick={() => handleConvertModalOpen(client)}
+                        />
+                      </ListItemIcon>
+                      <ListItemIcon>
+                        <DeleteForeverIcon
+                          className={classes.icon}
+                          onClick={() => handleDeleteModalOpen(client)}
+                        />
+                      </ListItemIcon>
+                    </ListItem>
+                  </List>
+                ))}
+              </Paper>
+              <ClientModal
+                open={clientModal}
+                onClose={handleClientModalClose}
+                data={modalData}
+                header={customerDetails}
+                getInvoices={getInvoices}
+                setInvoiceName={setInvoiceName}
+                invoicesModalOpen={handleInvoicesModalOpen}
+                handleFormModalOpen={handleFormModalOpen}
+              />
+              <DeleteModal
+                open={deleteModal}
+                onClose={handleDeleteModalClose}
+                header={customerDelete}
+                handleDelete={handleClientDelete}
+              />
+              <ConvertModal
+                open={convertModal}
+                onClose={handleConvertModalClose}
+                header={filter === "customers" ? customerConvert : leadConvert}
+                handleConvert={handleConvert}
+              />
+              <InvoicesModal
+                open={invoicesModal}
+                onClose={handleInvoicesModalClose}
+                header={`${invoiceName} invoices`}
+                data={invoicesModalData}
+                handleDelete={handleInvoiceDelete}
+                handleSend={handleSendInvoice}
+                handleVoid={handleVoidInvoice}
+              />
+              <CreateInvoiceModal
+                open={formModal}
+                onClose={handleFormModalClose}
+                header={invoiceHeader}
+                handleCreate={handleInvoiceCreate}
+                data={formModalData}
+              />
+            </>
+          )}
         </Container>
 
         {/* ---Loading Modal--- */}
@@ -459,7 +472,12 @@ const Dashboard = ({
       <footer className={classes.footer}>
         <Container maxWidth="xl">
           <Grid container>
-            <Grid item lg={6} xs={12} className={classes.copyrightContainer}>
+            <Grid
+              item
+              lg={6}
+              xs={12}
+              className={classes.copyrightContainerLeft}
+            >
               <Typography
                 variant="caption"
                 color="primary"
@@ -472,8 +490,7 @@ const Dashboard = ({
               item
               lg={6}
               xs={12}
-              className={classes.copyrightContainer}
-              style={{ textAlign: "right" }}
+              className={classes.copyrightContainerRight}
             >
               <Typography
                 variant="caption"
@@ -497,6 +514,7 @@ Dashboard.defaultProps = {
 Dashboard.propTypes = {
   customerHeader: PropTypes.string.isRequired,
   leadHeader: PropTypes.string.isRequired,
+  apptHeader: PropTypes.string.isRequired,
   customerDetails: PropTypes.string.isRequired,
   customerDelete: PropTypes.string.isRequired,
   customerConvert: PropTypes.string.isRequired,
@@ -508,6 +526,8 @@ Dashboard.propTypes = {
   author: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
+  localHostError: PropTypes.string.isRequired,
+  liveError: PropTypes.string.isRequired,
 }
 
 export default Dashboard

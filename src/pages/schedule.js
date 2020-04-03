@@ -13,6 +13,8 @@ const schedule = ({ data }) => {
     error,
     validation,
     email,
+    localHostError,
+    liveError,
   } = data.markdownRemark.frontmatter
 
   return (
@@ -30,6 +32,8 @@ const schedule = ({ data }) => {
         errorMessage={error}
         validationMessage={validation}
         emailMessage={email}
+        localHostError={localHostError}
+        liveError={liveError}
       />
     </Layout>
   )
@@ -59,6 +63,8 @@ export const data = graphql`
         error
         validation
         email
+        localHostError
+        liveError
       }
     }
   }

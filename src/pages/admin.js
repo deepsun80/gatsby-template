@@ -15,12 +15,15 @@ const Admin = ({ data }) => {
   const {
     customer,
     lead,
+    appt,
     customerDetails,
     customerDelete,
     navbar,
     customerConvert,
     leadConvert,
     invoice,
+    localHostError,
+    liveError,
   } = data.markdownRemark.frontmatter
 
   const identity = useIdentityContext()
@@ -39,6 +42,7 @@ const Admin = ({ data }) => {
         <Dashboard
           customerHeader={customer}
           leadHeader={lead}
+          apptHeader={appt}
           customerDetails={customerDetails}
           customerDelete={customerDelete}
           logo={logo}
@@ -50,6 +54,8 @@ const Admin = ({ data }) => {
           customerConvert={customerConvert}
           leadConvert={leadConvert}
           invoiceHeader={invoice}
+          localHostError={localHostError}
+          liveError={liveError}
         />
       ) : (
         <IdentityModal
@@ -78,12 +84,15 @@ export const data = graphql`
       frontmatter {
         customer
         lead
+        appt
         customerDetails
         customerDelete
         navbar
         customerConvert
         leadConvert
         invoice
+        localHostError
+        liveError
       }
     }
   }

@@ -8,13 +8,10 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context) => {
   const data = JSON.parse(event.body)
-  console.log("Function `fauna-customer-search` invoked")
   return client
     .query(q.Paginate(q.Match(q.Ref("indexes/all_clients"))))
     .then(response => {
       const clientRefs = response.data
-      console.log("Client refs", clientRefs)
-      console.log(`${clientRefs.length} clients found`)
       // create new query out of refs. http://bit.ly/2LG3MLg
       const getAllClientDataQuery = clientRefs.map(ref => {
         return q.Get(ref)
@@ -34,7 +31,6 @@ exports.handler = (event, context) => {
           }
         })
         .catch(err => {
-          console.log("error", err)
           return {
             statusCode: 400,
             body: JSON.stringify(err),

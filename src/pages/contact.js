@@ -5,7 +5,14 @@ import Contact from "../components/Contact"
 import { graphql } from "gatsby"
 
 const contact = ({ data }) => {
-  const { success, error, validation, email } = data.markdownRemark.frontmatter
+  const {
+    success,
+    error,
+    validation,
+    email,
+    localHostError,
+    liveError,
+  } = data.markdownRemark.frontmatter
 
   return (
     <Layout>
@@ -20,6 +27,8 @@ const contact = ({ data }) => {
         errorMessage={error}
         validationMessage={validation}
         emailMessage={email}
+        localHostError={localHostError}
+        liveError={liveError}
       />
     </Layout>
   )
@@ -47,6 +56,8 @@ export const data = graphql`
         error
         validation
         email
+        localHostError
+        liveError
       }
     }
   }

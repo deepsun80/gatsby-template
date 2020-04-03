@@ -8,15 +8,15 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context) => {
   return client
-    .query(q.Paginate(q.Match(q.Ref("indexes/all_clients"))))
+    .query(q.Paginate(q.Match(q.Ref("indexes/all_appointments"))))
     .then(response => {
-      const clientRefs = response.data
+      const apptRefs = response.data
       // create new query out of refs. http://bit.ly/2LG3MLg
-      const getAllClientDataQuery = clientRefs.map(ref => {
+      const getAllApptDataQuery = apptRefs.map(ref => {
         return q.Get(ref)
       })
       // then query the refs
-      return client.query(getAllClientDataQuery).then(ret => {
+      return client.query(getAllApptDataQuery).then(ret => {
         return {
           statusCode: 200,
           body: JSON.stringify(ret),

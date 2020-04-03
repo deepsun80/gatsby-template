@@ -66,11 +66,17 @@ const useStyles = makeStyles(theme => ({
   footer: {
     background: theme.palette.primary.light,
   },
-  copyrightContainer: {
-    marginBottom: 10,
-  },
   copyright: {
     textTransform: "capitalize",
+  },
+  copyrightContainerLeft: {
+    marginBottom: 10,
+  },
+  copyrightContainerRight: {
+    marginBottom: 10,
+    [theme.breakpoints.up("lg")]: {
+      textAlign: "right",
+    },
   },
   loader: {
     color: "#fff",

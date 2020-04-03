@@ -5,8 +5,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   appPadding: {
-    transition: "all 0.5s",
-    "&::-webkit-transition": "all 0.5s",
     paddingTop: "1vh",
     [theme.breakpoints.up("sm")]: {
       paddingTop: "2vh",
