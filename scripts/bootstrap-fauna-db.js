@@ -39,12 +39,16 @@ function createFaunaDB(key) {
 
   /* Based on your requirements, change the schema here */
   return client
-    .query(q.Create(q.Ref("classes"), { name: "clients" }))
+    .query(
+      q.Create(q.Ref("classes"), { name: "clients", name: "appointments" })
+    )
     .then(() => {
       return client.query(
         q.Create(q.Ref("indexes"), {
           name: "all_clients",
           source: q.Ref("classes/clients"),
+          name: "all_appointments",
+          source: q.Ref("classes/appointments"),
         })
       )
     })

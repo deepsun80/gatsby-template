@@ -7,7 +7,8 @@ const client = new faunadb.Client({
 })
 
 exports.handler = (event, context) => {
-  console.log("Function `fauna-read-all` invoked")
+  const data = JSON.parse(event.body)
+  console.log("Function `fauna-customer-search` invoked")
   return client
     .query(q.Paginate(q.Match(q.Ref("indexes/all_clients"))))
     .then(response => {
@@ -20,9 +21,14 @@ exports.handler = (event, context) => {
       })
       // then query the refs
       return client.query(getAllClientDataQuery).then(ret => {
+        let retValue = {}
+        // then find the ref that matches param
+        ret.forEach(ref => {
+          if (ref.data.email === data) retValue = ref
+        })
         return {
           statusCode: 200,
-          body: JSON.stringify(ret),
+          body: JSON.stringify(retValue),
         }
       })
     })

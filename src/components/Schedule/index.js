@@ -52,9 +52,10 @@ const Schedule = ({
 
   const handleSubmit = async event => {
     event.preventDefault()
-    setValidation({ success: true, error: false })
+
     setFirstName(values.name.split(" ")[0])
     setLastName(values.name.split(" ").pop())
+    setValidation({ success: true, error: false })
     // setLoading(true)
 
     // const response = await faunaApi.search(values.email)
@@ -79,6 +80,7 @@ const Schedule = ({
     //       ...values,
     //       stripe_id: response.data.stripe_id,
     //       customer: true,
+    //       appointment: {},
     //     })
     //     console.log("client updated:", ret)
 
@@ -109,6 +111,7 @@ const Schedule = ({
     //         ...values,
     //         stripe_id: ret.result.id,
     //         customer: true,
+    //         appointment: {},
     //       })
     //       console.log("new client added:", ret2)
     //       setValidation({ success: true, error: false })
@@ -238,6 +241,15 @@ const Schedule = ({
                     }}
                     url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&phone=${values.phone}`}
                   />
+                  {/* <iframe
+                    title="vyte"
+                    src="https://www.vyte.in/deepsun80?embed"
+                    width="100%"
+                    height="1000px"
+                    frameborder="0"
+                  >
+                    https://www.vyte.in/deepsun80
+                  </iframe> */}
                 </>
               )}
 

@@ -1,3 +1,4 @@
+/* Import faunaDB sdk */
 const faunadb = require("faunadb")
 const getId = require("./utils/getId")
 
@@ -6,12 +7,11 @@ const client = new faunadb.Client({
   secret: process.env.FAUNADB_SERVER_SECRET,
 })
 
-exports.handler = (event, context) => {
-  const data = JSON.parse(event.body)
+exports.handler = async (event, context) => {
   const id = getId(event.path)
-  console.log(`Function 'fauna-update' invoked. update id: ${id}`)
+  console.log(`Function 'fauna-customer-delete' invoked. delete id: ${id}`)
   return client
-    .query(q.Update(q.Ref(`classes/clients/${id}`), { data }))
+    .query(q.Delete(q.Ref(`classes/clients/${id}`)))
     .then(response => {
       console.log("success", response)
       return {
