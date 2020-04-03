@@ -57,9 +57,7 @@ exports.handler = async (event, context) => {
           let retValue = ""
           // then find the ref that matches param
           ret.forEach(ref => {
-            if (
-              ref.data.payload.event_type.uuid === data.payload.event_type.uuid
-            )
+            if (ref.data.payload.event.uuid === data.payload.event.uuid)
               retValue = ref.ref.id
           })
           return client
