@@ -20,17 +20,26 @@ exports.handler = (event, context) => {
         return q.Get(ref)
       })
       // then query the refs
-      return client.query(getAllClientDataQuery).then(ret => {
-        let retValue = {}
-        // then find the ref that matches param
-        ret.forEach(ref => {
-          if (ref.data.email === data) retValue = ref
+      return client
+        .query(getAllClientDataQuery)
+        .then(ret => {
+          let retValue = {}
+          // then find the ref that matches param
+          ret.forEach(ref => {
+            if (ref.data.email === data) retValue = ref
+          })
+          return {
+            statusCode: 200,
+            body: JSON.stringify(retValue),
+          }
         })
-        return {
-          statusCode: 200,
-          body: JSON.stringify(retValue),
-        }
-      })
+        .catch(err => {
+          console.log("error", err)
+          return {
+            statusCode: 400,
+            body: JSON.stringify(err),
+          }
+        })
     })
     .catch(error => {
       console.log("error", error)
