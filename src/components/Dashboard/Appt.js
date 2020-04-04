@@ -92,8 +92,8 @@ const Appt = ({ localHostError, liveError, setLoading }) => {
 
       const sortedArray = response.sort(
         (a, b) =>
-          moment(a.data.payload.event.start_time).format("YYYYMMDD") -
-          moment(b.data.payload.event.start_time).format("YYYYMMDD")
+          moment(b.data.payload.event.start_time).format("YYYYMMDD") -
+          moment(a.data.payload.event.start_time).format("YYYYMMDD")
       )
 
       setAppts(sortedArray)

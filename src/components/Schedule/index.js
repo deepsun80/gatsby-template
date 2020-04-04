@@ -34,7 +34,7 @@ const Schedule = ({
   const [values, setValues] = useState({
     name: "",
     email: "",
-    phone: "(1  )    -    ",
+    phone: "(   )   -    ",
     address: "",
   })
   const [validation, setValidation] = useState({
@@ -56,7 +56,8 @@ const Schedule = ({
     event.preventDefault()
 
     setFirstName(values.name.split(" ")[0])
-    setLastName(values.name.split(" ").pop())
+    if (values.name.split(" ").length > 1)
+      setLastName(values.name.split(" ").pop())
     setValidation({ success: true, error: false })
     setLoading(true)
 
@@ -125,6 +126,8 @@ const Schedule = ({
       setLoading(false)
     }
   }
+
+  console.log(firstName, lastName)
 
   return (
     <section className={classes.section}>
