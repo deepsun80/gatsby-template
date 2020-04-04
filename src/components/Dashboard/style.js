@@ -18,11 +18,18 @@ const useStyles = makeStyles(theme => ({
       padding: 50,
     },
   },
-  searchField: {
+  selectField: {
+    backgroundColor: "#fff",
     width: 320,
+    marginBottom: 10,
+  },
+  searchField: {
     maxWidth: "80%",
     marginBottom: 30,
     display: "inline-block",
+    [theme.breakpoints.up("md")]: {
+      width: 320,
+    },
   },
   header: {
     fontSize: "1.3rem",
@@ -90,6 +97,12 @@ const useStyles = makeStyles(theme => ({
   flex: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  flexResponsive: {
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
   },
   tableHeader: {
     color: theme.palette.primary.main,
