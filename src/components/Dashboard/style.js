@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
       padding: 50,
     },
   },
+  link: {
+    color: theme.palette.secondary.dark,
+  },
   selectField: {
     backgroundColor: "#fff",
     width: 320,
@@ -57,14 +60,21 @@ const useStyles = makeStyles(theme => ({
   },
   modalBody: {
     marginTop: 20,
+    color: theme.palette.primary.dark,
+  },
+  modalSecondaryBody: {
+    color: theme.palette.secondary.dark,
+    marginTop: 10,
+    paddingLeft: 10,
   },
   modalLabel: {
     fontWeight: 600,
+    color: theme.palette.primary.main,
   },
   modalSmallHeader: {
     fontWeight: 600,
     marginTop: 20,
-    paddingLeft: 10,
+    color: theme.palette.primary.main,
   },
   modalSmallHeaderSpan: {
     fontWeight: 600,
@@ -107,12 +117,6 @@ const useStyles = makeStyles(theme => ({
   tableHeader: {
     color: theme.palette.primary.main,
     fontWeight: 600,
-  },
-  tableBody: {
-    color: theme.palette.primary.main,
-  },
-  tableBodyDisabled: {
-    color: theme.palette.primary.light,
   },
   formControl: {
     marginBottom: 30,

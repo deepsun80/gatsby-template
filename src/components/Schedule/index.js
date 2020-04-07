@@ -61,7 +61,7 @@ const Schedule = ({
     setValidation({ success: true, error: false })
     setLoading(true)
 
-    const response = await faunaApi.search(values.email)
+    const response = await faunaApi.searchClients(values.email)
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -76,7 +76,7 @@ const Schedule = ({
 
     if (response.hasOwnProperty("data")) {
       try {
-        const ret = await faunaApi.update(response.ref["@ref"].id, {
+        const ret = await faunaApi.updateClient(response.ref["@ref"].id, {
           ...values,
           stripe_id: response.data.stripe_id,
           customer: true,
@@ -107,7 +107,7 @@ const Schedule = ({
         console.log("new added to Stripe:", ret)
 
         try {
-          const ret2 = await faunaApi.create({
+          const ret2 = await faunaApi.createClient({
             ...values,
             stripe_id: ret.result.id,
             customer: true,
@@ -126,8 +126,6 @@ const Schedule = ({
       setLoading(false)
     }
   }
-
-  console.log(firstName, lastName)
 
   return (
     <section className={classes.section}>

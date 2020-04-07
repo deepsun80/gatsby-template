@@ -1,7 +1,7 @@
 /* Api methods to call /functions */
 
 /* ---Clients--- */
-const create = data => {
+const createClient = data => {
   return fetch("/.netlify/functions/fauna-customer-create", {
     body: JSON.stringify(data),
     method: "POST",
@@ -16,7 +16,7 @@ const readAllClients = () => {
   })
 }
 
-const search = data => {
+const searchClients = data => {
   return fetch("/.netlify/functions/fauna-customer-search", {
     body: JSON.stringify(data),
     method: "POST",
@@ -24,7 +24,8 @@ const search = data => {
     return response.json()
   })
 }
-const update = (clientId, data) => {
+
+const updateClient = (clientId, data) => {
   return fetch(`/.netlify/functions/fauna-customer-update/${clientId}`, {
     body: JSON.stringify(data),
     method: "POST",
@@ -33,7 +34,7 @@ const update = (clientId, data) => {
   })
 }
 
-const deleteclient = clientId => {
+const deleteClient = clientId => {
   return fetch(`/.netlify/functions/fauna-customer-delete/${clientId}`, {
     method: "POST",
   }).then(response => {
@@ -41,7 +42,7 @@ const deleteclient = clientId => {
   })
 }
 
-const batchDeleteclient = clientIds => {
+const batchDeleteClient = clientIds => {
   return fetch(`/.netlify/functions/fauna-customer-delete-batch`, {
     body: JSON.stringify({
       ids: clientIds,
@@ -59,12 +60,32 @@ const readAllAppts = () => {
   })
 }
 
+const searchAppts = data => {
+  return fetch("/.netlify/functions/fauna-appt-search", {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const updateAppt = (clientId, data) => {
+  return fetch(`/.netlify/functions/fauna-appt-update/${clientId}`, {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export default {
-  create: create,
+  createClient: createClient,
   readAllClients: readAllClients,
-  search: search,
-  update: update,
-  delete: deleteclient,
-  batchDelete: batchDeleteclient,
+  searchClients: searchClients,
+  updateClient: updateClient,
+  deleteClient: deleteClient,
+  batchDeleteClient: batchDeleteClient,
   readAllAppts: readAllAppts,
+  searchAppts: searchAppts,
+  updateAppt: updateAppt,
 }

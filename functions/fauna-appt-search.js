@@ -9,21 +9,24 @@ const client = new faunadb.Client({
 exports.handler = (event, context) => {
   const data = JSON.parse(event.body)
   return client
-    .query(q.Paginate(q.Match(q.Ref("indexes/all_clients"))))
+    .query(q.Paginate(q.Match(q.Ref("indexes/all_appointments"))))
     .then(response => {
-      const clientRefs = response.data
+      const apptRefs = response.data
       // create new query out of refs. http://bit.ly/2LG3MLg
-      const getAllClientDataQuery = clientRefs.map(ref => {
+      const getAllApptDataQuery = apptRefs.map(ref => {
         return q.Get(ref)
       })
       // then query the refs
       return client
-        .query(getAllClientDataQuery)
+        .query(getAllApptDataQuery)
         .then(ret => {
           let retValue = {}
           // then find the ref that matches param
           ret.forEach(ref => {
-            if (ref.data.email.toLowerCase() === data.toLowerCase())
+            if (
+              ref.data.payload.invitee.email.toLowerCase() ===
+              data.toLowerCase()
+            )
               retValue = ref
           })
           return {
@@ -39,7 +42,6 @@ exports.handler = (event, context) => {
         })
     })
     .catch(error => {
-      console.log("error", error)
       return {
         statusCode: 400,
         body: JSON.stringify(error),

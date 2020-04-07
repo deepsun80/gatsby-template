@@ -64,6 +64,12 @@ const Dashboard = ({
   const [searchTerm, setSearchTerm] = useState("")
   const [formModalData, setFormModalData] = useState([])
 
+  // --- Navbar Method Start ---
+  const handleFilter = value => {
+    setFilter(value)
+  }
+  // --- Navbar Method End ---
+
   // --- Modals Start ---
   const handleClientModalOpen = data => {
     setClientModal(true)
@@ -109,71 +115,9 @@ const Dashboard = ({
   }
   // --- Modals End ---
 
+  // --- Search Methods Start ---
   const handleChange = event => {
     setSearchTerm(event.target.value)
-  }
-
-  // --- Faunda API Start ---
-  const handleConvert = async () => {
-    setLoading(true)
-    if (filter === "customers") {
-      try {
-        const response = await faunaApi.update(targetClient.ref["@ref"].id, {
-          ...targetClient.data,
-          customer: false,
-        })
-        console.log("Client updated:", response)
-        const filteredClients = clients.filter(
-          item => item.ts !== targetClient.ts
-        )
-        setClients(filteredClients)
-      } catch (err1) {
-        alert("There was an error converting client", err1)
-      }
-      setLoading(false)
-    }
-    if (filter === "leads") {
-      try {
-        const response = await faunaApi.update(targetClient.ref["@ref"].id, {
-          ...targetClient.data,
-          customer: true,
-        })
-        console.log("Client updated:", response)
-        const filteredClients = clients.filter(
-          item => item.ts !== targetClient.ts
-        )
-        setClients(filteredClients)
-      } catch (err2) {
-        alert("There was an error converting client", err2)
-      }
-      setLoading(false)
-    }
-  }
-
-  const handleClientDelete = async () => {
-    setLoading(true)
-    try {
-      const res1 = await faunaApi.delete(targetClient.ref["@ref"].id)
-      console.log("Client deleted:", res1)
-
-      try {
-        const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
-        console.log("Client deleted from Stripe:", res2)
-        const filteredClients = clients.filter(item => item.ts !== res1.ts)
-        setClients(filteredClients)
-        setLoading(false)
-      } catch (err1) {
-        alert("There was an error removing client", err1)
-        setLoading(false)
-      }
-    } catch (err2) {
-      alert("There was an error removing client", err2)
-      setLoading(false)
-    }
-  }
-
-  const handleFilter = value => {
-    setFilter(value)
   }
 
   const handleSubmit = event => {
@@ -209,6 +153,72 @@ const Dashboard = ({
     if (filter === "leads") {
       setLoading(false)
       setClients(response.filter(client => !client.data.customer))
+    }
+  }
+  // --- Search Methods Start ---
+
+  // --- Faunda API Start ---
+  const handleConvert = async () => {
+    setLoading(true)
+    if (filter === "customers") {
+      try {
+        const response = await faunaApi.updateClient(
+          targetClient.ref["@ref"].id,
+          {
+            ...targetClient.data,
+            customer: false,
+          }
+        )
+        console.log("Client updated:", response)
+        const filteredClients = clients.filter(
+          item => item.ts !== targetClient.ts
+        )
+        setClients(filteredClients)
+      } catch (err1) {
+        alert("There was an error converting client", err1)
+      }
+      setLoading(false)
+    }
+    if (filter === "leads") {
+      try {
+        const response = await faunaApi.updateClient(
+          targetClient.ref["@ref"].id,
+          {
+            ...targetClient.data,
+            customer: true,
+          }
+        )
+        console.log("Client updated:", response)
+        const filteredClients = clients.filter(
+          item => item.ts !== targetClient.ts
+        )
+        setClients(filteredClients)
+      } catch (err2) {
+        alert("There was an error converting client", err2)
+      }
+      setLoading(false)
+    }
+  }
+
+  const handleClientDelete = async () => {
+    setLoading(true)
+    try {
+      const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
+      console.log("Client deleted:", res1)
+
+      try {
+        const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
+        console.log("Client deleted from Stripe:", res2)
+        const filteredClients = clients.filter(item => item.ts !== res1.ts)
+        setClients(filteredClients)
+        setLoading(false)
+      } catch (err1) {
+        alert("There was an error removing client", err1)
+        setLoading(false)
+      }
+    } catch (err2) {
+      alert("There was an error removing client", err2)
+      setLoading(false)
     }
   }
   // --- Faunda API End ---
@@ -289,7 +299,7 @@ const Dashboard = ({
       }
       setLoading(false)
     } catch (err) {
-      console.log("There was an error voiding invoice", err)
+      alert("There was an error voiding invoice", err)
       setLoading(false)
     }
   }
@@ -364,6 +374,8 @@ const Dashboard = ({
               localHostError={localHostError}
               liveError={liveError}
               setLoading={setLoading}
+              formModalData={formModalData}
+              invoiceHeader={invoiceHeader}
             />
           ) : (
             <>
@@ -402,7 +414,7 @@ const Dashboard = ({
                     <ListItem button>
                       <ListItemText
                         primary={
-                          <Typography variant="body2" color="primary">
+                          <Typography variant="body2">
                             {client.data.name}
                           </Typography>
                         }
@@ -433,6 +445,9 @@ const Dashboard = ({
                 setInvoiceName={setInvoiceName}
                 invoicesModalOpen={handleInvoicesModalOpen}
                 handleFormModalOpen={handleFormModalOpen}
+                localHostError={localHostError}
+                liveError={liveError}
+                setLoading={setLoading}
               />
               <DeleteModal
                 open={deleteModal}

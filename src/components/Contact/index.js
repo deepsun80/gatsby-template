@@ -62,7 +62,7 @@ const Contact = ({
 
     setLoading(true)
 
-    const response = await faunaApi.search(values.email)
+    const response = await faunaApi.searchClients(values.email)
 
     if (response.message === "unauthorized") {
       if (isLocalHost()) {
@@ -77,11 +77,10 @@ const Contact = ({
 
     if (response.hasOwnProperty("data")) {
       try {
-        const res = await faunaApi.update(response.ref["@ref"].id, {
+        const res = await faunaApi.updateClient(response.ref["@ref"].id, {
           name: values.name,
           email: values.email,
           phone: values.phone,
-          customer: false,
         })
         console.log("client updated:", res)
         setValidation({ success: true, error: false })
@@ -92,7 +91,7 @@ const Contact = ({
       setLoading(false)
     } else {
       try {
-        const ret = await faunaApi.create({
+        const ret = await faunaApi.createClient({
           name: values.name,
           email: values.email,
           phone: values.phone,

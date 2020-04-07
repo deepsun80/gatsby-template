@@ -10,8 +10,6 @@ const createClient = data => {
 }
 
 const updateClient = (clientId, data) => {
-  console.log(JSON.stringify(data))
-
   return fetch(`/.netlify/functions/stripe-customer-update/${clientId}`, {
     body: JSON.stringify(data),
     method: "POST",

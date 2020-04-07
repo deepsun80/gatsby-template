@@ -83,39 +83,35 @@ function InvoicesModal({
             </TableHead>
             <TableBody>
               {data.map(row => (
-                <TableRow key={row.id} hover>
+                <TableRow key={row.id} hover selected={row.status === "void"}>
                   <TableCell
-                    className={
-                      row.status === "void"
-                        ? classes.tableBodyDisabled
-                        : classes.tableBody
-                    }
+                    style={row.status === "void" ? { opacity: 0.4 } : null}
                   >
-                    {(row.amount_due / 100).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    <Typography variant="body2">
+                      {(row.amount_due / 100).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </Typography>
                   </TableCell>
                   <TableCell
-                    className={
-                      row.status === "void"
-                        ? classes.tableBodyDisabled
-                        : classes.tableBody
-                    }
+                    style={row.status === "void" ? { opacity: 0.4 } : null}
                   >
-                    {(row.amount_paid / 100).toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
+                    <Typography variant="body2">
+                      {(row.amount_paid / 100).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </Typography>
                   </TableCell>
                   <TableCell
                     style={
                       row.status === "draft"
-                        ? { color: "steelblue" }
+                        ? { color: "cornflowerblue" }
                         : row.status === "paid"
                         ? { color: "green" }
                         : row.status === "open"
-                        ? { color: "blue" }
+                        ? { color: "dodgerblue" }
                         : { color: "red" }
                     }
                   >

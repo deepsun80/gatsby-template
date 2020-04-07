@@ -6,32 +6,12 @@ module.exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
   requestBody.forEach(item => {
-    return stripe.invoiceItems
-      .create({
-        customer: id,
-        amount: item.amount,
-        currency: "usd",
-        description: item.description,
-      })
-      .then(res => {
-        const response = {
-          statusCode: 200,
-          body: JSON.stringify({
-            message: "Stripe invoice item created",
-            res,
-          }),
-        }
-        callback(null, response)
-      })
-      .catch(error => {
-        const response = {
-          statusCode: 500,
-          body: JSON.stringify({
-            error: error.message,
-          }),
-        }
-        callback(null, response)
-      })
+    stripe.invoiceItems.create({
+      customer: id,
+      amount: item.amount,
+      currency: "usd",
+      description: item.description,
+    })
   })
 
   return stripe.invoices
