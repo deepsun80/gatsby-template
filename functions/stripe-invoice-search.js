@@ -5,12 +5,12 @@ module.exports.handler = (event, context, callback) => {
   const id = getId(event.path)
 
   return stripe.invoices
-    .sendInvoice(id)
+    .retrieve(id)
     .then(result => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: `Stripe invoice sent`,
+          message: `Stripe invoice found`,
           result,
         }),
       }

@@ -58,7 +58,7 @@ function ClientModal({
         return false
       }
 
-      setAppt(response)
+      setAppt(response.result)
       setLoading(false)
     }
 

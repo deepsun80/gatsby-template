@@ -20,21 +20,26 @@ exports.handler = (event, context) => {
       return client
         .query(getAllClientDataQuery)
         .then(ret => {
-          let retValue = {}
+          let result = {}
           // then find the ref that matches param
           ret.forEach(ref => {
             if (ref.data.email.toLowerCase() === data.toLowerCase())
-              retValue = ref
+              result = ref
           })
           return {
             statusCode: 200,
-            body: JSON.stringify(retValue),
+            body: JSON.stringify({
+              message: `Customer found`,
+              result,
+            }),
           }
         })
-        .catch(err => {
+        .catch(error => {
           return {
             statusCode: 400,
-            body: JSON.stringify(err),
+            body: JSON.stringify({
+              error: error.message,
+            }),
           }
         })
     })
@@ -42,7 +47,9 @@ exports.handler = (event, context) => {
       console.log("error", error)
       return {
         statusCode: 400,
-        body: JSON.stringify(error),
+        body: JSON.stringify({
+          error: error.message,
+        }),
       }
     })
 }

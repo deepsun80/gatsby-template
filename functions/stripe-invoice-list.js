@@ -17,11 +17,11 @@ module.exports.handler = (event, context, callback) => {
       }
       callback(null, response)
     })
-    .catch(err => {
+    .catch(error => {
       const response = {
         statusCode: 500,
         body: JSON.stringify({
-          error: err.message,
+          error: error.message,
         }),
       }
       callback(null, response)

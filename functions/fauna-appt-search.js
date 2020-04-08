@@ -20,31 +20,38 @@ exports.handler = (event, context) => {
       return client
         .query(getAllApptDataQuery)
         .then(ret => {
-          let retValue = {}
+          let result = {}
           // then find the ref that matches param
           ret.forEach(ref => {
             if (
               ref.data.payload.invitee.email.toLowerCase() ===
               data.toLowerCase()
             )
-              retValue = ref
+              result = ref
           })
           return {
             statusCode: 200,
-            body: JSON.stringify(retValue),
+            body: JSON.stringify({
+              message: `Appointment found`,
+              result,
+            }),
           }
         })
         .catch(err => {
           return {
             statusCode: 400,
-            body: JSON.stringify(err),
+            body: JSON.stringify({
+              error: err.message,
+            }),
           }
         })
     })
     .catch(error => {
       return {
         statusCode: 400,
-        body: JSON.stringify(error),
+        body: JSON.stringify({
+          error: error.message,
+        }),
       }
     })
 }

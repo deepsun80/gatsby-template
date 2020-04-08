@@ -49,8 +49,8 @@ const Appt = ({
     const response = await faunaApi.searchClients(
       data.data.payload.invitee.email
     )
-    console.log("Client:", response)
-    setClientData(response)
+    console.log(response.message)
+    setClientData(response.result)
   }
 
   const handleFormModalClose = () => {
@@ -101,13 +101,15 @@ const Appt = ({
       return false
     }
 
-    const sortedArray = response.sort(
-      (a, b) =>
-        moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-        moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-    )
+    if (response.result.length > 0) {
+      const sortedArray = response.result.sort(
+        (a, b) =>
+          moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+          moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+      )
+      setAppts(sortedArray)
+    }
 
-    setAppts(sortedArray)
     setLoading(false)
   }
   // --- Search & Filter Methods End ---
@@ -121,7 +123,7 @@ const Appt = ({
         clientData.data.stripe_id,
         data
       )
-      console.log("Stripe invoice created:", result)
+      console.log(result.message)
 
       if (result.message === "Stripe invoice created") {
         try {
@@ -129,55 +131,65 @@ const Appt = ({
           const res = await faunaApi.updateAppt(apptData.ref["@ref"].id, {
             invoice: result.result,
           })
-          console.log("Invoice added to appointment:", res)
+          console.log(res.message)
 
           // --- Reset all appointments ---
           const response = await faunaApi.readAllAppts()
 
-          const sortedArray = response.sort(
-            (a, b) =>
-              moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-              moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-          )
-
-          setAppts(sortedArray)
+          if (response.result.length > 0) {
+            const sortedArray = response.result.sort(
+              (a, b) =>
+                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+            )
+            setAppts(sortedArray)
+          }
         } catch (err) {
-          alert("There was an error adding invoice to appointment", err)
+          alert(err.error)
           setLoading(false)
         }
       }
       setLoading(false)
     } catch (error) {
-      alert("There was an error creating the invoice", error)
+      alert(error.error)
       setLoading(false)
     }
   }
 
-  // const handleSendInvoice = async id => {
-  //   console.log(id)
-  //   // setLoading(true)
-  //   // try {
-  //   //   // --send invoice
-  //   //   const result = await stripeApi.sendInvoice(id)
-  //   //   console.log("Stripe invoice sent:", result)
+  const handleSendInvoice = async id => {
+    setLoading(true)
+    try {
+      // --- Send invoice ---
+      const result = await stripeApi.sendInvoice(id)
+      console.log(result.message)
 
-  //   //   // --update appointment with result as invoice
+      // --- Reset all appointments ---
+      const response = await faunaApi.readAllAppts()
 
-  //   //   // -- reset/get all appintments again
-  //   //   setLoading(false)
-  //   // } catch (err) {
-  //   //   alert("There was an error sending invoice", err)
-  //   //   setLoading(false)
-  //   // }
-  // }
+      if (response.result.length > 0) {
+        const sortedArray = response.result.sort(
+          (a, b) =>
+            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+        )
+        setAppts(sortedArray)
+      }
+
+      setLoading(false)
+    } catch (err) {
+      alert(err.error)
+      setLoading(false)
+    }
+  }
   // --- Stripe API End ---
 
   useEffect(() => {
-    // --- Get appointments from Faunda ---
     const getAppts = async () => {
       setLoading(true)
 
+      // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
+      console.log(response)
 
       if (response.message === "unauthorized") {
         if (isLocalHost()) {
@@ -189,13 +201,43 @@ const Appt = ({
         return false
       }
 
-      const sortedArray = response.sort(
-        (a, b) =>
-          moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-          moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-      )
+      // --- Once response array is loaded
+      if (response.result.length > 0) {
+        // --- For each appointment, get invoice via id
+        response.result.forEach(async appt => {
+          if (appt.data.invoice.hasOwnProperty("id")) {
+            try {
+              const ret = await stripeApi.findInvoice(appt.data.invoice.id)
+              // --- and update invoice field in that appointment
+              if (ret.hasOwnProperty("message")) {
+                const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+                  invoice: ret.result,
+                })
+                console.log(res.message)
+              } else {
+                // --- if no invoice found reset appointment invoice to empty
+                await faunaApi.updateAppt(appt.ref["@ref"].id, {
+                  invoice: {},
+                })
+                console.log(ret.error)
+              }
+            } catch (err) {
+              await faunaApi.updateAppt(appt.ref["@ref"].id, {
+                invoice: {},
+              })
+              alert(err)
+            }
+          }
+        })
 
-      setAppts(sortedArray)
+        const sortedArray = response.result.sort(
+          (a, b) =>
+            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+        )
+        setAppts(sortedArray)
+      }
+
       setLoading(false)
     }
 
@@ -284,7 +326,12 @@ const Appt = ({
                 </TableCell>
                 <TableCell className={classes.tableHeader}>End Time</TableCell>
                 <TableCell className={classes.tableHeader}>Customer</TableCell>
-                <TableCell className={classes.tableHeader}>Invoice</TableCell>
+                <TableCell className={classes.tableHeader}>
+                  Invoice Status
+                </TableCell>
+                <TableCell className={classes.tableHeader}>
+                  Invoice Action
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -344,6 +391,22 @@ const Appt = ({
                       {row.data.payload.invitee.name}
                     </Typography>
                   </TableCell>
+                  <TableCell
+                    style={
+                      row.data.invoice.hasOwnProperty("status") &&
+                      row.data.invoice.status === "draft"
+                        ? { color: "cornflowerblue" }
+                        : row.data.invoice.status === "paid"
+                        ? { color: "green" }
+                        : row.data.invoice.status === "open"
+                        ? { color: "dodgerblue" }
+                        : { color: "red" }
+                    }
+                  >
+                    {row.data.invoice.hasOwnProperty("status")
+                      ? row.data.invoice.status
+                      : "not created"}
+                  </TableCell>
                   <TableCell>
                     {row.data.invoice.hasOwnProperty("status") &&
                     row.data.invoice.status === "open" ? (
@@ -353,7 +416,7 @@ const Appt = ({
                       <ExitToAppIcon
                         className={classes.icon}
                         onClick={() => {
-                          // handleFormModalOpen(row)
+                          handleSendInvoice(row.data.invoice.id)
                         }}
                       />
                     ) : (

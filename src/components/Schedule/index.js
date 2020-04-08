@@ -74,37 +74,43 @@ const Schedule = ({
       return false
     }
 
-    if (response.hasOwnProperty("data")) {
+    if (response.result.hasOwnProperty("data")) {
       try {
-        const ret = await faunaApi.updateClient(response.ref["@ref"].id, {
-          ...values,
-          stripe_id: response.data.stripe_id,
-          customer: true,
-          appointment: {},
-        })
-        console.log("client updated:", ret)
+        const ret = await faunaApi.updateClient(
+          response.result.ref["@ref"].id,
+          {
+            ...values,
+            stripe_id: response.result.data.stripe_id,
+            customer: true,
+            appointment: {},
+          }
+        )
+        console.log(ret.message)
 
         try {
-          const ret2 = await stripeApi.updateClient(response.data.stripe_id, {
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-          })
-          console.log("client updated on Stripe:", ret2)
+          const ret2 = await stripeApi.updateClient(
+            response.result.data.stripe_id,
+            {
+              name: values.name,
+              email: values.email,
+              phone: values.phone,
+            }
+          )
+          console.log(ret2.message)
           setValidation({ success: true, error: false })
         } catch (err) {
-          console.log("An API error occurred", err)
+          console.log(err.error)
           setValidation({ success: false, error: true })
         }
       } catch (err1) {
-        console.log("An API error occurred", err1)
+        console.log(err1.error)
         setValidation({ success: false, error: true })
       }
       setLoading(false)
     } else {
       try {
         const ret = await stripeApi.createClient(values)
-        console.log("new added to Stripe:", ret)
+        console.log(ret.message)
 
         try {
           const ret2 = await faunaApi.createClient({
@@ -113,14 +119,14 @@ const Schedule = ({
             customer: true,
             appointment: {},
           })
-          console.log("new client added:", ret2)
+          console.log(ret2.message)
           setValidation({ success: true, error: false })
         } catch (err) {
-          console.log("An API error occurred", err)
+          console.log(err.error)
           setValidation({ success: false, error: true })
         }
       } catch (err1) {
-        console.log("An API error occurred", err1)
+        console.log(err1.error)
         setValidation({ success: false, error: true })
       }
       setLoading(false)

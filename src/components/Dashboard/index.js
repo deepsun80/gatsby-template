@@ -22,7 +22,7 @@ import {
   InvoicesModal,
 } from "./modals"
 import Loading from "./Loading"
-import Appt from "./Appt"
+import Appts from "./Appts"
 import Navbar from "../Navbar"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
@@ -146,13 +146,13 @@ const Dashboard = ({
       return false
     }
 
-    if (filter === "customers") {
+    if (filter === "customers" && response.result.length > 0) {
       setLoading(false)
-      setClients(response.filter(client => client.data.customer))
+      setClients(response.result.filter(client => client.data.customer))
     }
-    if (filter === "leads") {
+    if (filter === "leads" && response.result.length > 0) {
       setLoading(false)
-      setClients(response.filter(client => !client.data.customer))
+      setClients(response.result.filter(client => !client.data.customer))
     }
   }
   // --- Search Methods Start ---
@@ -169,13 +169,13 @@ const Dashboard = ({
             customer: false,
           }
         )
-        console.log("Client updated:", response)
+        console.log(response.message)
         const filteredClients = clients.filter(
           item => item.ts !== targetClient.ts
         )
         setClients(filteredClients)
       } catch (err1) {
-        alert("There was an error converting client", err1)
+        alert(err1.error)
       }
       setLoading(false)
     }
@@ -188,13 +188,13 @@ const Dashboard = ({
             customer: true,
           }
         )
-        console.log("Client updated:", response)
+        console.log(response.message)
         const filteredClients = clients.filter(
           item => item.ts !== targetClient.ts
         )
         setClients(filteredClients)
       } catch (err2) {
-        alert("There was an error converting client", err2)
+        alert(err2.error)
       }
       setLoading(false)
     }
@@ -204,20 +204,22 @@ const Dashboard = ({
     setLoading(true)
     try {
       const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
-      console.log("Client deleted:", res1)
+      console.log(res1.message)
 
       try {
         const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
-        console.log("Client deleted from Stripe:", res2)
-        const filteredClients = clients.filter(item => item.ts !== res1.ts)
+        console.log(res2.message)
+        const filteredClients = clients.filter(
+          item => item.ts !== res1.result.ts
+        )
         setClients(filteredClients)
         setLoading(false)
       } catch (err1) {
-        alert("There was an error removing client", err1)
+        alert(err1.error)
         setLoading(false)
       }
     } catch (err2) {
-      alert("There was an error removing client", err2)
+      alert(err2.error)
       setLoading(false)
     }
   }
@@ -228,11 +230,11 @@ const Dashboard = ({
     setLoading(true)
     try {
       const result = await stripeApi.listInvoices(id)
-      console.log("Stripe invoices for customer:", result)
+      console.log(result.message)
       setInvoicesModalData(result.result)
       setLoading(false)
     } catch (err) {
-      alert("There was an error getting invoices", err)
+      alert(err.error)
       setLoading(false)
     }
   }
@@ -241,10 +243,10 @@ const Dashboard = ({
     setLoading(true)
     try {
       const result = await stripeApi.createInvoice(modalData.stripe_id, data)
-      console.log("Stripe invoice created:", result)
+      console.log(result.message)
       setLoading(false)
     } catch (err) {
-      alert("There was an error creating the invoice", err)
+      alert(err.error)
       setLoading(false)
     }
   }
@@ -253,7 +255,7 @@ const Dashboard = ({
     setLoading(true)
     try {
       const result = await stripeApi.deleteInvoice(id)
-      console.log("Stripe invoice deleted:", result)
+      console.log(result.message)
 
       const filteredData = invoicesModalData.filter(
         item => item.id !== result.result.id
@@ -261,7 +263,7 @@ const Dashboard = ({
       setInvoicesModalData(filteredData)
       setLoading(false)
     } catch (err) {
-      alert("There was an error deleting invoice", err)
+      alert(err.error)
       setLoading(false)
     }
   }
@@ -270,7 +272,7 @@ const Dashboard = ({
     setLoading(true)
     try {
       const result = await stripeApi.sendInvoice(id)
-      console.log("Stripe invoice sent:", result)
+      console.log(result.message)
 
       let index = invoicesModalData.findIndex(
         item => item.id === result.result.id
@@ -280,7 +282,7 @@ const Dashboard = ({
       }
       setLoading(false)
     } catch (err) {
-      alert("There was an error sending invoice", err)
+      alert(err.error)
       setLoading(false)
     }
   }
@@ -289,7 +291,7 @@ const Dashboard = ({
     setLoading(true)
     try {
       const result = await stripeApi.voidInvoice(id)
-      console.log("Stripe invoice voided:", result)
+      console.log(result.message)
 
       let index = invoicesModalData.findIndex(
         item => item.id === result.result.id
@@ -299,14 +301,14 @@ const Dashboard = ({
       }
       setLoading(false)
     } catch (err) {
-      alert("There was an error voiding invoice", err)
+      alert(err.error)
       setLoading(false)
     }
   }
   // --- Stripe API End ---
 
   useEffect(() => {
-    // ---Get clients from Faunda---
+    // ---Get clients from Fauna---
     const getClients = async () => {
       setLoading(true)
 
@@ -322,13 +324,13 @@ const Dashboard = ({
         return false
       }
 
-      if (filter === "customers") {
+      if (filter === "customers" && response.result.length > 0) {
         setLoading(false)
-        setClients(response.filter(client => client.data.customer))
+        setClients(response.result.filter(client => client.data.customer))
       }
-      if (filter === "leads") {
+      if (filter === "leads" && response.result.length > 0) {
         setLoading(false)
-        setClients(response.filter(client => !client.data.customer))
+        setClients(response.result.filter(client => !client.data.customer))
       }
     }
 
@@ -337,11 +339,11 @@ const Dashboard = ({
       setLoading(true)
       try {
         const result = await stripeApi.listServices()
-        console.log("Stripe skus:", result)
+        console.log(result.message)
         setFormModalData(result.result.data)
         setLoading(false)
       } catch (err) {
-        alert("There was an error getting skus", err)
+        alert(err.error)
         setLoading(false)
       }
     }
@@ -370,7 +372,7 @@ const Dashboard = ({
           </Typography>
 
           {filter === "appts" ? (
-            <Appt
+            <Appts
               localHostError={localHostError}
               liveError={liveError}
               setLoading={setLoading}

@@ -67,6 +67,14 @@ const voidInvoice = invoiceId => {
   })
 }
 
+const findInvoice = invoiceId => {
+  return fetch(`/.netlify/functions/stripe-invoice-search/${invoiceId}`).then(
+    response => {
+      return response.json()
+    }
+  )
+}
+
 const listServices = () => {
   return fetch("/.netlify/functions/stripe-sku-list/").then(response => {
     return response.json()
@@ -82,5 +90,6 @@ export default {
   deleteInvoice: deleteInvoice,
   sendInvoice: sendInvoice,
   voidInvoice: voidInvoice,
+  findInvoice: findInvoice,
   listServices: listServices,
 }

@@ -75,17 +75,20 @@ const Contact = ({
       return false
     }
 
-    if (response.hasOwnProperty("data")) {
+    if (response.result.hasOwnProperty("data")) {
       try {
-        const res = await faunaApi.updateClient(response.ref["@ref"].id, {
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
-        })
-        console.log("client updated:", res)
+        const res = await faunaApi.updateClient(
+          response.result.ref["@ref"].id,
+          {
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+          }
+        )
+        console.log(res.message)
         setValidation({ success: true, error: false })
       } catch (err1) {
-        console.log("An API error occurred", err1)
+        console.log(err1.error)
         setValidation({ success: false, error: true })
       }
       setLoading(false)
@@ -97,10 +100,10 @@ const Contact = ({
           phone: values.phone,
           customer: false,
         })
-        console.log("new client added:", ret)
+        console.log(ret.message)
         setValidation({ success: true, error: false })
       } catch (err2) {
-        console.log("An API error occurred", err2)
+        console.log(err2.error)
         setValidation({ success: false, error: true })
       }
       setLoading(false)
