@@ -27,6 +27,7 @@ function InvoicesModal({
   handleDelete,
   handleSend,
   handleVoid,
+  handleEditedInvoices,
 }) {
   const classes = useStyles()
 
@@ -40,10 +41,12 @@ function InvoicesModal({
 
   const sendInvoice = id => {
     handleSend(id)
+    handleEditedInvoices(id)
   }
 
   const voidInvoice = id => {
     handleVoid(id)
+    handleEditedInvoices(id)
   }
 
   return (
@@ -205,6 +208,7 @@ InvoicesModal.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleSend: PropTypes.func.isRequired,
   handleVoid: PropTypes.func.isRequired,
+  handleEditedInvoices: PropTypes.func.isRequired,
 }
 
 export default InvoicesModal

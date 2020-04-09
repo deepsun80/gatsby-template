@@ -5,6 +5,7 @@ import InputBase from "@material-ui/core/InputBase"
 import IconButton from "@material-ui/core/IconButton"
 import SearchIcon from "@material-ui/icons/Search"
 import ReplayIcon from "@material-ui/icons/Replay"
+import ClearIcon from "@material-ui/icons/Clear"
 import DoneIcon from "@material-ui/icons/Done"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
@@ -31,6 +32,7 @@ const Appt = ({
   setLoading,
   formModalData,
   invoiceHeader,
+  editedInvoices,
 }) => {
   const classes = useStyles()
 
@@ -165,6 +167,7 @@ const Appt = ({
 
       // --- Reset all appointments ---
       const response = await faunaApi.readAllAppts()
+      console.log(response.result)
 
       if (response.result.length > 0) {
         const sortedArray = response.result.sort(
@@ -213,12 +216,15 @@ const Appt = ({
                 const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
                   invoice: ret.result,
                 })
+                //-- and in the ui
+                appt.data.invoice = ret.result
                 console.log(res.message)
               } else {
                 // --- if no invoice found reset appointment invoice to empty
                 await faunaApi.updateAppt(appt.ref["@ref"].id, {
                   invoice: {},
                 })
+                appt.data.invoice = {}
                 console.log(ret.error)
               }
             } catch (err) {
@@ -236,6 +242,7 @@ const Appt = ({
             moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
         )
         setAppts(sortedArray)
+        console.log(sortedArray)
       }
 
       setLoading(false)
@@ -409,7 +416,9 @@ const Appt = ({
                   </TableCell>
                   <TableCell>
                     {row.data.invoice.hasOwnProperty("status") &&
-                    row.data.invoice.status === "open" ? (
+                    row.data.invoice.status === "void" ? (
+                      <ClearIcon style={{ color: "red" }} />
+                    ) : row.data.invoice.status === "open" ? (
                       <DoneIcon style={{ color: "green" }} />
                     ) : row.data.invoice.hasOwnProperty("status") &&
                       row.data.invoice.status === "draft" ? (
@@ -451,6 +460,7 @@ Appt.propTypes = {
   setLoading: PropTypes.func.isRequired,
   formModalData: PropTypes.array.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
+  editedInvoices: PropTypes.array.isRequired,
 }
 
 export default Appt

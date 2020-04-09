@@ -63,6 +63,7 @@ const Dashboard = ({
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [formModalData, setFormModalData] = useState([])
+  const [editedInvoices, setEditedInvoices] = useState([])
 
   // --- Navbar Method Start ---
   const handleFilter = value => {
@@ -156,6 +157,12 @@ const Dashboard = ({
     }
   }
   // --- Search Methods Start ---
+
+  // --- Edited Invoices Start ---
+  const handleEditedInvoices = data => {
+    setEditedInvoices({ data }, ...editedInvoices)
+  }
+  // --- Edited Invoices End ---
 
   // --- Faunda API Start ---
   const handleConvert = async () => {
@@ -280,6 +287,7 @@ const Dashboard = ({
       if (index !== -1) {
         invoicesModalData[index] = result.result
       }
+
       setLoading(false)
     } catch (err) {
       alert(err.error)
@@ -378,6 +386,7 @@ const Dashboard = ({
               setLoading={setLoading}
               formModalData={formModalData}
               invoiceHeader={invoiceHeader}
+              editedInvoices={editedInvoices}
             />
           ) : (
             <>
@@ -471,6 +480,7 @@ const Dashboard = ({
                 handleDelete={handleInvoiceDelete}
                 handleSend={handleSendInvoice}
                 handleVoid={handleVoidInvoice}
+                handleEditedInvoices={handleEditedInvoices}
               />
               <CreateInvoiceModal
                 open={formModal}
