@@ -1,10 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import { ThemeProvider } from "@material-ui/core/styles"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer/Footer1"
-import theme from "../utils/theme"
 import logo from "../images/logo.png"
 import { useStaticQuery, graphql } from "gatsby"
 import "./layout.css"
@@ -33,8 +30,7 @@ const Layout = ({ children }) => {
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <>
       <Navbar
         logo={logo}
         siteTitle={query.site.siteMetadata.title}
@@ -50,7 +46,7 @@ const Layout = ({ children }) => {
         text={query.markdownRemark.frontmatter.copy}
         tel={query.site.siteMetadata.data.tel}
       />
-    </ThemeProvider>
+    </>
   )
 }
 

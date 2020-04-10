@@ -124,6 +124,7 @@ export const data = graphql`
     }
     markdownRemark(frontmatter: { path: { eq: "/" } }) {
       frontmatter {
+        title
         header
         headerSpan
         subHeader

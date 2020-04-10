@@ -25,6 +25,8 @@ const SEO = ({ lang, meta, title }) => {
     `
   )
 
+  console.log(title)
+
   return (
     <Helmet
       htmlAttributes={{

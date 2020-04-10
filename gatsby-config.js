@@ -4,9 +4,9 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Template`,
-    description: `Gatsby template for static sites.`,
-    author: `Sandeep Chandran`,
+    title: "Gatsby Template",
+    description: "Gatsby template for static sites.",
+    author: "Sandeep Chandran",
     data: {
       tel: "648.244.1060",
       company: "Company Name",
@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-top-layout`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -36,6 +37,9 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: `gatsby-plugin-material-ui`,
+    },
     `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -52,9 +56,6 @@ module.exports = {
         display: `minimal-ui`,
         icon: `src/images/logo.png`, // This path is relative to the root of the site.
       },
-    },
-    {
-      resolve: `gatsby-plugin-material-ui`,
     },
     {
       resolve: `gatsby-plugin-create-client-paths`,
