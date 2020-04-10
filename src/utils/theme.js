@@ -34,6 +34,13 @@ const theme = createMuiTheme({
       main: indigo.A400,
       dark: indigo.A700,
     },
+    // -- Used for Dashboard --
+    info: {
+      light: indigo[100],
+      main: indigo.A200,
+      dark: indigo.A700,
+    },
+    // ------
     background: {
       default: "#fff",
       paper: "#fff",

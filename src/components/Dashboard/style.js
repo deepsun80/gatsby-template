@@ -6,10 +6,16 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     minHeight: "100vh",
-    background: theme.palette.primary.light,
+    background: "#e1e9ee",
   },
   container: {
     paddingTop: "15vh",
+  },
+  button: {
+    color: "blue",
+  },
+  buttonDark: {
+    color: "mediumblue",
   },
   paper: {
     padding: "30px 0",
@@ -19,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   link: {
-    color: theme.palette.secondary.dark,
+    color: "blue",
   },
   selectField: {
     backgroundColor: "#fff",
@@ -38,21 +44,26 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.3rem",
     textTransform: "uppercase",
     marginBottom: 30,
+    color: "darkslategrey",
+  },
+  iconPrimary: {
+    color: "blue",
+    opacity: 0.75,
   },
   icon: {
     transition: "all 0.3s",
     "&::-webkit-transition": "all 0.3s",
-    color: theme.palette.primary.light,
+    color: "gainsboro",
     "&:hover": {
-      color: theme.palette.secondary.main,
+      color: "blue",
       cursor: "pointer",
     },
   },
   disabledIcon: {
-    color: theme.palette.primary.light,
+    color: "gainsboro",
   },
   modalHeaderSection: {
-    background: theme.palette.primary.main,
+    background: "slategrey",
   },
   modalHeader: {
     color: "#fff",
@@ -60,31 +71,32 @@ const useStyles = makeStyles(theme => ({
   },
   modalBody: {
     marginTop: 20,
-    color: theme.palette.primary.dark,
+    color: "inherit",
   },
   modalSecondaryBody: {
-    color: theme.palette.secondary.dark,
+    color: "blue",
     marginTop: 10,
     paddingLeft: 10,
   },
   modalLabel: {
     fontWeight: 600,
-    color: theme.palette.primary.main,
+    color: "darkslategrey",
   },
   modalSmallHeader: {
     fontWeight: 600,
     marginTop: 20,
-    color: theme.palette.primary.main,
+    color: "darkslategrey",
   },
   modalSmallHeaderSpan: {
     fontWeight: 600,
-    color: theme.palette.secondary.main,
+    color: "blue",
   },
   footer: {
-    background: theme.palette.primary.light,
+    background: "#e1e9ee",
   },
   copyright: {
     textTransform: "capitalize",
+    color: "darkslategrey",
   },
   copyrightContainerLeft: {
     marginBottom: 10,
@@ -115,7 +127,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   tableHeader: {
-    color: theme.palette.primary.main,
+    color: "slategrey",
     fontWeight: 600,
   },
   formControl: {

@@ -74,11 +74,7 @@ function ClientModal({
       maxWidth="md"
     >
       <DialogTitle id="client-modal" className={classes.modalHeaderSection}>
-        <Typography
-          variant="body1"
-          color="primary"
-          className={classes.modalHeader}
-        >
+        <Typography variant="body1" className={classes.modalHeader}>
           {header}
         </Typography>
       </DialogTitle>
@@ -113,8 +109,8 @@ function ClientModal({
             </Typography>
             <div className={classes.flex}>
               <IconButton
-                color="secondary"
-                aria-label="reset"
+                className={classes.iconPrimary}
+                aria-label="submit"
                 component="span"
                 onClick={() => {
                   getInvoices(data.stripe_id)
@@ -125,15 +121,15 @@ function ClientModal({
                 <ViewListIcon />
               </IconButton>
               <IconButton
-                color="secondary"
-                aria-label="reset"
+                className={classes.iconPrimary}
+                aria-label="submit"
                 component="span"
                 onClick={invoiceFormOpen}
               >
                 <AddBoxIcon />
               </IconButton>
-              <IconButton color="secondary" aria-label="reset" component="span">
-                <ViewListIcon />
+              <IconButton aria-label="submit" component="span">
+                {/* <ViewListIcon /> */}
               </IconButton>
             </div>
             {appt.hasOwnProperty("data") && (
@@ -158,7 +154,11 @@ function ClientModal({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleClose} color="secondary">
+        <Button
+          variant="outlined"
+          onClick={handleClose}
+          className={classes.iconPrimary}
+        >
           Close
         </Button>
       </DialogActions>

@@ -23,11 +23,7 @@ function ConvertModal({ onClose, open, handleConvert, header }) {
       maxWidth="sm"
     >
       <DialogContent>
-        <DialogContentText
-          variant="body1"
-          color="primary"
-          className={classes.modalBody}
-        >
+        <DialogContentText variant="body1" className={classes.modalBody}>
           {header}
         </DialogContentText>
       </DialogContent>
@@ -38,11 +34,15 @@ function ConvertModal({ onClose, open, handleConvert, header }) {
             handleConvert()
             handleClose()
           }}
-          color="secondary"
+          className={classes.button}
         >
           Yes
         </Button>
-        <Button variant="contained" onClick={handleClose} color="secondary">
+        <Button
+          variant="outlined"
+          onClick={handleClose}
+          className={classes.buttonDark}
+        >
           No
         </Button>
       </DialogActions>

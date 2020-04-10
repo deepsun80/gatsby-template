@@ -103,7 +103,7 @@ const Appt = ({
       return false
     }
 
-    if (response.result.length > 0) {
+    if (response && response.result.length > 0) {
       const sortedArray = response.result.sort(
         (a, b) =>
           moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
@@ -138,7 +138,7 @@ const Appt = ({
           // --- Reset all appointments ---
           const response = await faunaApi.readAllAppts()
 
-          if (response.result.length > 0) {
+          if (response && response.result.length > 0) {
             const sortedArray = response.result.sort(
               (a, b) =>
                 moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
@@ -147,13 +147,13 @@ const Appt = ({
             setAppts(sortedArray)
           }
         } catch (err) {
-          alert(err.error)
+          console.log("Error updating appointment:", err)
           setLoading(false)
         }
       }
       setLoading(false)
     } catch (error) {
-      alert(error.error)
+      console.log("Error finding Stripe invoice:", error)
       setLoading(false)
     }
   }
@@ -165,22 +165,55 @@ const Appt = ({
       const result = await stripeApi.sendInvoice(id)
       console.log(result.message)
 
-      // --- Reset all appointments ---
+      // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
-      console.log(response.result)
+      console.log("appointments:", response)
 
-      if (response.result.length > 0) {
-        const sortedArray = response.result.sort(
-          (a, b) =>
-            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-        )
-        setAppts(sortedArray)
+      // --- find the appointment with that invoice and update
+      if (response && response.result.length > 0) {
+        response.result.forEach(async appt => {
+          // --- if no invoice found void in ui ---
+          if (
+            appt.data.invoice.hasOwnProperty("id") &&
+            result.hasOwnProperty("error")
+          ) {
+            appt.data.invoice = { status: "void" }
+            const sortedArray = response.result.sort(
+              (a, b) =>
+                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+            )
+            setAppts(sortedArray)
+          }
+
+          // --- otherwise update
+          if (
+            appt.data.invoice.hasOwnProperty("id") &&
+            result.hasOwnProperty("message") &&
+            appt.data.invoice.id === result.result.id
+          ) {
+            // --- if appointment found update it
+            const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+              invoice: result.result,
+            })
+
+            // --- and in the ui
+            appt.data.invoice = JSON.parse(JSON.stringify(result.result))
+            console.log(res.message)
+            const sortedArray = response.result.sort(
+              (a, b) =>
+                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+            )
+            setAppts(sortedArray)
+          }
+        })
+        // --- End appointment api logic ---
+
+        setLoading(false)
       }
-
-      setLoading(false)
     } catch (err) {
-      alert(err.error)
+      console.log("Error finding Stripe invoice:", err)
       setLoading(false)
     }
   }
@@ -192,7 +225,7 @@ const Appt = ({
 
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
-      console.log(response)
+      console.log(response.message)
 
       if (response.message === "unauthorized") {
         if (isLocalHost()) {
@@ -205,28 +238,36 @@ const Appt = ({
       }
 
       // --- Once response array is loaded
-      if (response.result.length > 0) {
+      if (response && response.result.length > 0) {
         // --- For each appointment, get invoice via id
         response.result.forEach(async appt => {
           if (appt.data.invoice.hasOwnProperty("id")) {
             try {
               const ret = await stripeApi.findInvoice(appt.data.invoice.id)
-              // --- and update invoice field in that appointment
+
+              // --- if no invoice found set ui to void
+              if (ret.hasOwnProperty("error")) {
+                appt.data.invoice = { status: "void" }
+                console.log(ret.error)
+              }
+
+              // --- otherwise update invoice field in that appointment
               if (ret.hasOwnProperty("message")) {
                 const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
                   invoice: ret.result,
                 })
+
                 //-- and in the ui
                 appt.data.invoice = ret.result
                 console.log(res.message)
-              } else {
-                // --- if no invoice found reset appointment invoice to empty
-                await faunaApi.updateAppt(appt.ref["@ref"].id, {
-                  invoice: {},
-                })
-                appt.data.invoice = {}
-                console.log(ret.error)
               }
+
+              const sortedArray = response.result.sort(
+                (a, b) =>
+                  moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+                  moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+              )
+              setAppts(sortedArray)
             } catch (err) {
               await faunaApi.updateAppt(appt.ref["@ref"].id, {
                 invoice: {},
@@ -235,14 +276,6 @@ const Appt = ({
             }
           }
         })
-
-        const sortedArray = response.result.sort(
-          (a, b) =>
-            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-        )
-        setAppts(sortedArray)
-        console.log(sortedArray)
       }
 
       setLoading(false)
@@ -295,7 +328,7 @@ const Appt = ({
           </Paper>
 
           <IconButton
-            color="secondary"
+            className={classes.iconPrimary}
             aria-label="reset"
             component="span"
             onClick={handleReset}
@@ -460,7 +493,6 @@ Appt.propTypes = {
   setLoading: PropTypes.func.isRequired,
   formModalData: PropTypes.array.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
-  editedInvoices: PropTypes.array.isRequired,
 }
 
 export default Appt

@@ -27,7 +27,6 @@ function InvoicesModal({
   handleDelete,
   handleSend,
   handleVoid,
-  handleEditedInvoices,
 }) {
   const classes = useStyles()
 
@@ -41,12 +40,10 @@ function InvoicesModal({
 
   const sendInvoice = id => {
     handleSend(id)
-    handleEditedInvoices(id)
   }
 
   const voidInvoice = id => {
     handleVoid(id)
-    handleEditedInvoices(id)
   }
 
   return (
@@ -58,11 +55,7 @@ function InvoicesModal({
       maxWidth="md"
     >
       <DialogTitle id="invoices-modal" className={classes.modalHeaderSection}>
-        <Typography
-          variant="body1"
-          color="primary"
-          className={classes.modalHeader}
-        >
+        <Typography variant="body1" className={classes.modalHeader}>
           {header}
         </Typography>
       </DialogTitle>
@@ -187,7 +180,11 @@ function InvoicesModal({
         </TableContainer>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleClose} color="secondary">
+        <Button
+          variant="outlined"
+          onClick={handleClose}
+          className={classes.button}
+        >
           Close
         </Button>
       </DialogActions>
@@ -208,7 +205,6 @@ InvoicesModal.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleSend: PropTypes.func.isRequired,
   handleVoid: PropTypes.func.isRequired,
-  handleEditedInvoices: PropTypes.func.isRequired,
 }
 
 export default InvoicesModal

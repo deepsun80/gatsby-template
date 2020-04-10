@@ -63,7 +63,6 @@ const Dashboard = ({
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [formModalData, setFormModalData] = useState([])
-  const [editedInvoices, setEditedInvoices] = useState([])
 
   // --- Navbar Method Start ---
   const handleFilter = value => {
@@ -147,22 +146,16 @@ const Dashboard = ({
       return false
     }
 
-    if (filter === "customers" && response.result.length > 0) {
+    if (filter === "customers" && response && response.result.length > 0) {
       setLoading(false)
       setClients(response.result.filter(client => client.data.customer))
     }
-    if (filter === "leads" && response.result.length > 0) {
+    if (filter === "leads" && response && response.result.length > 0) {
       setLoading(false)
       setClients(response.result.filter(client => !client.data.customer))
     }
   }
   // --- Search Methods Start ---
-
-  // --- Edited Invoices Start ---
-  const handleEditedInvoices = data => {
-    setEditedInvoices({ data }, ...editedInvoices)
-  }
-  // --- Edited Invoices End ---
 
   // --- Faunda API Start ---
   const handleConvert = async () => {
@@ -210,10 +203,24 @@ const Dashboard = ({
   const handleClientDelete = async () => {
     setLoading(true)
     try {
+      // --- Delete client in Fauna
       const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
       console.log(res1.message)
 
+      // -- Get all appointments and find matching appointment for the client
+      const ret = await faunaApi.readAllAppts()
+      console.log(ret.message)
+
+      ret.result.forEach(async appt => {
+        if (appt.data.payload.invitee.email === targetClient.data.email) {
+          // --- Delete appointment in Fauna
+          const res = await faunaApi.deleteAppt(appt.ref["@ref"].id)
+          console.log(res.message)
+        }
+      })
+
       try {
+        // --- Delete client in Stripe
         const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
         console.log(res2.message)
         const filteredClients = clients.filter(
@@ -268,6 +275,25 @@ const Dashboard = ({
         item => item.id !== result.result.id
       )
       setInvoicesModalData(filteredData)
+
+      // --- Get appointments from Fauna ---
+      const response = await faunaApi.readAllAppts()
+      console.log(response.message)
+
+      // --- find the appointment with that invoice and delete
+      response.result.forEach(async appt => {
+        if (
+          appt.data.invoice.hasOwnProperty("id") &&
+          appt.data.invoice.id === result.result.id
+        ) {
+          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+            invoice: {},
+          })
+          console.log(res.message)
+        }
+      })
+      // --- End appointment api ---
+
       setLoading(false)
     } catch (err) {
       alert(err.error)
@@ -288,6 +314,24 @@ const Dashboard = ({
         invoicesModalData[index] = result.result
       }
 
+      // --- Get appointments from Fauna ---
+      const response = await faunaApi.readAllAppts()
+      console.log(response.message)
+
+      // --- find the appointment with that invoice and update
+      response.result.forEach(async appt => {
+        if (
+          appt.data.invoice.hasOwnProperty("id") &&
+          appt.data.invoice.id === result.result.id
+        ) {
+          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+            invoice: result.result,
+          })
+          console.log(res.message)
+        }
+      })
+      // --- End appointment api ---
+
       setLoading(false)
     } catch (err) {
       alert(err.error)
@@ -307,6 +351,25 @@ const Dashboard = ({
       if (index !== -1) {
         invoicesModalData[index] = result.result
       }
+
+      // --- Get appointments from Fauna ---
+      const response = await faunaApi.readAllAppts()
+      console.log(response.message)
+
+      // --- find the appointment with that invoice and update
+      response.result.forEach(async appt => {
+        if (
+          appt.data.invoice.hasOwnProperty("id") &&
+          appt.data.invoice.id === result.result.id
+        ) {
+          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+            invoice: result.result,
+          })
+          console.log(res.message)
+        }
+      })
+      // --- End appointment api ---
+
       setLoading(false)
     } catch (err) {
       alert(err.error)
@@ -332,11 +395,11 @@ const Dashboard = ({
         return false
       }
 
-      if (filter === "customers" && response.result.length > 0) {
+      if (filter === "customers" && response && response.result.length > 0) {
         setLoading(false)
         setClients(response.result.filter(client => client.data.customer))
       }
-      if (filter === "leads" && response.result.length > 0) {
+      if (filter === "leads" && response && response.result.length > 0) {
         setLoading(false)
         setClients(response.result.filter(client => !client.data.customer))
       }
@@ -371,7 +434,7 @@ const Dashboard = ({
       />
       <main className={classes.root}>
         <Container maxWidth="xl" className={classes.container}>
-          <Typography variant="h1" color="primary" className={classes.header}>
+          <Typography variant="h1" className={classes.header}>
             {filter === "customers"
               ? customerHeader
               : filter === "leads"
@@ -386,7 +449,6 @@ const Dashboard = ({
               setLoading={setLoading}
               formModalData={formModalData}
               invoiceHeader={invoiceHeader}
-              editedInvoices={editedInvoices}
             />
           ) : (
             <>
@@ -411,7 +473,7 @@ const Dashboard = ({
               </Paper>
 
               <IconButton
-                color="secondary"
+                className={classes.iconPrimary}
                 aria-label="reset"
                 component="span"
                 onClick={handleReset}
@@ -480,7 +542,6 @@ const Dashboard = ({
                 handleDelete={handleInvoiceDelete}
                 handleSend={handleSendInvoice}
                 handleVoid={handleVoidInvoice}
-                handleEditedInvoices={handleEditedInvoices}
               />
               <CreateInvoiceModal
                 open={formModal}
@@ -505,11 +566,7 @@ const Dashboard = ({
               xs={12}
               className={classes.copyrightContainerLeft}
             >
-              <Typography
-                variant="caption"
-                color="primary"
-                className={classes.copyright}
-              >
+              <Typography variant="caption" className={classes.copyright}>
                 © {new Date().getFullYear()} {company}
               </Typography>
             </Grid>
@@ -519,11 +576,7 @@ const Dashboard = ({
               xs={12}
               className={classes.copyrightContainerRight}
             >
-              <Typography
-                variant="caption"
-                color="primary"
-                className={classes.copyright}
-              >
+              <Typography variant="caption" className={classes.copyright}>
                 website by {author}
               </Typography>
             </Grid>

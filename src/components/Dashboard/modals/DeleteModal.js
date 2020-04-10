@@ -23,11 +23,7 @@ function DeleteModal({ onClose, open, handleDelete, header }) {
       maxWidth="sm"
     >
       <DialogContent>
-        <DialogContentText
-          variant="body1"
-          color="primary"
-          className={classes.modalBody}
-        >
+        <DialogContentText variant="body1" className={classes.modalBody}>
           {header}
         </DialogContentText>
       </DialogContent>
@@ -38,11 +34,15 @@ function DeleteModal({ onClose, open, handleDelete, header }) {
             handleDelete()
             handleClose()
           }}
-          color="secondary"
+          className={classes.button}
         >
           Yes
         </Button>
-        <Button variant="contained" onClick={handleClose} color="secondary">
+        <Button
+          variant="contained"
+          onClick={handleClose}
+          className={classes.buttonDark}
+        >
           No
         </Button>
       </DialogActions>

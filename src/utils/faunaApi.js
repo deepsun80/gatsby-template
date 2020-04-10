@@ -69,9 +69,17 @@ const searchAppts = data => {
   })
 }
 
-const updateAppt = (clientId, data) => {
-  return fetch(`/.netlify/functions/fauna-appt-update/${clientId}`, {
+const updateAppt = (apptId, data) => {
+  return fetch(`/.netlify/functions/fauna-appt-update/${apptId}`, {
     body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const deleteAppt = apptId => {
+  return fetch(`/.netlify/functions/fauna-appt-delete/${apptId}`, {
     method: "POST",
   }).then(response => {
     return response.json()
@@ -88,4 +96,5 @@ export default {
   readAllAppts: readAllAppts,
   searchAppts: searchAppts,
   updateAppt: updateAppt,
+  deleteAppt: deleteAppt,
 }

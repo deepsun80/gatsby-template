@@ -48,11 +48,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
       maxWidth="md"
     >
       <DialogTitle id="form-modal" className={classes.modalHeaderSection}>
-        <Typography
-          variant="body1"
-          color="primary"
-          className={classes.modalHeader}
-        >
+        <Typography variant="body1" className={classes.modalHeader}>
           {header}
         </Typography>
       </DialogTitle>
@@ -65,7 +61,6 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
                   <Typography
                     key={index}
                     variant="body2"
-                    color="primary"
                     className={classes.modalSmallHeader}
                   >
                     {value.description} -{" "}
@@ -104,7 +99,6 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
                     amount: sku.price,
                     description: sku.attributes.name,
                   }}
-                  color="primary"
                 >
                   {sku.attributes.name}
                 </MenuItem>
@@ -113,12 +107,16 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleClear} color="secondary">
+        <Button
+          variant="outlined"
+          onClick={handleClear}
+          className={classes.button}
+        >
           clear
         </Button>
         <Button
-          variant="contained"
-          color="secondary"
+          variant="outlined"
+          className={classes.buttonDark}
           type="submit"
           disabled={values.length <= 0}
           onClick={handleSubmit}
@@ -126,7 +124,11 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
           submit
         </Button>
         <div className={classes.grow} />
-        <Button variant="outlined" onClick={handleClose} color="secondary">
+        <Button
+          variant="outlined"
+          onClick={handleClose}
+          className={classes.button}
+        >
           close
         </Button>
       </DialogActions>
