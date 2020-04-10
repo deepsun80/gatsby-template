@@ -15,6 +15,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-top-layout`,
+    `gatsby-plugin-material-ui`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -36,9 +37,6 @@ module.exports = {
           families: ["Raleway", "Roboto Slab", "Roboto", "Roboto Condensed"],
         },
       },
-    },
-    {
-      resolve: `gatsby-plugin-material-ui`,
     },
     `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
