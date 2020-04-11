@@ -4,7 +4,7 @@ import Banner1 from "../components/Banner/Banner1"
 import Section1 from "../components/Section/Section1"
 import Section2 from "../components/Section/Section2"
 import Testimonials from "../components/Testimonials"
-import SEO from "../components/SEO"
+// import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const index = ({ data }) => {
@@ -41,7 +41,7 @@ const index = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      {/* <SEO title={title} /> */}
       <Banner1
         header={header}
         headerSpan={headerSpan}

@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../layouts"
 import Banner2 from "../components/Banner/Banner2"
 import Schedule from "../components/Schedule"
-import SEO from "../components/SEO"
+// import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
@@ -19,7 +19,7 @@ const schedule = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      {/* <SEO title={title} /> */}
       <Banner2
         header="schedule"
         headerSpan="appointment"
