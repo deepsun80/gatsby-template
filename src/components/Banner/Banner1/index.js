@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import BackgroundImage from "gatsby-background-image"
 import { AiOutlineDown } from "react-icons/ai"
-import Fade from "react-reveal/Fade"
+// import Fade from "react-reveal/Fade"
 import scrollTo from "gatsby-plugin-smoothscroll"
 import { configureAnchors, removeHash } from "react-scrollable-anchor"
 import useStyles from "./style"
@@ -70,21 +70,21 @@ const Banner1 = ({ header, headerSpan, subHeader, bannerImage }) => {
       </Grid>
       <Container maxWidth="md" className={classes.container}>
         <Paper elevation={1} className={classes.paper}>
-          <Fade left duration={1500} distance="80px" ssrFadeout>
-            <Typography variant="h1" color="primary">
-              {header}
-            </Typography>
-            <Typography variant="h1" color="secondary">
-              {headerSpan}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              className={classes.subtitle}
-            >
-              {subHeader}
-            </Typography>
-          </Fade>
+          {/* <Fade left duration={1500} distance="80px" ssrFadeout> */}
+          <Typography variant="h1" color="primary">
+            {header}
+          </Typography>
+          <Typography variant="h1" color="secondary">
+            {headerSpan}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="primary"
+            className={classes.subtitle}
+          >
+            {subHeader}
+          </Typography>
+          {/* </Fade> */}
           <div className={classes.flex}>
             <AiOutlineDown
               className={classes.icon}

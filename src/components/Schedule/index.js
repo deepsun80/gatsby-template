@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
-import Fade from "react-reveal/Fade"
+// import Fade from "react-reveal/Fade"
 import TextField from "@material-ui/core/TextField"
 import FormControl from "@material-ui/core/FormControl"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
@@ -142,112 +142,112 @@ const Schedule = ({
           </div>
         )}
         <Paper elevation={1} className={classes.paper}>
-          <Fade duration={1500} ssrFadeout>
-            <>
-              {!validation.success && !validation.error && (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    id="name"
-                    variant="outlined"
-                    label="Full Name"
-                    name="name"
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
-                  <TextField
-                    id="email"
-                    variant="outlined"
-                    label="Email"
-                    name="email"
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
+          {/* <Fade duration={1500} ssrFadeout> */}
+          <>
+            {!validation.success && !validation.error && (
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  id="name"
+                  variant="outlined"
+                  label="Full Name"
+                  name="name"
+                  fullWidth
+                  onChange={handleChange}
+                  className={classes.field}
+                />
+                <TextField
+                  id="email"
+                  variant="outlined"
+                  label="Email"
+                  name="email"
+                  fullWidth
+                  onChange={handleChange}
+                  className={classes.field}
+                />
 
-                  {!validateEmail(values.email) && (
-                    <Typography
-                      variant="body2"
-                      className={classes.validationMessage}
-                    >
-                      {emailMessage}
-                    </Typography>
-                  )}
-
-                  <FormControl fullWidth className={classes.field}>
-                    <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                    <OutlinedInput
-                      value={values.phone}
-                      onChange={handleChange}
-                      name="phone"
-                      id="phone"
-                      inputComponent={TextMaskCustom}
-                    />
-                  </FormControl>
-                  <TextField
-                    id="address"
-                    variant="outlined"
-                    label="Address"
-                    name="address"
-                    fullWidth
-                    onChange={handleChange}
-                    className={classes.field}
-                  />
-
-                  {(values.name === "" ||
-                    values.email === "" ||
-                    values.phone === "" ||
-                    values.address === "") && (
-                    <Typography
-                      variant="body2"
-                      className={classes.validationMessage}
-                    >
-                      {validationMessage}
-                    </Typography>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    type="submit"
-                    value="Submit"
-                    disabled={
-                      loading ||
-                      values.name === "" ||
-                      values.email === "" ||
-                      values.phone === "" ||
-                      values.address === ""
-                    }
-                    className={classes.button}
-                  >
-                    submit
-                  </Button>
-                </form>
-              )}
-
-              {/* ---Calendly page--- */}
-              {validation.success && (
-                <>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.successMessage}
-                  >
-                    {successMessage}
-                  </Typography>
+                {!validateEmail(values.email) && (
                   <Typography
                     variant="body2"
-                    align="center"
-                    className={classes.subSuccessMessage}
+                    className={classes.validationMessage}
                   >
-                    {subSuccessMessage}
+                    {emailMessage}
                   </Typography>
-                  <InlineWidget
-                    styles={{
-                      height: "1000px",
-                    }}
-                    url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&phone=${values.phone}`}
+                )}
+
+                <FormControl fullWidth className={classes.field}>
+                  <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                  <OutlinedInput
+                    value={values.phone}
+                    onChange={handleChange}
+                    name="phone"
+                    id="phone"
+                    inputComponent={TextMaskCustom}
                   />
-                  {/* <iframe
+                </FormControl>
+                <TextField
+                  id="address"
+                  variant="outlined"
+                  label="Address"
+                  name="address"
+                  fullWidth
+                  onChange={handleChange}
+                  className={classes.field}
+                />
+
+                {(values.name === "" ||
+                  values.email === "" ||
+                  values.phone === "" ||
+                  values.address === "") && (
+                  <Typography
+                    variant="body2"
+                    className={classes.validationMessage}
+                  >
+                    {validationMessage}
+                  </Typography>
+                )}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  type="submit"
+                  value="Submit"
+                  disabled={
+                    loading ||
+                    values.name === "" ||
+                    values.email === "" ||
+                    values.phone === "" ||
+                    values.address === ""
+                  }
+                  className={classes.button}
+                >
+                  submit
+                </Button>
+              </form>
+            )}
+
+            {/* ---Calendly page--- */}
+            {validation.success && (
+              <>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.successMessage}
+                >
+                  {successMessage}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  align="center"
+                  className={classes.subSuccessMessage}
+                >
+                  {subSuccessMessage}
+                </Typography>
+                <InlineWidget
+                  styles={{
+                    height: "1000px",
+                  }}
+                  url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&phone=${values.phone}`}
+                />
+                {/* <iframe
                     title="vyte"
                     src="https://www.vyte.in/deepsun80?embed"
                     width="100%"
@@ -256,33 +256,33 @@ const Schedule = ({
                   >
                     https://www.vyte.in/deepsun80
                   </iframe> */}
-                </>
-              )}
+              </>
+            )}
 
-              {/* ---Error page--- */}
-              {validation.error && (
-                <>
+            {/* ---Error page--- */}
+            {validation.error && (
+              <>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.errorMessage}
+                >
+                  {errorMessage}
+                </Typography>
+                <AniLink fade to="/" className={classes.link}>
+                  <AiOutlineLeft className={classes.icon} />
                   <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.errorMessage}
+                    variant="body2"
+                    color="primary"
+                    className={classes.iconText}
                   >
-                    {errorMessage}
+                    home
                   </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
-                </>
-              )}
-            </>
-          </Fade>
+                </AniLink>
+              </>
+            )}
+          </>
+          {/* </Fade> */}
         </Paper>
       </Container>
     </section>

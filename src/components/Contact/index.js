@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
-import Fade from "react-reveal/Fade"
+// import Fade from "react-reveal/Fade"
 import TextField from "@material-ui/core/TextField"
 import FormControl from "@material-ui/core/FormControl"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
@@ -131,156 +131,156 @@ const Contact = ({
           </div>
         )}
         <Paper elevation={1} className={classes.paper}>
-          <Fade duration={1500} ssrFadeout>
-            <>
-              {!validation.success &&
-                !validation.error &&
-                !message.success &&
-                !message.error && (
-                  <form
-                    name="website-contact-form"
-                    method="post"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit}
-                  >
-                    {/* The `form-name` hidden field is required to support form submissions without JavaScript */}
-                    <input
-                      type="hidden"
-                      name="form-name"
-                      value="website-contact-form"
-                    />
-                    <p hidden>
-                      <label>
-                        Don’t fill this out:{" "}
-                        <input name="bot-field" onChange={handleChange} />
-                      </label>
-                    </p>
-                    <TextField
-                      id="name"
-                      variant="outlined"
-                      label="Full Name"
-                      name="name"
-                      fullWidth
-                      onChange={handleChange}
-                      className={classes.field}
-                    />
-                    <TextField
-                      id="email"
-                      variant="outlined"
-                      label="Email"
-                      name="email"
-                      fullWidth
-                      onChange={handleChange}
-                      className={classes.field}
-                    />
+          {/* <Fade duration={1500} ssrFadeout> */}
+          <>
+            {!validation.success &&
+              !validation.error &&
+              !message.success &&
+              !message.error && (
+                <form
+                  name="website-contact-form"
+                  method="post"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                >
+                  {/* The `form-name` hidden field is required to support form submissions without JavaScript */}
+                  <input
+                    type="hidden"
+                    name="form-name"
+                    value="website-contact-form"
+                  />
+                  <p hidden>
+                    <label>
+                      Don’t fill this out:{" "}
+                      <input name="bot-field" onChange={handleChange} />
+                    </label>
+                  </p>
+                  <TextField
+                    id="name"
+                    variant="outlined"
+                    label="Full Name"
+                    name="name"
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
+                  <TextField
+                    id="email"
+                    variant="outlined"
+                    label="Email"
+                    name="email"
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
 
-                    {!validateEmail(values.email) && (
-                      <Typography
-                        variant="body2"
-                        className={classes.validationMessage}
-                      >
-                        {emailMessage}
-                      </Typography>
-                    )}
+                  {!validateEmail(values.email) && (
+                    <Typography
+                      variant="body2"
+                      className={classes.validationMessage}
+                    >
+                      {emailMessage}
+                    </Typography>
+                  )}
 
-                    <FormControl fullWidth className={classes.field}>
-                      <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                      <OutlinedInput
-                        value={values.phone}
-                        onChange={handleChange}
-                        name="phone"
-                        id="phone"
-                        inputComponent={TextMaskCustom}
-                      />
-                    </FormControl>
-                    <TextField
-                      id="message"
-                      variant="outlined"
-                      label="Message/Question"
-                      name="message"
-                      multiline
-                      fullWidth
+                  <FormControl fullWidth className={classes.field}>
+                    <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                    <OutlinedInput
+                      value={values.phone}
                       onChange={handleChange}
-                      className={classes.field}
+                      name="phone"
+                      id="phone"
+                      inputComponent={TextMaskCustom}
                     />
+                  </FormControl>
+                  <TextField
+                    id="message"
+                    variant="outlined"
+                    label="Message/Question"
+                    name="message"
+                    multiline
+                    fullWidth
+                    onChange={handleChange}
+                    className={classes.field}
+                  />
 
-                    {(values.name === "" ||
+                  {(values.name === "" ||
+                    values.email === "" ||
+                    values.phone === "" ||
+                    values.message === "") && (
+                    <Typography
+                      variant="body2"
+                      className={classes.validationMessage}
+                    >
+                      {validationMessage}
+                    </Typography>
+                  )}
+
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    value="Submit"
+                    disabled={
+                      loading ||
+                      values.name === "" ||
                       values.email === "" ||
                       values.phone === "" ||
-                      values.message === "") && (
-                      <Typography
-                        variant="body2"
-                        className={classes.validationMessage}
-                      >
-                        {validationMessage}
-                      </Typography>
-                    )}
-
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      type="submit"
-                      value="Submit"
-                      disabled={
-                        loading ||
-                        values.name === "" ||
-                        values.email === "" ||
-                        values.phone === "" ||
-                        values.address === ""
-                      }
-                      className={classes.button}
-                    >
-                      submit
-                    </Button>
-                  </form>
-                )}
-
-              {validation.success && message.success && (
-                <>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.successMessage}
+                      values.address === ""
+                    }
+                    className={classes.button}
                   >
-                    {successMessage}
-                  </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
-                </>
+                    submit
+                  </Button>
+                </form>
               )}
 
-              {(validation.error || message.error) && (
-                <>
+            {validation.success && message.success && (
+              <>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.successMessage}
+                >
+                  {successMessage}
+                </Typography>
+                <AniLink fade to="/" className={classes.link}>
+                  <AiOutlineLeft className={classes.icon} />
                   <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.errorMessage}
+                    variant="body2"
+                    color="primary"
+                    className={classes.iconText}
                   >
-                    {errorMessage}
+                    home
                   </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
-                </>
-              )}
-            </>
-          </Fade>
+                </AniLink>
+              </>
+            )}
+
+            {(validation.error || message.error) && (
+              <>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.errorMessage}
+                >
+                  {errorMessage}
+                </Typography>
+                <AniLink fade to="/" className={classes.link}>
+                  <AiOutlineLeft className={classes.icon} />
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    className={classes.iconText}
+                  >
+                    home
+                  </Typography>
+                </AniLink>
+              </>
+            )}
+          </>
+          {/* </Fade> */}
         </Paper>
       </Container>
     </section>

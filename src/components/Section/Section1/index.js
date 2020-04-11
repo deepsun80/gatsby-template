@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 import Img from "gatsby-image"
-import Fade from "react-reveal/Fade"
+// import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const Section1 = ({
@@ -23,45 +23,45 @@ const Section1 = ({
     <section>
       <Paper elevation={0} className={classes.paper}>
         <Container maxWidth="xl" className={classes.container}>
-          <Fade duration={1500} ssrFadeout>
-            <Grid container justify="center" spacing={2}>
-              <Grid item lg={6} xs={12}>
-                <div className={classes.flex}>
-                  <Typography variant="h3" color="primary">
-                    {section1Header}
-                  </Typography>
-                  <Typography
-                    variant="h3"
-                    color="secondary"
-                    className={classes.rightLetter}
-                  >
-                    {section1HeaderSpan}
-                  </Typography>
-                </div>
-                <Typography
-                  variant="body2"
-                  color="primary"
-                  className={classes.text}
-                >
-                  {section1Text}
+          {/* <Fade duration={1500} ssrFadeout> */}
+          <Grid container justify="center" spacing={2}>
+            <Grid item lg={6} xs={12}>
+              <div className={classes.flex}>
+                <Typography variant="h3" color="primary">
+                  {section1Header}
                 </Typography>
-                <AniLink fade to={"/"}>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    color="secondary"
-                    className={classes.button}
-                  >
-                    {section1Button}
-                  </Button>
-                </AniLink>
-              </Grid>
-              <div className={classes.grow} />
-              <Grid item lg={6} xs={12}>
-                <Img fluid={section1Image.fluid} className={classes.image} />
-              </Grid>
+                <Typography
+                  variant="h3"
+                  color="secondary"
+                  className={classes.rightLetter}
+                >
+                  {section1HeaderSpan}
+                </Typography>
+              </div>
+              <Typography
+                variant="body2"
+                color="primary"
+                className={classes.text}
+              >
+                {section1Text}
+              </Typography>
+              <AniLink fade to={"/"}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  color="secondary"
+                  className={classes.button}
+                >
+                  {section1Button}
+                </Button>
+              </AniLink>
             </Grid>
-          </Fade>
+            <div className={classes.grow} />
+            <Grid item lg={6} xs={12}>
+              <Img fluid={section1Image.fluid} className={classes.image} />
+            </Grid>
+          </Grid>
+          {/* </Fade> */}
         </Container>
       </Paper>
     </section>
