@@ -15,40 +15,40 @@ import useStyles from "./style"
 const Banner1 = ({ header, headerSpan, subHeader, bannerImage }) => {
   const classes = useStyles()
 
-  let windowScrollTop
+  // let windowScrollTop
 
-  if (typeof window !== "undefined") {
-    windowScrollTop = window.pageYOffset / 3
-  } else {
-    windowScrollTop = 0
-  }
+  // if (typeof window !== "undefined") {
+  //   windowScrollTop = window.pageYOffset / 3
+  // } else {
+  //   windowScrollTop = 0
+  // }
 
-  const [transform, setTransform] = useState(
-    `translate3d(0,${windowScrollTop}px,0)`
-  )
+  // const [transform, setTransform] = useState(
+  //   `translate3d(0,${windowScrollTop}px,0)`
+  // )
 
-  const resetTransform = () => {
-    const windowScrollTop = window.pageYOffset / 3
-    setTransform(`translate3d(0,${windowScrollTop}px,0)`)
-  }
+  // const resetTransform = () => {
+  //   const windowScrollTop = window.pageYOffset / 3
+  //   setTransform(`translate3d(0,${windowScrollTop}px,0)`)
+  // }
 
-  useEffect(() => {
-    configureAnchors({ offset: -90, scrollDuration: 200 })
-    return () => {
-      removeHash()
-    }
-  }, [])
+  // useEffect(() => {
+  //   configureAnchors({ offset: -90, scrollDuration: 200 })
+  //   return () => {
+  //     removeHash()
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", resetTransform)
-    }
-    return function cleanup() {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", resetTransform)
-      }
-    }
-  })
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("scroll", resetTransform)
+  //   }
+  //   return function cleanup() {
+  //     if (typeof window !== "undefined") {
+  //       window.removeEventListener("scroll", resetTransform)
+  //     }
+  //   }
+  // })
 
   return (
     <section>
@@ -62,7 +62,7 @@ const Banner1 = ({ header, headerSpan, subHeader, bannerImage }) => {
             style={{
               height: "100%",
               backgroundSize: "cover",
-              transform,
+              // transform,
             }}
             fluid={bannerImage.fluid}
           />
