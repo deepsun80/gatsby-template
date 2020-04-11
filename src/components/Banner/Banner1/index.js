@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
@@ -9,7 +9,7 @@ import BackgroundImage from "gatsby-background-image"
 import { AiOutlineDown } from "react-icons/ai"
 // import Fade from "react-reveal/Fade"
 import scrollTo from "gatsby-plugin-smoothscroll"
-import { configureAnchors, removeHash } from "react-scrollable-anchor"
+// import { configureAnchors, removeHash } from "react-scrollable-anchor"
 import useStyles from "./style"
 
 const Banner1 = ({ header, headerSpan, subHeader, bannerImage }) => {
