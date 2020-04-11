@@ -4,7 +4,6 @@ import Img from "gatsby-image"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
-// import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const Testimonial = ({ text, author, image }) => {
@@ -12,7 +11,6 @@ const Testimonial = ({ text, author, image }) => {
 
   return (
     <Card className={classes.card}>
-      {/* <Fade duration={1500} ssrFadeout> */}
       <div className={classes.content}>
         <Img fluid={image} className={classes.image} />
         <CardContent>
@@ -28,7 +26,6 @@ const Testimonial = ({ text, author, image }) => {
           </Typography>
         </CardContent>
       </div>
-      {/* </Fade> */}
     </Card>
   )
 }

@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import Img from "gatsby-image"
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
-// import Fade from "react-reveal/Fade"
 import { AiOutlineRight } from "react-icons/ai"
 import useStyles from "./style"
 
@@ -14,7 +13,6 @@ const ImageSection = ({ image, header, text, link }) => {
     <div className={classes.imageSection}>
       <Img fluid={image} />
       <Paper elevation={1} className={classes.paper}>
-        {/* <Fade left duration={1500} distance="80px" ssrFadeout> */}
         <div>
           <Typography variant="h3" color="primary" className={classes.header}>
             {header}
@@ -24,7 +22,6 @@ const ImageSection = ({ image, header, text, link }) => {
           </Typography>
         </div>
         <AiOutlineRight className={classes.icon} />
-        {/* </Fade> */}
       </Paper>
     </div>
   )

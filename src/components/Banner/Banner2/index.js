@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Grid from "@material-ui/core/Grid"
@@ -6,47 +6,10 @@ import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import BackgroundImage from "gatsby-background-image"
-// import Fade from "react-reveal/Fade"
-import { configureAnchors, removeHash } from "react-scrollable-anchor"
 import useStyles from "./style"
 
 const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
   const classes = useStyles()
-
-  let windowScrollTop
-
-  if (typeof window !== "undefined") {
-    windowScrollTop = window.pageYOffset / 5
-  } else {
-    windowScrollTop = 0
-  }
-
-  const [transform, setTransform] = useState(
-    `translate3d(0,${windowScrollTop}px,0)`
-  )
-
-  const resetTransform = () => {
-    const windowScrollTop = window.pageYOffset / 5
-    setTransform(`translate3d(0,${windowScrollTop}px,0)`)
-  }
-
-  useEffect(() => {
-    configureAnchors({ offset: -90, scrollDuration: 200 })
-    return () => {
-      removeHash()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", resetTransform)
-    }
-    return function cleanup() {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", resetTransform)
-      }
-    }
-  })
 
   return (
     <BackgroundImage
@@ -55,7 +18,6 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
       style={{
         height: "300px",
         backgroundSize: "cover",
-        transform,
       }}
     >
       <div
@@ -71,7 +33,6 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
               <Grid container>
                 <Grid item xs={2} className={classes.gridColor}></Grid>
                 <Grid item xs={10} className={classes.grid}>
-                  {/* <Fade duration={1500} ssrFadeout> */}
                   <div className={classes.flex}>
                     <Typography
                       variant="h1"
@@ -95,7 +56,6 @@ const Banner2 = ({ header, headerSpan, subHeader, bannerImage }) => {
                   >
                     {subHeader}
                   </Typography>
-                  {/* </Fade> */}
                 </Grid>
               </Grid>
             </CardContent>

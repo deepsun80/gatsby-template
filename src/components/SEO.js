@@ -7,10 +7,10 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
-const SEO = ({ lang, meta, title }) => {
+const SEO = ({ title }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -26,65 +26,34 @@ const SEO = ({ lang, meta, title }) => {
   )
 
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title || site.siteMetadata.title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
-      meta={[
-        {
-          name: `viewport`,
-          content: `minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no`,
-        },
-        {
-          name: `description`,
-          content: site.siteMetadata.description,
-        },
-        {
-          property: `og:title`,
-          content: site.siteMetadata.title,
-        },
-        {
-          property: `og:description`,
-          content: site.siteMetadata.description,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
-        },
-        {
-          name: `twitter:title`,
-          content: site.siteMetadata.title,
-        },
-        {
-          name: `twitter:description`,
-          content: site.siteMetadata.description,
-        },
-      ].concat(meta)}
-    />
+    <Helmet>
+      <meta charset="utf-8" />
+      <html lang="en" />
+      <meta
+        name="viewport"
+        content="minimum-scale=1, initial-scale=1, width=device-width"
+      />
+      <meta description={site.siteMetadata.description} />
+      <meta content={site.siteMetadata.title} property="og:title" />
+      <meta content={site.siteMetadata.description} property="og:description" />
+      <meta content="website" property="og:type" />
+      <meta content="summary" property="twitter:card" />
+      <meta content={site.siteMetadata.author} property="twitter:creator" />
+      <meta content={site.siteMetadata.title} property="twitter:title" />
+      <meta
+        content={site.siteMetadata.description}
+        property="twitter:description"
+      />
+      <title>{title || site.siteMetadata.title}</title>
+    </Helmet>
   )
 }
 
 SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-  title: ``,
+  title: "",
 }
 
 SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string,
 }
 

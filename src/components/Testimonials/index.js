@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Pagination from "@material-ui/lab/Pagination"
 import Typography from "@material-ui/core/Typography"
-// import Fade from "react-reveal/Fade"
 import Testimonial from "./Testimonial"
 import useStyles from "./style"
 
@@ -25,7 +24,6 @@ const Testimonials = ({
 
   return (
     <section>
-      {/* <Fade duration={1500} ssrFadeout> */}
       <Container className={classes.container}>
         <Typography variant="h4" color="primary">
           <i>{section3SmallHeader}</i>
@@ -65,7 +63,6 @@ const Testimonials = ({
           className={classes.pagination}
         />
       </Container>
-      {/* </Fade> */}
     </section>
   )
 }

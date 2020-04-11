@@ -2,10 +2,12 @@ import React from "react"
 import Layout from "../layouts"
 import Banner2 from "../components/Banner/Banner2"
 import Contact from "../components/Contact"
+import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const contact = ({ data }) => {
   const {
+    title,
     success,
     error,
     validation,
@@ -16,6 +18,7 @@ const contact = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title={title} />
       <Banner2
         header="contact"
         headerSpan="us"
@@ -52,6 +55,7 @@ export const data = graphql`
     }
     markdownRemark(frontmatter: { path: { eq: "/contact" } }) {
       frontmatter {
+        title
         success
         error
         validation

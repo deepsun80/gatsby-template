@@ -7,7 +7,6 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 import Img from "gatsby-image"
-// import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const Section1 = ({
@@ -23,7 +22,6 @@ const Section1 = ({
     <section>
       <Paper elevation={0} className={classes.paper}>
         <Container maxWidth="xl" className={classes.container}>
-          {/* <Fade duration={1500} ssrFadeout> */}
           <Grid container justify="center" spacing={2}>
             <Grid item lg={6} xs={12}>
               <div className={classes.flex}>
@@ -61,7 +59,6 @@ const Section1 = ({
               <Img fluid={section1Image.fluid} className={classes.image} />
             </Grid>
           </Grid>
-          {/* </Fade> */}
         </Container>
       </Paper>
     </section>

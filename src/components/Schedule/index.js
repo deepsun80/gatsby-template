@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
-// import Fade from "react-reveal/Fade"
 import TextField from "@material-ui/core/TextField"
 import FormControl from "@material-ui/core/FormControl"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
@@ -142,7 +141,6 @@ const Schedule = ({
           </div>
         )}
         <Paper elevation={1} className={classes.paper}>
-          {/* <Fade duration={1500} ssrFadeout> */}
           <>
             {!validation.success && !validation.error && (
               <form onSubmit={handleSubmit}>
@@ -282,7 +280,6 @@ const Schedule = ({
               </>
             )}
           </>
-          {/* </Fade> */}
         </Paper>
       </Container>
     </section>
