@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
+import Tooltip from "@material-ui/core/Tooltip"
 import Paper from "@material-ui/core/Paper"
 import InputBase from "@material-ui/core/InputBase"
 import IconButton from "@material-ui/core/IconButton"
@@ -32,7 +33,6 @@ const Appt = ({
   setLoading,
   formModalData,
   invoiceHeader,
-  editedInvoices,
 }) => {
   const classes = useStyles()
 
@@ -167,7 +167,7 @@ const Appt = ({
 
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
-      console.log("appointments:", response)
+      console.log(response.result)
 
       // --- find the appointment with that invoice and update
       if (response && response.result.length > 0) {
@@ -326,15 +326,16 @@ const Appt = ({
               <SearchIcon />
             </IconButton>
           </Paper>
-
-          <IconButton
-            className={classes.iconPrimary}
-            aria-label="reset"
-            component="span"
-            onClick={handleReset}
-          >
-            <ReplayIcon />
-          </IconButton>
+          <Tooltip title="Reset all appointments" arrow>
+            <IconButton
+              className={classes.iconPrimary}
+              aria-label="reset"
+              component="span"
+              onClick={handleReset}
+            >
+              <ReplayIcon />
+            </IconButton>
+          </Tooltip>
         </div>
 
         <div>
@@ -455,19 +456,23 @@ const Appt = ({
                       <DoneIcon style={{ color: "green" }} />
                     ) : row.data.invoice.hasOwnProperty("status") &&
                       row.data.invoice.status === "draft" ? (
-                      <ExitToAppIcon
-                        className={classes.icon}
-                        onClick={() => {
-                          handleSendInvoice(row.data.invoice.id)
-                        }}
-                      />
+                      <Tooltip title="Send invoice" arrow>
+                        <ExitToAppIcon
+                          className={classes.icon}
+                          onClick={() => {
+                            handleSendInvoice(row.data.invoice.id)
+                          }}
+                        />
+                      </Tooltip>
                     ) : (
-                      <AddBoxIcon
-                        className={classes.icon}
-                        onClick={() => {
-                          handleFormModalOpen(row)
-                        }}
-                      />
+                      <Tooltip title="Create invoice" arrow>
+                        <AddBoxIcon
+                          className={classes.icon}
+                          onClick={() => {
+                            handleFormModalOpen(row)
+                          }}
+                        />
+                      </Tooltip>
                     )}
                   </TableCell>
                 </TableRow>

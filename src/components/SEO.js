@@ -44,7 +44,9 @@ const SEO = ({ title }) => {
         content={site.siteMetadata.description}
         property="twitter:description"
       />
-      <title>{title || site.siteMetadata.title}</title>
+      <title>
+        {title} | {site.siteMetadata.title}
+      </title>
     </Helmet>
   )
 }

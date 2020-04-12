@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
+import Tooltip from "@material-ui/core/Tooltip"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
@@ -108,26 +109,30 @@ function ClientModal({
               Invoices
             </Typography>
             <div className={classes.flex}>
-              <IconButton
-                className={classes.iconPrimary}
-                aria-label="submit"
-                component="span"
-                onClick={() => {
-                  getInvoices(data.stripe_id)
-                  setInvoiceName(data.name)
-                  invoicesModalOpen(true)
-                }}
-              >
-                <ViewListIcon />
-              </IconButton>
-              <IconButton
-                className={classes.iconPrimary}
-                aria-label="submit"
-                component="span"
-                onClick={invoiceFormOpen}
-              >
-                <AddBoxIcon />
-              </IconButton>
+              <Tooltip title="View all invoices" arrow>
+                <IconButton
+                  className={classes.iconPrimary}
+                  aria-label="submit"
+                  component="span"
+                  onClick={() => {
+                    getInvoices(data.stripe_id)
+                    setInvoiceName(data.name)
+                    invoicesModalOpen(true)
+                  }}
+                >
+                  <ViewListIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Create invoice" arrow>
+                <IconButton
+                  className={classes.iconPrimary}
+                  aria-label="submit"
+                  component="span"
+                  onClick={invoiceFormOpen}
+                >
+                  <AddBoxIcon />
+                </IconButton>
+              </Tooltip>
               <IconButton aria-label="submit" component="span">
                 {/* <ViewListIcon /> */}
               </IconButton>
