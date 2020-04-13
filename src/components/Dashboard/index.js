@@ -119,11 +119,11 @@ const Dashboard = ({
   const handleInvoicesModalClose = () => {
     setInvoicesModal(false)
   }
-
+  // --- Open create invoice modal ---
   const handleFormModalOpen = () => {
     setFormModal(true)
   }
-
+  // --- Close create invoice modal ---
   const handleFormModalClose = () => {
     setFormModal(false)
   }
@@ -591,6 +591,7 @@ const Dashboard = ({
 
   return (
     <>
+      {/* --- Navbar Start --- */}
       <Navbar
         logo={logo}
         siteTitle={siteTitle}
@@ -598,8 +599,10 @@ const Dashboard = ({
         setFilter={handleFilter}
         logout={logout}
       />
+      {/* --- Navbar End --- */}
       <main className={classes.root}>
         <Container maxWidth="xl" className={classes.container}>
+          {/* --- Header (customers/leads) --- */}
           <Typography variant="h1" className={classes.header}>
             {filter === "customers"
               ? customerHeader
@@ -607,7 +610,7 @@ const Dashboard = ({
               ? leadHeader
               : apptHeader}
           </Typography>
-
+          {/* --- If filter is set to appointments set screen --- */}
           {filter === "appts" ? (
             <Appts
               localHostError={localHostError}
@@ -617,7 +620,9 @@ const Dashboard = ({
               invoiceHeader={invoiceHeader}
             />
           ) : (
+            // --- Otherwise set screen to clients screen ---
             <>
+              {/* --- Search bar start --- */}
               <Paper
                 component="form"
                 elevation={1}
@@ -637,7 +642,6 @@ const Dashboard = ({
                   <SearchIcon />
                 </IconButton>
               </Paper>
-
               <Tooltip title="Reset all clients" arrow>
                 <IconButton
                   className={classes.iconPrimary}
@@ -648,11 +652,14 @@ const Dashboard = ({
                   <ReplayIcon />
                 </IconButton>
               </Tooltip>
+              {/* --- Search bar end --- */}
 
+              {/* --- Clients list start --- */}
               <Paper elevation={1} className={classes.paper}>
                 {clients.map(client => (
                   <List aria-label="client list" key={client.ts}>
                     <ListItem button>
+                      {/* --- Client name --- */}
                       <ListItemText
                         primary={
                           <Typography variant="body2">
@@ -661,6 +668,7 @@ const Dashboard = ({
                         }
                         onClick={() => handleClientModalOpen(client.data)}
                       />
+                      {/* --- Convert to customers/leads icon --- */}
                       <Tooltip
                         title={
                           filter === "customers"
@@ -678,6 +686,7 @@ const Dashboard = ({
                           />
                         </ListItemIcon>
                       </Tooltip>
+                      {/* --- Delete client icon --- */}
                       <Tooltip title="Delete customer" arrow>
                         <ListItemIcon>
                           <DeleteForeverIcon
@@ -688,8 +697,11 @@ const Dashboard = ({
                       </Tooltip>
                     </ListItem>
                   </List>
+                  //  --- Clients list end ---
                 ))}
               </Paper>
+
+              {/* --- Modals start --- */}
               <ClientModal
                 open={clientModal}
                 onClose={handleClientModalClose}
@@ -731,6 +743,9 @@ const Dashboard = ({
                 handleCreate={handleInvoiceCreate}
                 data={formModalData}
               />
+              {/* --- Modals end --- */}
+
+              {/* --- Success snackbar --- */}
               {api.success && (
                 <ApiSuccessModal
                   open={api.success}
@@ -745,6 +760,7 @@ const Dashboard = ({
         {/* ---Loading Modal--- */}
         <Loading loading={loading} />
       </main>
+      {/* --- Footer --- */}
       <footer className={classes.footer}>
         <Container maxWidth="xl">
           <Grid container>
