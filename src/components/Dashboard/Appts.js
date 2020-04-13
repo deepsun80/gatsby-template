@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import PropTypes from "prop-types"
 import Tooltip from "@material-ui/core/Tooltip"
 import Paper from "@material-ui/core/Paper"
@@ -47,9 +47,12 @@ const Appt = ({
   const [apiSuccessMessage, setApiSuccessMessage] = useState("")
 
   // -------------------- Api Snackbar Methods Start --------------------
-  const handleApiOpen = event => {
-    setApi({ ...api, success: true })
-  }
+  const handleApiOpen = useCallback(
+    event => {
+      setApi({ ...api, success: true })
+    },
+    [setApi, api]
+  )
 
   const handleApiClose = event => {
     setApi({ ...api, success: false })
@@ -217,6 +220,7 @@ const Appt = ({
     }
     // --- Unset loading ui ---
     setLoading(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localHostError, liveError, setLoading, setApiSuccessMessage])
   // -------------------- Fauna appintments API end --------------------
 
@@ -326,6 +330,12 @@ const Appt = ({
             const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
               invoice: result.result,
             })
+            // --- If got response, display success snackbar ---
+            if (res.message) {
+              console.log(res.message)
+              setApiSuccessMessage(res.message)
+              handleApiOpen()
+            }
 
             // --- Update the state appointment ---
             appt.data.invoice = JSON.parse(JSON.stringify(result.result))
@@ -357,14 +367,13 @@ const Appt = ({
   }
   // -------------------- Stripe API End --------------------
 
-  // useEffect(() => {
-  //   getAppts()
-  // }, [getAppts])
-
+  // -------------------- Start component logic --------------------
   useEffect(() => {
     // --- Get appointments from Fauna ---
     getAppts()
+  }, [getAppts])
 
+  useEffect(() => {
     // --- Filter Logic ---
     if (appts.length > 0 && filter === "all") setFilteredAppts(appts)
     if (appts.length > 0 && filter === "upcoming") {
@@ -381,7 +390,7 @@ const Appt = ({
         )
       )
     }
-  }, [getAppts, filter, appts])
+  }, [filter, appts])
 
   return (
     <>

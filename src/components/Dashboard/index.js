@@ -211,6 +211,7 @@ const Dashboard = ({
       alert(error.error)
       setLoading(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, localHostError, liveError, setApiSuccessMessage])
 
   // --- Convert client in Fauna from leads/customers
@@ -360,7 +361,8 @@ const Dashboard = ({
       alert(err.error)
       setLoading(false)
     }
-  }, [filter, localHostError, liveError, setApiSuccessMessage])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setApiSuccessMessage])
 
   // --- Get invoices from Stripe ---
   const getInvoices = async id => {
