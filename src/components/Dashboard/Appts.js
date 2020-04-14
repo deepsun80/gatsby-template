@@ -19,7 +19,7 @@ import TableRow from "@material-ui/core/TableRow"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import MenuItem from "@material-ui/core/MenuItem"
-import { CreateInvoiceModal, ApiSuccessModal } from "./modals"
+import { CreateInvoiceModal } from "./modals"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
 import isLocalHost from "../../utils/isLocalHost"
@@ -33,6 +33,10 @@ const Appt = ({
   setLoading,
   formModalData,
   invoiceHeader,
+  handleSuccessApiOpen,
+  handleErrorApiOpen,
+  setApiSuccessMessage,
+  setApiErrorMessage,
 }) => {
   const classes = useStyles()
 
@@ -43,21 +47,6 @@ const Appt = ({
   const [formModal, setFormModal] = useState(false)
   const [clientData, setClientData] = useState({})
   const [apptData, setApptData] = useState({})
-  const [api, setApi] = useState({ success: false, error: false })
-  const [apiSuccessMessage, setApiSuccessMessage] = useState("")
-
-  // -------------------- Api Snackbar Methods Start --------------------
-  const handleApiOpen = useCallback(
-    event => {
-      setApi({ ...api, success: true })
-    },
-    [setApi, api]
-  )
-
-  const handleApiClose = event => {
-    setApi({ ...api, success: false })
-  }
-  // -------------------- Api Snackbar Methods End --------------------
 
   // -------------------- Modals methods start --------------------
   // --- Open create invoice modal ---
@@ -74,7 +63,7 @@ const Appt = ({
     if (response.message) {
       console.log(response.message)
       setApiSuccessMessage(response.message)
-      handleApiOpen()
+      handleSuccessApiOpen()
     }
     // --- Set response as state/modal client data ---
     setClientData(response.result)
@@ -118,11 +107,15 @@ const Appt = ({
 
     const response = await faunaApi.readAllAppts()
     // --- If not connected to Fauna display error ---
-    if (response.message === "unauthorized") {
+    if (response && response.error === "unauthorized") {
       if (isLocalHost()) {
-        alert(localHostError)
+        console.log(localHostError)
+        setApiErrorMessage(localHostError)
+        handleErrorApiOpen()
       } else {
-        alert(liveError)
+        console.log(liveError)
+        setApiErrorMessage(liveError)
+        handleErrorApiOpen()
       }
       setLoading(false)
       return false
@@ -150,26 +143,30 @@ const Appt = ({
     // --- Get appointments from Fauna ---
     const response = await faunaApi.readAllAppts()
     // --- If not connected to Fauna display error ---
-    if (response.message === "unauthorized") {
+    if (response && response.error === "unauthorized") {
       if (isLocalHost()) {
-        alert(localHostError)
+        console.log(localHostError)
+        setApiErrorMessage(localHostError)
+        handleErrorApiOpen()
       } else {
-        alert(liveError)
+        console.log(liveError)
+        setApiErrorMessage(liveError)
+        handleErrorApiOpen()
       }
       setLoading(false)
       return false
     }
     // ---If connected to Fauna and got response, display success snackbar ---
-    if (response.message && response.message !== "unauthorized") {
+    if (response && response.message) {
       console.log(response.message)
       setApiSuccessMessage(response.message)
-      handleApiOpen()
+      handleSuccessApiOpen()
     }
 
     // --- Once response array is loaded ---
     if (
       response &&
-      response.message !== "unauthorized" &&
+      response.message &&
       response.result.length > 0
     ) {
       // --- For each appointment, get its invoice via id ---
@@ -197,7 +194,7 @@ const Appt = ({
               if (res.message) {
                 console.log(res.message)
                 setApiSuccessMessage(res.message)
-                handleApiOpen()
+                handleSuccessApiOpen()
               }
             }
             // --- Within forEach, sort appointments to display newest date first ---
@@ -213,7 +210,9 @@ const Appt = ({
               invoice: {},
             })
             // --- Display any error in snackbar ---
-            alert(err)
+            console.log("No matching invoice found in appointment:", err)
+            setApiErrorMessage("No matching invoice found in appointment:", err)
+            handleErrorApiOpen()
           }
         }
       })
@@ -240,7 +239,7 @@ const Appt = ({
         // --- If got response, display success snackbar ---
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
 
         try {
           // --- Update appointment in Fauna with created invoice ---
@@ -250,7 +249,7 @@ const Appt = ({
           // --- If got response, display success snackbar ---
           console.log(res.message)
           setApiSuccessMessage(res.message)
-          handleApiOpen()
+          handleSuccessApiOpen()
 
           // --- Reset all appointments ---
           const response = await faunaApi.readAllAppts()
@@ -266,6 +265,8 @@ const Appt = ({
         } catch (err) {
           // --- Display any error in snackbar and unset loading ui ---
           console.log("Error updating appointment:", err)
+          setApiErrorMessage("Error updating appointment:", err)
+          handleErrorApiOpen()
           setLoading(false)
         }
       }
@@ -274,6 +275,8 @@ const Appt = ({
     } catch (error) {
       // --- Display any error in snackbar and unset loading ui ---
       console.log("Error finding Stripe invoice:", error)
+      setApiErrorMessage("Error finding Stripe invoice:", error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -289,7 +292,7 @@ const Appt = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Start Appointments API logic ---
@@ -299,7 +302,7 @@ const Appt = ({
       if (response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Find the appointment with that invoice in Fauna and update ---
@@ -334,7 +337,7 @@ const Appt = ({
             if (res.message) {
               console.log(res.message)
               setApiSuccessMessage(res.message)
-              handleApiOpen()
+              handleSuccessApiOpen()
             }
 
             // --- Update the state appointment ---
@@ -343,7 +346,7 @@ const Appt = ({
             if (response.message) {
               console.log(response.message)
               setApiSuccessMessage(response.message)
-              handleApiOpen()
+              handleSuccessApiOpen()
             }
             // --- Sort the result to newest first ---
             const sortedArray = response.result.sort(
@@ -362,6 +365,8 @@ const Appt = ({
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
       console.log("Error sending Stripe invoice:", err)
+      setApiErrorMessage("Error sending Stripe invoice:", err)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -592,15 +597,6 @@ const Appt = ({
         data={formModalData}
       />
       {/* --- Modals end --- */}
-
-      {/* --- Success snackbar --- */}
-      {api.success && (
-        <ApiSuccessModal
-          open={api.success}
-          message={apiSuccessMessage}
-          handleClose={handleApiClose}
-        />
-      )}
     </>
   )
 }
@@ -611,6 +607,10 @@ Appt.propTypes = {
   setLoading: PropTypes.func.isRequired,
   formModalData: PropTypes.array.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
+  handleSuccessApiOpen: PropTypes.func.isRequired,
+  setApiSuccessMessage: PropTypes.func.isRequired,
+  handleErrorApiOpen: PropTypes.func.isRequired,
+  setApiErrorMessage: PropTypes.func.isRequired,
 }
 
 export default Appt

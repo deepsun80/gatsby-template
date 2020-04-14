@@ -4,6 +4,7 @@ import CreateInvoiceModal from "./CreateInvoiceModal"
 import DeleteModal from "./DeleteModal"
 import InvoicesModal from "./InvoicesModal"
 import ApiSuccessModal from "./ApiSuccessModal"
+import ApiErrorModal from "./ApiErrorModal"
 
 export {
   ClientModal,
@@ -12,4 +13,5 @@ export {
   DeleteModal,
   InvoicesModal,
   ApiSuccessModal,
+  ApiErrorModal,
 }

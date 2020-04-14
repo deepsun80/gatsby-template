@@ -4,7 +4,7 @@ import Portal from "@material-ui/core/Portal"
 import Snackbar from "@material-ui/core/Snackbar"
 import MuiAlert from "@material-ui/lab/Alert"
 
-const ApiSuccessModal = ({ open, message, handleClose }) => {
+const ApiErrorModal = ({ open, message, handleClose }) => {
   const container = useRef(null)
 
   return (
@@ -12,10 +12,10 @@ const ApiSuccessModal = ({ open, message, handleClose }) => {
       <Snackbar
         open={open}
         autoHideDuration={1300}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         onClose={handleClose}
       >
-        <MuiAlert elevation={6} severity="success">
+        <MuiAlert elevation={6} severity="error">
           {message}
         </MuiAlert>
       </Snackbar>
@@ -23,10 +23,10 @@ const ApiSuccessModal = ({ open, message, handleClose }) => {
   )
 }
 
-ApiSuccessModal.propTypes = {
+ApiErrorModal.propTypes = {
   open: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
 }
 
-export default ApiSuccessModal
+export default ApiErrorModal

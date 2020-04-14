@@ -13,7 +13,6 @@ import IconButton from "@material-ui/core/IconButton"
 import ViewListIcon from "@material-ui/icons/ViewList"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 import faunaApi from "../../../utils/faunaApi"
-import isLocalHost from "../../../utils/isLocalHost"
 import moment from "moment"
 import useStyles from "../style"
 
@@ -26,8 +25,10 @@ function ClientModal({
   setInvoiceName,
   invoicesModalOpen,
   handleFormModalOpen,
-  localHostError,
-  liveError,
+  handleSuccessApiOpen,
+  setApiSuccessMessage,
+  handleErrorApiOpen,
+  setApiErrorMessage,
   setLoading,
 }) {
   const classes = useStyles()
@@ -43,28 +44,32 @@ function ClientModal({
   }
 
   useEffect(() => {
-    // ---Get appointment for client from Faunda---
+    // ---Get appointment for client from Fauna ---
     const getAppts = async () => {
       setLoading(true)
 
-      const response = await faunaApi.searchAppts(data.email)
+      try {
+        const response = await faunaApi.searchAppts(data.email)
 
-      if (response.message === "unauthorized") {
-        if (isLocalHost()) {
-          alert(localHostError)
-        } else {
-          alert(liveError)
+        if (response.message) {
+          console.log(response.message)
+          setApiSuccessMessage(response.message)
+          handleSuccessApiOpen()
         }
-        setLoading(false)
-        return false
+
+        setAppt(response.result)
+      } catch (error) {
+        console.log(error.error)
+        setApiErrorMessage(error.error)
+        handleErrorApiOpen()
       }
 
-      setAppt(response.result)
       setLoading(false)
     }
 
     getAppts()
-  }, [localHostError, liveError, setLoading, data.email])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setLoading, data.email])
 
   return (
     <Dialog
@@ -180,8 +185,10 @@ ClientModal.propTypes = {
   setInvoiceName: PropTypes.func.isRequired,
   invoicesModalOpen: PropTypes.func.isRequired,
   handleFormModalOpen: PropTypes.func.isRequired,
-  localHostError: PropTypes.string.isRequired,
-  liveError: PropTypes.string.isRequired,
+  handleSuccessApiOpen: PropTypes.func.isRequired,
+  setApiSuccessMessage: PropTypes.func.isRequired,
+  handleErrorApiOpen: PropTypes.func.isRequired,
+  setApiErrorMessage: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
 }
 

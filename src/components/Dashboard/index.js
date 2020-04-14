@@ -22,6 +22,7 @@ import {
   ConvertModal,
   InvoicesModal,
   ApiSuccessModal,
+  ApiErrorModal,
 } from "./modals"
 import Loading from "./Loading"
 import Appts from "./Appts"
@@ -65,8 +66,10 @@ const Dashboard = ({
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [formModalData, setFormModalData] = useState([])
-  const [api, setApi] = useState({ success: false, error: false })
+  const [successApi, setSuccessApi] = useState(false)
+  const [errorApi, setErrorApi] = useState(false)
   const [apiSuccessMessage, setApiSuccessMessage] = useState("")
+  const [apiErrorMessage, setApiErrorMessage] = useState("")
 
   // -------------------- Navbar Method Start -------------------
   const handleFilter = value => {
@@ -75,12 +78,20 @@ const Dashboard = ({
   // -------------------- Navbar Method End --------------------
 
   // -------------------- Api Snackbar Methods Start --------------------
-  const handleApiOpen = event => {
-    setApi({ ...api, success: true })
+  const handleSuccessApiOpen = event => {
+    setSuccessApi(true)
   }
 
-  const handleApiClose = event => {
-    setApi({ ...api, success: false })
+  const handleSuccessApiClose = event => {
+    setSuccessApi(false)
+  }
+
+  const handleErrorApiOpen = event => {
+    setErrorApi(true)
+  }
+
+  const handleErrorApiClose = event => {
+    setErrorApi(false)
   }
   // -------------------- Api Snackbar Methods End --------------------
 
@@ -150,14 +161,23 @@ const Dashboard = ({
 
     const response = await faunaApi.readAllClients()
 
-    if (response.message === "unauthorized") {
+    if (response && response.error === "unauthorized") {
       if (isLocalHost()) {
-        alert(localHostError)
+        console.log(localHostError)
+        setApiErrorMessage(localHostError)
+        handleErrorApiOpen()
       } else {
-        alert(liveError)
+        console.log(liveError)
+        setApiErrorMessage(liveError)
+        handleErrorApiOpen()
       }
       setLoading(false)
       return false
+    }
+    if (response && response.message) {
+      console.log(response.message)
+      setApiSuccessMessage(response.message)
+      handleSuccessApiOpen()
     }
 
     if (filter === "customers" && response && response.result.length > 0) {
@@ -181,20 +201,24 @@ const Dashboard = ({
       // --- Read all clients from Fauna ---
       const response = await faunaApi.readAllClients()
       // --- If not connected to Fauna display error ---
-      if (response.message && response.message === "unauthorized") {
+      if (response && response.error === "unauthorized") {
         if (isLocalHost()) {
-          alert(localHostError)
+          console.log(localHostError)
+          setApiErrorMessage(localHostError)
+          handleErrorApiOpen()
         } else {
-          alert(liveError)
+          console.log(liveError)
+          setApiErrorMessage(liveError)
+          handleErrorApiOpen()
         }
         setLoading(false)
         return false
       }
       // ---If connected to Fauna and got response, display success snackbar ---
-      if (response.message && response.message !== "unauthorized") {
+      if (response && response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- If in customers page, set state clients to customers ---
       if (filter === "customers" && response && response.result.length > 0) {
@@ -208,7 +232,9 @@ const Dashboard = ({
       }
     } catch (error) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(error.error)
+      console.log(error.error)
+      setApiErrorMessage(error.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,7 +258,7 @@ const Dashboard = ({
         if (response.message) {
           console.log(response.message)
           setApiSuccessMessage(response.message)
-          handleApiOpen()
+          handleSuccessApiOpen()
         }
         // --- Replace state client data with updated data ---
         const filteredClients = clients.filter(
@@ -241,7 +267,9 @@ const Dashboard = ({
         setClients(filteredClients)
       } catch (err1) {
         // --- Display any error in snackbar ---
-        alert(err1.error)
+        console.log(err1.error)
+        setApiErrorMessage(err1.error)
+        handleErrorApiOpen()
       }
       // --- Unset loading ui ---
       setLoading(false)
@@ -259,14 +287,16 @@ const Dashboard = ({
         if (response.message) {
           console.log(response.message)
           setApiSuccessMessage(response.message)
-          handleApiOpen()
+          handleSuccessApiOpen()
         }
         const filteredClients = clients.filter(
           item => item.ts !== targetClient.ts
         )
         setClients(filteredClients)
       } catch (err2) {
-        alert(err2.error)
+        console.log(err2.error)
+        setApiErrorMessage(err2.error)
+        handleErrorApiOpen()
       }
       setLoading(false)
     }
@@ -283,7 +313,7 @@ const Dashboard = ({
       if (res1.message) {
         console.log(res1.message)
         setApiSuccessMessage(res1.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Get all appointments from Fauna ---
@@ -292,7 +322,7 @@ const Dashboard = ({
       if (ret.message) {
         console.log(ret.message)
         setApiSuccessMessage(ret.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Find matching appointment for the client in result ---
       ret.result.forEach(async appt => {
@@ -303,7 +333,7 @@ const Dashboard = ({
           if (res.message) {
             console.log(res.message)
             setApiSuccessMessage(res.message)
-            handleApiOpen()
+            handleSuccessApiOpen()
           }
         }
       })
@@ -315,7 +345,7 @@ const Dashboard = ({
         if (res2.message) {
           console.log(res2.message)
           setApiSuccessMessage(res2.message)
-          handleApiOpen()
+          handleSuccessApiOpen()
         }
         // --- Replace state client data with updated data ---
         const filteredClients = clients.filter(
@@ -326,12 +356,16 @@ const Dashboard = ({
         setLoading(false)
       } catch (err1) {
         // --- Display any error in snackbar and unset loading ui ---
-        alert(err1.error)
+        console.log(err1.error)
+        setApiErrorMessage(err1.error)
+        handleErrorApiOpen()
         setLoading(false)
       }
     } catch (err2) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err2.error)
+      console.log(err2.error)
+      setApiErrorMessage(err2.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -350,7 +384,7 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Set data for create invoices modal with result(services) ---
       setFormModalData(result.result.data)
@@ -358,7 +392,9 @@ const Dashboard = ({
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -375,7 +411,7 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Set data for invoices list modal with result ---
       setInvoicesModalData(result.result)
@@ -383,7 +419,9 @@ const Dashboard = ({
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -399,13 +437,15 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Unset loading ui ---
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -421,7 +461,7 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Replace state/modal invoice data with updated data ---
       const filteredData = invoicesModalData.filter(
@@ -436,7 +476,7 @@ const Dashboard = ({
       if (response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with deleted invoice and delete ---
@@ -452,7 +492,7 @@ const Dashboard = ({
           if (res.message) {
             console.log(res.message)
             setApiSuccessMessage(res.message)
-            handleApiOpen()
+            handleSuccessApiOpen()
           }
         }
       })
@@ -461,7 +501,9 @@ const Dashboard = ({
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -477,7 +519,7 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Replace state/modal invoice data with updated data ---
       let index = invoicesModalData.findIndex(
@@ -494,7 +536,7 @@ const Dashboard = ({
       if (response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with sent invoice and update ---
@@ -510,7 +552,7 @@ const Dashboard = ({
           if (res.message) {
             console.log(res.message)
             setApiSuccessMessage(res.message)
-            handleApiOpen()
+            handleSuccessApiOpen()
           }
         }
       })
@@ -519,7 +561,9 @@ const Dashboard = ({
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -535,7 +579,7 @@ const Dashboard = ({
       if (result.message) {
         console.log(result.message)
         setApiSuccessMessage(result.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
       // --- Replace state/modal invoice data with updated data ---
       let index = invoicesModalData.findIndex(
@@ -552,7 +596,7 @@ const Dashboard = ({
       if (response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
-        handleApiOpen()
+        handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with voided invoice and update ---
@@ -568,7 +612,7 @@ const Dashboard = ({
           if (res.message) {
             console.log(res.message)
             setApiSuccessMessage(res.message)
-            handleApiOpen()
+            handleSuccessApiOpen()
           }
         }
       })
@@ -577,7 +621,9 @@ const Dashboard = ({
       setLoading(false)
     } catch (err) {
       // --- Display any error in snackbar and unset loading ui ---
-      alert(err.error)
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
       setLoading(false)
     }
   }
@@ -620,6 +666,10 @@ const Dashboard = ({
               setLoading={setLoading}
               formModalData={formModalData}
               invoiceHeader={invoiceHeader}
+              handleSuccessApiOpen={handleSuccessApiOpen}
+              setApiSuccessMessage={setApiSuccessMessage}
+              handleErrorApiOpen={handleErrorApiOpen}
+              setApiErrorMessage={setApiErrorMessage}
             />
           ) : (
             // --- Otherwise set screen to clients screen ---
@@ -716,6 +766,10 @@ const Dashboard = ({
                 localHostError={localHostError}
                 liveError={liveError}
                 setLoading={setLoading}
+                handleSuccessApiOpen={handleSuccessApiOpen}
+                setApiSuccessMessage={setApiSuccessMessage}
+                handleErrorApiOpen={handleErrorApiOpen}
+                setApiErrorMessage={setApiErrorMessage}
               />
               <DeleteModal
                 open={deleteModal}
@@ -746,21 +800,30 @@ const Dashboard = ({
                 data={formModalData}
               />
               {/* --- Modals end --- */}
-
-              {/* --- Success snackbar --- */}
-              {api.success && (
-                <ApiSuccessModal
-                  open={api.success}
-                  message={apiSuccessMessage}
-                  handleClose={handleApiClose}
-                />
-              )}
             </>
           )}
         </Container>
 
         {/* ---Loading Modal--- */}
         <Loading loading={loading} />
+
+        {/* --- Success snackbar --- */}
+        {successApi && (
+          <ApiSuccessModal
+            open={successApi}
+            message={apiSuccessMessage}
+            handleClose={handleSuccessApiClose}
+          />
+        )}
+
+        {/* --- Error snackbar --- */}
+        {errorApi && (
+          <ApiErrorModal
+            open={errorApi}
+            message={apiErrorMessage}
+            handleClose={handleErrorApiClose}
+          />
+        )}
       </main>
       {/* --- Footer --- */}
       <footer className={classes.footer}>
