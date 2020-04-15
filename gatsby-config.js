@@ -60,7 +60,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-netlify-identity`,
       options: {
-        url: "https://gatsby-template.netlify.com",
+        url: "https://gatsby-template.netlify.app",
       },
     },
     `gatsby-plugin-top-layout`,
