@@ -482,6 +482,7 @@ const Dashboard = ({
       // --- Find the appointment in result with deleted invoice and delete ---
       response.result.forEach(async appt => {
         if (
+          appt &&
           appt.data.invoice.hasOwnProperty("id") &&
           appt.data.invoice.id === result.result.id
         ) {
@@ -542,6 +543,7 @@ const Dashboard = ({
       // --- Find the appointment in result with sent invoice and update ---
       response.result.forEach(async appt => {
         if (
+          appt &&
           appt.data.invoice.hasOwnProperty("id") &&
           appt.data.invoice.id === result.result.id
         ) {
@@ -602,6 +604,7 @@ const Dashboard = ({
       // --- Find the appointment in result with voided invoice and update ---
       response.result.forEach(async appt => {
         if (
+          appt &&
           appt.data.invoice.hasOwnProperty("id") &&
           appt.data.invoice.id === result.result.id
         ) {

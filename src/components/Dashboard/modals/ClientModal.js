@@ -142,7 +142,7 @@ function ClientModal({
                 {/* <ViewListIcon /> */}
               </IconButton>
             </div>
-            {appt.hasOwnProperty("data") && (
+            {appt && appt.hasOwnProperty("data") && (
               <>
                 <Typography
                   variant="body2"

@@ -73,7 +73,7 @@ const Schedule = ({
       return false
     }
 
-    if (response.result.hasOwnProperty("data")) {
+    if (response && response.result.hasOwnProperty("data")) {
       try {
         const ret = await faunaApi.updateClient(
           response.result.ref["@ref"].id,

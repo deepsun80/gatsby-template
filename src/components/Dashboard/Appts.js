@@ -164,26 +164,22 @@ const Appt = ({
     }
 
     // --- Once response array is loaded ---
-    if (
-      response &&
-      response.message &&
-      response.result.length > 0
-    ) {
+    if (response && response.message && response.result.length > 0) {
       // --- For each appointment, get its invoice via id ---
       response.result.forEach(async appt => {
-        if (appt.data.invoice.hasOwnProperty("id")) {
+        if (appt && appt.data.invoice.hasOwnProperty("id")) {
           try {
             // --- Search stripe for matching invoice id ---
             const ret = await stripeApi.findInvoice(appt.data.invoice.id)
 
             // --- If no invoice found, set state invoice in appointment to void ---
-            if (ret.hasOwnProperty("error")) {
+            if (ret && ret.hasOwnProperty("error")) {
               appt.data.invoice = { status: "void" }
               console.log(ret.error)
             }
 
             // --- If invoice found update the invoice field in that appointment in Fauna ---
-            if (ret.hasOwnProperty("message")) {
+            if (ret && ret.hasOwnProperty("message")) {
               const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
                 invoice: ret.result,
               })
@@ -310,6 +306,7 @@ const Appt = ({
         response.result.forEach(async appt => {
           // --- if no invoice found, set state appointment invoice to void ---
           if (
+            appt &&
             appt.data.invoice.hasOwnProperty("id") &&
             result.hasOwnProperty("error")
           ) {
@@ -325,7 +322,9 @@ const Appt = ({
 
           // --- If matching invoice found in Fauna update it ---
           if (
+            appt &&
             appt.data.invoice.hasOwnProperty("id") &&
+            result &&
             result.hasOwnProperty("message") &&
             appt.data.invoice.id === result.result.id
           ) {
@@ -539,6 +538,7 @@ const Appt = ({
                   {/* --- Appointment invoice status --- */}
                   <TableCell
                     style={
+                      row &&
                       row.data.invoice.hasOwnProperty("status") &&
                       row.data.invoice.status === "draft"
                         ? { color: "cornflowerblue" }
@@ -549,13 +549,14 @@ const Appt = ({
                         : { color: "red" }
                     }
                   >
-                    {row.data.invoice.hasOwnProperty("status")
+                    {row && row.data.invoice.hasOwnProperty("status")
                       ? row.data.invoice.status
                       : "not created"}
                   </TableCell>
                   {/* --- Appointment invoice action --- */}
                   <TableCell>
-                    {row.data.invoice.hasOwnProperty("status") &&
+                    {row &&
+                    row.data.invoice.hasOwnProperty("status") &&
                     row.data.invoice.status === "void" ? (
                       <ClearIcon style={{ color: "red" }} />
                     ) : row.data.invoice.status === "open" ? (

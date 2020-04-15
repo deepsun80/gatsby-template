@@ -15,7 +15,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 200,
         body: JSON.stringify({
-          message: `Customer deleted`,
+          message: "Customer deleted",
           result,
         }),
       }

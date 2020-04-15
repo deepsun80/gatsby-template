@@ -20,7 +20,7 @@ exports.handler = (event, context) => {
         return {
           statusCode: 200,
           body: JSON.stringify({
-            message: `All appointments read`,
+            message: "All appointments read",
             result,
           }),
         }
