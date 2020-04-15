@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
+import Grid from "@material-ui/core/Grid"
 import Box from "@material-ui/core/Box"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -10,7 +11,6 @@ import Typography from "@material-ui/core/Typography"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
-import InputLabel from "@material-ui/core/InputLabel"
 import Select from "@material-ui/core/Select"
 import useStyles from "../style"
 
@@ -39,6 +39,8 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
     setValues([])
   }
 
+  console.log(values)
+
   return (
     <Dialog
       onClose={handleClose}
@@ -53,58 +55,72 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
         </Typography>
       </DialogTitle>
       <DialogContent>
-        <Box className={classes.box}>
-          {values.length > 0 &&
-            values.map((value, index) => (
-              <ul key={index}>
-                <li>
-                  <Typography
-                    key={index}
-                    variant="body2"
-                    className={classes.modalSmallHeader}
-                  >
-                    {value.description} -{" "}
-                    <span className={classes.modalSmallHeaderSpan}>
-                      {(value.amount / 100).toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </span>
-                  </Typography>
-                </li>
-              </ul>
-            ))}
-        </Box>
-        <FormControl
-          className={classes.formControl}
-          fullWidth
-          onSubmit={handleSubmit}
-        >
-          <InputLabel id="services-label" style={{ paddingLeft: 10 }}>
-            Select all services to add to invoice
-          </InputLabel>
-          <Select
-            labelId="services-label"
-            id="services"
-            multiple
-            value={values}
-            onChange={handleChange}
-            input={<OutlinedInput />}
-          >
-            {data.length > 0 &&
-              data.map(sku => (
-                <MenuItem
-                  key={sku.id}
-                  value={{
-                    amount: sku.price,
-                    description: sku.attributes.name,
-                  }}
-                >
-                  {sku.attributes.name}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
+        <Typography variant="body2" color="primary">
+          Select all services to add to invoice
+        </Typography>
+        <Grid container className={classes.invoiceGrid}>
+          <Grid xs={6}>
+            <FormControl
+              className={classes.formControl}
+              fullWidth
+              onSubmit={handleSubmit}
+            >
+              <Select
+                id="services"
+                multiple
+                value={values}
+                onChange={handleChange}
+                input={<OutlinedInput />}
+                style={{ height: "40px" }}
+                className={classes.createInvoiceSelectField}
+              >
+                {data.length > 0 &&
+                  data.map(sku => (
+                    <MenuItem
+                      key={sku.id}
+                      value={{
+                        amount: sku.price,
+                        description: sku.attributes.name,
+                      }}
+                    >
+                      {sku.attributes.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid xs={6}>
+            <Box className={classes.invoiceBox}>
+              <Typography
+                variant="body2"
+                align="center"
+                className={classes.invoiceSmallHeader}
+              >
+                Invoice Items
+              </Typography>
+              {values.length > 0 &&
+                values.map((value, index) => (
+                  <ul key={index} className={classes.invoiceList}>
+                    <li>
+                      <Typography
+                        key={index}
+                        variant="body2"
+                        className={classes.invoiceSmallBody}
+                      >
+                        {value.description} -{" "}
+                        <span className={classes.invoiceSmallBodySpan}>
+                          {(value.amount / 100).toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
+                        </span>
+                      </Typography>
+                    </li>
+                  </ul>
+                ))}
+            </Box>
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button

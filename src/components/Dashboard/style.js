@@ -130,20 +130,54 @@ const useStyles = makeStyles(theme => ({
     color: "slategrey",
     fontWeight: 600,
   },
+  invoiceGrid: {
+    marginTop: 10,
+  },
   formControl: {
-    marginBottom: 30,
+    paddingRight: 10,
+  },
+  createInvoiceSelectField: {
+    height: 40,
   },
   error: {
     color: theme.palette.error.main,
     display: "block",
     fontWeight: 500,
   },
-  box: {
+  invoiceSmallHeader: {
+    color: theme.palette.primary.main,
+    opacity: 0.7,
+    fontWeight: 600,
+    fontSize: "0.7rem",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.8rem",
+    },
+  },
+  invoiceSmallBody: {
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+    fontSize: "0.7rem",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.8rem",
+    },
+  },
+  invoiceSmallBodySpan: {
+    color: theme.palette.secondary.main,
+    fontWeight: 600,
+    fontSize: "0.7rem",
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "0.8rem",
+    },
+  },
+  invoiceList: {
+    listStyle: "none",
+    padding: 0,
+  },
+  invoiceBox: {
     background: "#ededed",
     minHeight: "30vh",
-    margin: "10px auto",
     borderRadius: 10,
-    padding: "5px 0px",
+    padding: 5,
   },
 }))
 
