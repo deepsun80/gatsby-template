@@ -22,6 +22,7 @@ import {
   CreateSubModal,
   ConvertModal,
   InvoicesModal,
+  SubModal,
   ApiSuccessModal,
   ApiErrorModal,
 } from "./modals"
@@ -60,6 +61,7 @@ const Dashboard = ({
   const [convertModal, setConvertModal] = useState(false)
   const [invoiceName, setInvoiceName] = useState("")
   const [invoicesModal, setInvoicesModal] = useState(false)
+  const [subModal, setSubModal] = useState(false)
 
   const [formInvModal, setInvFormModal] = useState(false)
   const [formInvModalData, setInvFormModalData] = useState([])
@@ -68,6 +70,7 @@ const Dashboard = ({
 
   const [modalData, setModalData] = useState({})
   const [invoicesModalData, setInvoicesModalData] = useState([])
+  const [subModalData, setSubModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
   const [filter, setFilter] = useState("customers")
   const [loading, setLoading] = useState(false)
@@ -135,6 +138,14 @@ const Dashboard = ({
 
   const handleInvoicesModalClose = () => {
     setInvoicesModal(false)
+  }
+
+  const handleSubModalOpen = () => {
+    setSubModal(true)
+  }
+
+  const handleSubModalClose = () => {
+    setSubModal(false)
   }
   // --- Open create invoice modal ---
   const handleInvFormModalOpen = () => {
@@ -702,6 +713,32 @@ const Dashboard = ({
       setLoading(false)
     }
   }
+
+  // --- Get subscriptions from Stripe ---
+  const getSubs = async id => {
+    // --- Set loading ui ---
+    setLoading(true)
+    try {
+      // --- Get all invoices from Stripe ---
+      const result = await stripeApi.findSubscriptions(id)
+      // --- If got response, display success snackbar ---
+      if (result.message) {
+        console.log(result.message)
+        setApiSuccessMessage(result.message)
+        handleSuccessApiOpen()
+      }
+      // --- Set data for invoices list modal with result ---
+      setSubModalData(result.result.data)
+      // --- Unset loading ui ---
+      setLoading(false)
+    } catch (err) {
+      // --- Display any error in snackbar and unset loading ui ---
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
+      setLoading(false)
+    }
+  }
   // -------------------- Stripe API End --------------------
 
   // -------------------- Start component logic --------------------
@@ -837,8 +874,10 @@ const Dashboard = ({
                 data={modalData}
                 header={customerDetails}
                 getInvoices={getInvoices}
+                getSubs={getSubs}
                 setInvoiceName={setInvoiceName}
                 invoicesModalOpen={handleInvoicesModalOpen}
+                subModalOpen={handleSubModalOpen}
                 handleInvFormModalOpen={handleInvFormModalOpen}
                 handleSubFormModalOpen={handleSubFormModalOpen}
                 localHostError={localHostError}
@@ -883,6 +922,13 @@ const Dashboard = ({
                 header={subscriptionHeader}
                 handleCreate={handleSubCreate}
                 data={formSubModalData}
+              />
+              <SubModal
+                open={subModal}
+                onClose={handleSubModalClose}
+                header={`${invoiceName} invoices`}
+                data={subModalData}
+                // handleDelete={handleInvoiceDelete}
               />
               {/* --- Modals end --- */}
             </>

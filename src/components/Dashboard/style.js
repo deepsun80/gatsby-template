@@ -179,6 +179,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 10,
     padding: 5,
   },
+  subBox: {
+    background: "#ededed",
+    borderRadius: 10,
+  },
 }))
 
 export default useStyles

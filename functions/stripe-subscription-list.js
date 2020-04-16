@@ -1,13 +1,19 @@
 var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const getId = require("./utils/getId")
 
 module.exports.handler = (event, context, callback) => {
-  return stripe.skus
-    .list()
+  const id = getId(event.path)
+
+  return stripe.subscriptions
+    .list({
+      customer: id,
+      status: "all",
+    })
     .then(result => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: "Stripe skus found",
+          message: "Stripe subscriptions found",
           result,
         }),
       }

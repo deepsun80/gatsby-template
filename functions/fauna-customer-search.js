@@ -29,7 +29,7 @@ exports.handler = (event, context) => {
           return {
             statusCode: 200,
             body: JSON.stringify({
-              message: `Customer found`,
+              message: "Customer found",
               result,
             }),
           }
@@ -44,7 +44,6 @@ exports.handler = (event, context) => {
         })
     })
     .catch(error => {
-      console.log("error", error)
       return {
         statusCode: 400,
         body: JSON.stringify({

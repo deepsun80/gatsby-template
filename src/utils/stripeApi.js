@@ -96,6 +96,14 @@ const createSubscription = (clientId, data) => {
   })
 }
 
+const findSubscriptions = clientId => {
+  return fetch(`/.netlify/functions/stripe-subscription-list/${clientId}`).then(
+    response => {
+      return response.json()
+    }
+  )
+}
+
 export default {
   createClient: createClient,
   updateClient: updateClient,
@@ -109,4 +117,5 @@ export default {
   listServices: listServices,
   listPlans: listPlans,
   createSubscription: createSubscription,
+  findSubscriptions: findSubscriptions,
 }

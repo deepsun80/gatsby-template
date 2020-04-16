@@ -11,7 +11,7 @@ module.exports.handler = (event, context, callback) => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: `Stripe customer updated`,
+          message: "Stripe customer updated",
           result,
         }),
       }

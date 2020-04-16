@@ -22,8 +22,10 @@ function ClientModal({
   data,
   header,
   getInvoices,
+  getSubs,
   setInvoiceName,
   invoicesModalOpen,
+  subModalOpen,
   handleInvFormModalOpen,
   handleSubFormModalOpen,
   handleSuccessApiOpen,
@@ -154,11 +156,11 @@ function ClientModal({
                   className={classes.iconPrimary}
                   aria-label="submit"
                   component="span"
-                  // onClick={() => {
-                  //   getInvoices(data.stripe_id)
-                  //   setInvoiceName(data.name)
-                  //   invoicesModalOpen(true)
-                  // }}
+                  onClick={() => {
+                    getSubs(data.stripe_id)
+                    setInvoiceName(data.name)
+                    subModalOpen(true)
+                  }}
                 >
                   <ViewListIcon />
                 </IconButton>
@@ -215,8 +217,10 @@ ClientModal.propTypes = {
   data: PropTypes.object.isRequired,
   header: PropTypes.string.isRequired,
   getInvoices: PropTypes.func.isRequired,
+  getSubs: PropTypes.func.isRequired,
   setInvoiceName: PropTypes.func.isRequired,
   invoicesModalOpen: PropTypes.func.isRequired,
+  subModalOpen: PropTypes.func.isRequired,
   handleInvFormModalOpen: PropTypes.func.isRequired,
   handleSubFormModalOpen: PropTypes.func.isRequired,
   handleSuccessApiOpen: PropTypes.func.isRequired,
