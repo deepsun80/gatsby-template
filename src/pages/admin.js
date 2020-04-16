@@ -22,6 +22,7 @@ const Admin = ({ data }) => {
     customerConvert,
     leadConvert,
     invoice,
+    subscription,
     localHostError,
     liveError,
   } = data.markdownRemark.frontmatter
@@ -54,6 +55,7 @@ const Admin = ({ data }) => {
           customerConvert={customerConvert}
           leadConvert={leadConvert}
           invoiceHeader={invoice}
+          subscriptionHeader={subscription}
           localHostError={localHostError}
           liveError={liveError}
         />
@@ -91,6 +93,7 @@ export const data = graphql`
         customerConvert
         leadConvert
         invoice
+        subscription
         localHostError
         liveError
       }

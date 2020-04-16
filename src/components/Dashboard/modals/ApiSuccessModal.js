@@ -23,9 +23,13 @@ const ApiSuccessModal = ({ open, message, handleClose }) => {
   )
 }
 
+ApiSuccessModal.defaultProps = {
+  message: "",
+}
+
 ApiSuccessModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
 }
 

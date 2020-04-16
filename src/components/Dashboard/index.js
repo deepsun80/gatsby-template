@@ -19,6 +19,7 @@ import {
   ClientModal,
   DeleteModal,
   CreateInvoiceModal,
+  CreateSubModal,
   ConvertModal,
   InvoicesModal,
   ApiSuccessModal,
@@ -47,6 +48,7 @@ const Dashboard = ({
   author,
   company,
   invoiceHeader,
+  subscriptionHeader,
   localHostError,
   liveError,
 }) => {
@@ -58,14 +60,18 @@ const Dashboard = ({
   const [convertModal, setConvertModal] = useState(false)
   const [invoiceName, setInvoiceName] = useState("")
   const [invoicesModal, setInvoicesModal] = useState(false)
-  const [formModal, setFormModal] = useState(false)
+
+  const [formInvModal, setInvFormModal] = useState(false)
+  const [formInvModalData, setInvFormModalData] = useState([])
+  const [formSubModal, setSubFormModal] = useState(false)
+  const [formSubModalData, setSubFormModalData] = useState([])
+
   const [modalData, setModalData] = useState({})
   const [invoicesModalData, setInvoicesModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
   const [filter, setFilter] = useState("customers")
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
-  const [formModalData, setFormModalData] = useState([])
   const [successApi, setSuccessApi] = useState(false)
   const [errorApi, setErrorApi] = useState(false)
   const [apiSuccessMessage, setApiSuccessMessage] = useState("")
@@ -131,12 +137,20 @@ const Dashboard = ({
     setInvoicesModal(false)
   }
   // --- Open create invoice modal ---
-  const handleFormModalOpen = () => {
-    setFormModal(true)
+  const handleInvFormModalOpen = () => {
+    setInvFormModal(true)
   }
   // --- Close create invoice modal ---
-  const handleFormModalClose = () => {
-    setFormModal(false)
+  const handleInvFormModalClose = () => {
+    setInvFormModal(false)
+  }
+  // --- Open create subscription modal ---
+  const handleSubFormModalOpen = () => {
+    setSubFormModal(true)
+  }
+  // --- Close create subscription modal ---
+  const handleSubFormModalClose = () => {
+    setSubFormModal(false)
   }
   // -------------------- Modal Methods End --------------------
 
@@ -191,7 +205,7 @@ const Dashboard = ({
   }
   // -------------------- Search Methods Start --------------------
 
-  // -------------------- Faunda API Start --------------------
+  // -------------------- Fauna API Start --------------------
 
   // --- Get clients from Fauna ---
   const getClients = useCallback(async () => {
@@ -369,7 +383,7 @@ const Dashboard = ({
       setLoading(false)
     }
   }
-  // -------------------- Faunda API End --------------------
+  // -------------------- Fauna API End --------------------
 
   // -------------------- Stripe API Start --------------------
 
@@ -387,7 +401,34 @@ const Dashboard = ({
         handleSuccessApiOpen()
       }
       // --- Set data for create invoices modal with result(services) ---
-      setFormModalData(result.result.data)
+      setInvFormModalData(result.result.data)
+      // --- Unset loading ui
+      setLoading(false)
+    } catch (err) {
+      // --- Display any error in snackbar and unset loading ui ---
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
+      setLoading(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setApiSuccessMessage])
+
+  // --- Get subscription plans from Stripe ---
+  const getPlans = useCallback(async () => {
+    // --- Set loading ui ---
+    setLoading(true)
+    try {
+      // --- Read all plans from Stripe ---
+      const result = await stripeApi.listPlans()
+      // --- If got response, display success snackbar ---
+      if (result.message) {
+        console.log(result.message)
+        setApiSuccessMessage(result.message)
+        handleSuccessApiOpen()
+      }
+      // --- Set data for create invoices modal with result(services) ---
+      setSubFormModalData(result.result.data)
       // --- Unset loading ui
       setLoading(false)
     } catch (err) {
@@ -630,15 +671,48 @@ const Dashboard = ({
       setLoading(false)
     }
   }
+
+  // --- Create subscription in Stripe ---
+  const handleSubCreate = async data => {
+    // --- remove nickname from value ---
+    data.forEach(item => {
+      delete item.nickname
+    })
+    // --- Set loading ui ---
+    setLoading(true)
+    try {
+      // --- Create subscription in Stripe ---
+      const result = await stripeApi.createSubscription(
+        modalData.stripe_id,
+        data
+      )
+      // --- If got response, display success snackbar ---
+      if (result.message) {
+        console.log(result.message)
+        setApiSuccessMessage(result.message)
+        handleSuccessApiOpen()
+      }
+      // --- Unset loading ui ---
+      setLoading(false)
+    } catch (err) {
+      // --- Display any error in snackbar and unset loading ui ---
+      console.log(err.error)
+      setApiErrorMessage(err.error)
+      handleErrorApiOpen()
+      setLoading(false)
+    }
+  }
   // -------------------- Stripe API End --------------------
 
   // -------------------- Start component logic --------------------
   useEffect(() => {
     // --- Get clients from Fauna ---
     getClients()
-    // ---Get Services from Stripe---
+    // ---Get services from Stripe---
     getServices()
-  }, [getClients, getServices])
+    // ---Get subscription plans from Stripe---
+    getPlans()
+  }, [getClients, getServices, getPlans])
 
   return (
     <>
@@ -667,7 +741,7 @@ const Dashboard = ({
               localHostError={localHostError}
               liveError={liveError}
               setLoading={setLoading}
-              formModalData={formModalData}
+              formInvModalData={formInvModalData}
               invoiceHeader={invoiceHeader}
               handleSuccessApiOpen={handleSuccessApiOpen}
               setApiSuccessMessage={setApiSuccessMessage}
@@ -765,7 +839,8 @@ const Dashboard = ({
                 getInvoices={getInvoices}
                 setInvoiceName={setInvoiceName}
                 invoicesModalOpen={handleInvoicesModalOpen}
-                handleFormModalOpen={handleFormModalOpen}
+                handleInvFormModalOpen={handleInvFormModalOpen}
+                handleSubFormModalOpen={handleSubFormModalOpen}
                 localHostError={localHostError}
                 liveError={liveError}
                 setLoading={setLoading}
@@ -796,11 +871,18 @@ const Dashboard = ({
                 handleVoid={handleVoidInvoice}
               />
               <CreateInvoiceModal
-                open={formModal}
-                onClose={handleFormModalClose}
+                open={formInvModal}
+                onClose={handleInvFormModalClose}
                 header={invoiceHeader}
                 handleCreate={handleInvoiceCreate}
-                data={formModalData}
+                data={formInvModalData}
+              />
+              <CreateSubModal
+                open={formSubModal}
+                onClose={handleSubFormModalClose}
+                header={subscriptionHeader}
+                handleCreate={handleSubCreate}
+                data={formSubModalData}
               />
               {/* --- Modals end --- */}
             </>
@@ -878,6 +960,7 @@ Dashboard.propTypes = {
   author: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
+  subscriptionHeader: PropTypes.string.isRequired,
   localHostError: PropTypes.string.isRequired,
   liveError: PropTypes.string.isRequired,
 }

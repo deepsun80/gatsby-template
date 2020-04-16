@@ -31,7 +31,7 @@ const Appt = ({
   localHostError,
   liveError,
   setLoading,
-  formModalData,
+  formInvModalData,
   invoiceHeader,
   handleSuccessApiOpen,
   handleErrorApiOpen,
@@ -44,17 +44,17 @@ const Appt = ({
   const [appts, setAppts] = useState([])
   const [filteredAppts, setFilteredAppts] = useState([])
   const [filter, setFilter] = React.useState("all")
-  const [formModal, setFormModal] = useState(false)
+  const [formInvModal, setInvFormModal] = useState(false)
   const [clientData, setClientData] = useState({})
   const [apptData, setApptData] = useState({})
 
   // -------------------- Modals methods start --------------------
   // --- Open create invoice modal ---
-  const handleFormModalOpen = async data => {
+  const handleInvFormModalOpen = async data => {
     // --- Set input as state/modal appointment data ---
     setApptData(data)
     // --- Open create invoice modal ---
-    setFormModal(true)
+    setInvFormModal(true)
     // --- Get client data from Fauna ---
     const response = await faunaApi.searchClients(
       data.data.payload.invitee.email
@@ -69,8 +69,8 @@ const Appt = ({
     setClientData(response.result)
   }
   // --- Close create invoice modal ---
-  const handleFormModalClose = () => {
-    setFormModal(false)
+  const handleInvFormModalClose = () => {
+    setInvFormModal(false)
   }
   // -------------------- Modals methods end --------------------
 
@@ -576,7 +576,7 @@ const Appt = ({
                         <AddBoxIcon
                           className={classes.icon}
                           onClick={() => {
-                            handleFormModalOpen(row)
+                            handleInvFormModalOpen(row)
                           }}
                         />
                       </Tooltip>
@@ -591,11 +591,11 @@ const Appt = ({
 
       {/* --- Modals start --- */}
       <CreateInvoiceModal
-        open={formModal}
-        onClose={handleFormModalClose}
+        open={formInvModal}
+        onClose={handleInvFormModalClose}
         header={invoiceHeader}
         handleCreate={handleInvoiceCreate}
-        data={formModalData}
+        data={formInvModalData}
       />
       {/* --- Modals end --- */}
     </>
@@ -606,7 +606,7 @@ Appt.propTypes = {
   localHostError: PropTypes.string.isRequired,
   liveError: PropTypes.string.isRequired,
   setLoading: PropTypes.func.isRequired,
-  formModalData: PropTypes.array.isRequired,
+  formInvModalData: PropTypes.array.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
   handleSuccessApiOpen: PropTypes.func.isRequired,
   setApiSuccessMessage: PropTypes.func.isRequired,

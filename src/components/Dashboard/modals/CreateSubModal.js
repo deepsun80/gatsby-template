@@ -14,7 +14,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput"
 import Select from "@material-ui/core/Select"
 import useStyles from "../style"
 
-const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
+const CreateSubModal = ({ data, onClose, open, header, handleCreate }) => {
   const classes = useStyles()
 
   const [values, setValues] = useState([])
@@ -54,7 +54,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
       </DialogTitle>
       <DialogContent>
         <Typography variant="body2" color="primary">
-          Select all services to add to invoice
+          Select all services to add to subscription
         </Typography>
         <Grid container className={classes.invoiceGrid}>
           <Grid item xs={6}>
@@ -64,7 +64,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
               onSubmit={handleSubmit}
             >
               <Select
-                id="services"
+                id="subscription_plans"
                 multiple
                 value={values}
                 onChange={handleChange}
@@ -73,15 +73,15 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
                 className={classes.createInvoiceSelectField}
               >
                 {data.length > 0 &&
-                  data.map(sku => (
+                  data.map(sub => (
                     <MenuItem
-                      key={sku.id}
+                      key={sub.id}
                       value={{
-                        amount: sku.price,
-                        description: sku.attributes.name,
+                        plan: sub.id,
+                        nickname: sub.nickname,
                       }}
                     >
-                      {sku.attributes.name}
+                      {sub.nickname}
                     </MenuItem>
                   ))}
               </Select>
@@ -94,7 +94,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
                 align="center"
                 className={classes.invoiceSmallHeader}
               >
-                Invoice Items
+                Subscription Items
               </Typography>
               {values.length > 0 &&
                 values.map((value, index) => (
@@ -105,13 +105,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
                         variant="body2"
                         className={classes.invoiceSmallBody}
                       >
-                        {value.description} -{" "}
-                        <span className={classes.invoiceSmallBodySpan}>
-                          {(value.amount / 100).toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                          })}
-                        </span>
+                        {value.nickname}
                       </Typography>
                     </li>
                   </ul>
@@ -150,7 +144,7 @@ const CreateInvoiceModal = ({ data, onClose, open, header, handleCreate }) => {
   )
 }
 
-CreateInvoiceModal.propTypes = {
+CreateSubModal.propTypes = {
   data: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
@@ -158,4 +152,4 @@ CreateInvoiceModal.propTypes = {
   handleCreate: PropTypes.func.isRequired,
 }
 
-export default CreateInvoiceModal
+export default CreateSubModal

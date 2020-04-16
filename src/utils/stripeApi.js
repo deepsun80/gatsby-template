@@ -81,6 +81,21 @@ const listServices = () => {
   })
 }
 
+const listPlans = () => {
+  return fetch("/.netlify/functions/stripe-plan-list/").then(response => {
+    return response.json()
+  })
+}
+
+const createSubscription = (clientId, data) => {
+  return fetch(`/.netlify/functions/stripe-subscription-create/${clientId}`, {
+    body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export default {
   createClient: createClient,
   updateClient: updateClient,
@@ -92,4 +107,6 @@ export default {
   voidInvoice: voidInvoice,
   findInvoice: findInvoice,
   listServices: listServices,
+  listPlans: listPlans,
+  createSubscription: createSubscription,
 }

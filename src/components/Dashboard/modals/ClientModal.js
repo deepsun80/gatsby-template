@@ -24,7 +24,8 @@ function ClientModal({
   getInvoices,
   setInvoiceName,
   invoicesModalOpen,
-  handleFormModalOpen,
+  handleInvFormModalOpen,
+  handleSubFormModalOpen,
   handleSuccessApiOpen,
   setApiSuccessMessage,
   handleErrorApiOpen,
@@ -40,7 +41,11 @@ function ClientModal({
   }
 
   const invoiceFormOpen = () => {
-    handleFormModalOpen()
+    handleInvFormModalOpen()
+  }
+
+  const subscriptionFormOpen = () => {
+    handleSubFormModalOpen()
   }
 
   useEffect(() => {
@@ -138,10 +143,38 @@ function ClientModal({
                   <AddBoxIcon />
                 </IconButton>
               </Tooltip>
-              <IconButton aria-label="submit" component="span">
-                {/* <ViewListIcon /> */}
-              </IconButton>
             </div>
+
+            <Typography variant="body2" className={classes.modalSmallHeader}>
+              Subscriptions
+            </Typography>
+            <div className={classes.flex}>
+              <Tooltip title="View all subscriptions" arrow>
+                <IconButton
+                  className={classes.iconPrimary}
+                  aria-label="submit"
+                  component="span"
+                  // onClick={() => {
+                  //   getInvoices(data.stripe_id)
+                  //   setInvoiceName(data.name)
+                  //   invoicesModalOpen(true)
+                  // }}
+                >
+                  <ViewListIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Create subscription" arrow>
+                <IconButton
+                  className={classes.iconPrimary}
+                  aria-label="submit"
+                  component="span"
+                  onClick={subscriptionFormOpen}
+                >
+                  <AddBoxIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+
             {appt && appt.hasOwnProperty("data") && (
               <>
                 <Typography
@@ -184,7 +217,8 @@ ClientModal.propTypes = {
   getInvoices: PropTypes.func.isRequired,
   setInvoiceName: PropTypes.func.isRequired,
   invoicesModalOpen: PropTypes.func.isRequired,
-  handleFormModalOpen: PropTypes.func.isRequired,
+  handleInvFormModalOpen: PropTypes.func.isRequired,
+  handleSubFormModalOpen: PropTypes.func.isRequired,
   handleSuccessApiOpen: PropTypes.func.isRequired,
   setApiSuccessMessage: PropTypes.func.isRequired,
   handleErrorApiOpen: PropTypes.func.isRequired,

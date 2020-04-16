@@ -23,9 +23,13 @@ const ApiErrorModal = ({ open, message, handleClose }) => {
   )
 }
 
+ApiErrorModal.defaultProps = {
+  message: "",
+}
+
 ApiErrorModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
 }
 
