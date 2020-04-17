@@ -199,6 +199,7 @@ const Dashboard = ({
       setLoading(false)
       return false
     }
+
     if (response && response.message) {
       console.log(response.message)
       setApiSuccessMessage(response.message)
@@ -213,6 +214,17 @@ const Dashboard = ({
       setLoading(false)
       setClients(response.result.filter(client => !client.data.customer))
     }
+
+    // --- Display any error in snackbar and unset loading ui ---
+    if (response && response.error && response.error !== "unauthorized") {
+      console.log(response.error)
+      setApiErrorMessage(response.error)
+      handleErrorApiOpen()
+      setLoading(false)
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
   // -------------------- Search Methods Start --------------------
 
@@ -222,107 +234,127 @@ const Dashboard = ({
   const getClients = useCallback(async () => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Read all clients from Fauna ---
-      const response = await faunaApi.readAllClients()
-      // --- If not connected to Fauna display error ---
-      if (response && response.error === "unauthorized") {
-        if (isLocalHost()) {
-          console.log(localHostError)
-          setApiErrorMessage(localHostError)
-          handleErrorApiOpen()
-        } else {
-          console.log(liveError)
-          setApiErrorMessage(liveError)
-          handleErrorApiOpen()
-        }
-        setLoading(false)
-        return false
+
+    // --- Read all clients from Fauna ---
+    const response = await faunaApi.readAllClients()
+
+    // --- If not connected to Fauna display error ---
+    if (response && response.error === "unauthorized") {
+      if (isLocalHost()) {
+        console.log(localHostError)
+        setApiErrorMessage(localHostError)
+        handleErrorApiOpen()
+      } else {
+        console.log(liveError)
+        setApiErrorMessage(liveError)
+        handleErrorApiOpen()
       }
-      // ---If connected to Fauna and got response, display success snackbar ---
-      if (response && response.message) {
-        console.log(response.message)
-        setApiSuccessMessage(response.message)
-        handleSuccessApiOpen()
-      }
-      // --- If in customers page, set state clients to customers ---
-      if (filter === "customers" && response && response.result.length > 0) {
-        setLoading(false)
-        setClients(response.result.filter(client => client.data.customer))
-      }
-      // --- If in leads page, set state clients to leads ---
-      if (filter === "leads" && response && response.result.length > 0) {
-        setLoading(false)
-        setClients(response.result.filter(client => !client.data.customer))
-      }
-    } catch (error) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(error.error)
-      setApiErrorMessage(error.error)
-      handleErrorApiOpen()
-      setLoading(false)
+      return false
     }
+
+    // ---If connected to Fauna and got response, display success snackbar ---
+    if (response && response.message) {
+      console.log(response.message)
+      setApiSuccessMessage(response.message)
+      handleSuccessApiOpen()
+    }
+
+    // --- If in customers page, set state clients to customers ---
+    if (
+      filter === "customers" &&
+      response &&
+      response.message &&
+      response.result.length > 0
+    ) {
+      setClients(response.result.filter(client => client.data.customer))
+    }
+
+    // --- If in leads page, set state clients to leads ---
+    if (
+      filter === "leads" &&
+      response &&
+      response.message &&
+      response.result.length > 0
+    ) {
+      setClients(response.result.filter(client => !client.data.customer))
+    }
+
+    // --- Display any error in snackbar ---
+    if (response && response.error && response.error !== "unauthorized") {
+      console.log(response.error)
+      setApiErrorMessage(response.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, localHostError, liveError, setApiSuccessMessage])
 
   // --- Convert client in Fauna from leads/customers
   const handleConvert = async () => {
-    // --- Set loading ui
+    // --- Set loading ui ---
     setLoading(true)
+
     if (filter === "customers") {
-      try {
-        // --- Update client in Fauna
-        const response = await faunaApi.updateClient(
-          targetClient.ref["@ref"].id,
-          {
-            ...targetClient.data,
-            customer: false,
-          }
-        )
-        // --- If got response, display success snackbar ---
-        if (response.message) {
-          console.log(response.message)
-          setApiSuccessMessage(response.message)
-          handleSuccessApiOpen()
+      // --- Update client in Fauna
+      const response = await faunaApi.updateClient(
+        targetClient.ref["@ref"].id,
+        {
+          ...targetClient.data,
+          customer: false,
         }
+      )
+
+      // --- If got response, display success snackbar ---
+      if (response && response.message) {
+        console.log(response.message)
+        setApiSuccessMessage(response.message)
+        handleSuccessApiOpen()
+
         // --- Replace state client data with updated data ---
         const filteredClients = clients.filter(
           item => item.ts !== targetClient.ts
         )
         setClients(filteredClients)
-      } catch (err1) {
-        // --- Display any error in snackbar ---
-        console.log(err1.error)
-        setApiErrorMessage(err1.error)
+      }
+
+      // --- Display any error in snackbar ---
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
         handleErrorApiOpen()
       }
+
       // --- Unset loading ui ---
       setLoading(false)
     }
+
     // --- Same logic as above for leads ---
     if (filter === "leads") {
-      try {
-        const response = await faunaApi.updateClient(
-          targetClient.ref["@ref"].id,
-          {
-            ...targetClient.data,
-            customer: true,
-          }
-        )
-        if (response.message) {
-          console.log(response.message)
-          setApiSuccessMessage(response.message)
-          handleSuccessApiOpen()
+      const response = await faunaApi.updateClient(
+        targetClient.ref["@ref"].id,
+        {
+          ...targetClient.data,
+          customer: true,
         }
+      )
+      if (response && response.message) {
+        console.log(response.message)
+        setApiSuccessMessage(response.message)
+        handleSuccessApiOpen()
+
         const filteredClients = clients.filter(
           item => item.ts !== targetClient.ts
         )
         setClients(filteredClients)
-      } catch (err2) {
-        console.log(err2.error)
-        setApiErrorMessage(err2.error)
+      }
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
         handleErrorApiOpen()
       }
+
       setLoading(false)
     }
   }
@@ -331,68 +363,84 @@ const Dashboard = ({
   const handleClientDelete = async () => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Delete client in Fauna
-      const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
-      // --- If got response, display success snackbar ---
-      if (res1.message) {
-        console.log(res1.message)
-        setApiSuccessMessage(res1.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Delete client in Fauna
+    const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
+
+    // --- If got response, display success snackbar ---
+    if (res1 && res1.message) {
+      console.log(res1.message)
+      setApiSuccessMessage(res1.message)
+      handleSuccessApiOpen()
 
       // --- Get all appointments from Fauna ---
       const ret = await faunaApi.readAllAppts()
+
       // --- If got response, display success snackbar ---
-      if (ret.message) {
+      if (ret && ret.message) {
         console.log(ret.message)
         setApiSuccessMessage(ret.message)
         handleSuccessApiOpen()
       }
-      // --- Find matching appointment for the client in result ---
-      ret.result.forEach(async appt => {
-        if (appt.data.payload.invitee.email === targetClient.data.email) {
-          // --- Delete appointment in Fauna ---
-          const res = await faunaApi.deleteAppt(appt.ref["@ref"].id)
-          // --- If got response, display success snackbar ---
-          if (res.message) {
-            console.log(res.message)
-            setApiSuccessMessage(res.message)
-            handleSuccessApiOpen()
-          }
-        }
-      })
 
-      try {
+      // --- Find matching appointment for the client in result ---
+      if (ret && ret.result) {
+        ret.result.forEach(async appt => {
+          if (appt.data.payload.invitee.email === targetClient.data.email) {
+            // --- Delete appointment in Fauna ---
+            const res = await faunaApi.deleteAppt(appt.ref["@ref"].id)
+            // --- If got response, display success snackbar ---
+            if (res.message) {
+              console.log(res.message)
+              setApiSuccessMessage(res.message)
+              handleSuccessApiOpen()
+            }
+          }
+        })
+      }
+
+      if (ret && ret.message) {
         // --- Delete client in Stripe ---
         const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
+
         // --- If got response, display success snackbar ---
-        if (res2.message) {
+        if (res2 && res2.message) {
           console.log(res2.message)
           setApiSuccessMessage(res2.message)
           handleSuccessApiOpen()
+
+          // --- Replace state client data with updated data ---
+          const filteredClients = clients.filter(
+            item => item.ts !== res1.result.ts
+          )
+          setClients(filteredClients)
         }
-        // --- Replace state client data with updated data ---
-        const filteredClients = clients.filter(
-          item => item.ts !== res1.result.ts
-        )
-        setClients(filteredClients)
-        // --- Unset loading ui ---
-        setLoading(false)
-      } catch (err1) {
+
         // --- Display any error in snackbar and unset loading ui ---
-        console.log(err1.error)
-        setApiErrorMessage(err1.error)
-        handleErrorApiOpen()
-        setLoading(false)
+        if (res2 && res2.error) {
+          console.log(res2.error)
+          setApiErrorMessage(res2.error)
+          handleErrorApiOpen()
+        }
       }
-    } catch (err2) {
+
       // --- Display any error in snackbar and unset loading ui ---
-      console.log(err2.error)
-      setApiErrorMessage(err2.error)
-      handleErrorApiOpen()
-      setLoading(false)
+      if (ret && ret.error) {
+        console.log(ret.error)
+        setApiErrorMessage(ret.error)
+        handleErrorApiOpen()
+      }
     }
+
+    // --- Display any error in snackbar ---
+    if (res1 && res1.error) {
+      console.log(res1.error)
+      setApiErrorMessage(res1.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
   // -------------------- Fauna API End --------------------
 
@@ -402,26 +450,29 @@ const Dashboard = ({
   const getServices = useCallback(async () => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Read all services from Stripe ---
-      const result = await stripeApi.listServices()
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Read all services from Stripe ---
+    const result = await stripeApi.listServices()
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Set data for create invoices modal with result(services) ---
       setInvFormModalData(result.result.data)
-      // --- Unset loading ui
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setApiSuccessMessage])
 
@@ -429,26 +480,29 @@ const Dashboard = ({
   const getPlans = useCallback(async () => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Read all plans from Stripe ---
-      const result = await stripeApi.listPlans()
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Read all plans from Stripe ---
+    const result = await stripeApi.listPlans()
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Set data for create invoices modal with result(services) ---
       setSubFormModalData(result.result.data)
-      // --- Unset loading ui
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setApiSuccessMessage])
 
@@ -456,65 +510,71 @@ const Dashboard = ({
   const getInvoices = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Get all invoices from Stripe ---
-      const result = await stripeApi.listInvoices(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Get all invoices from Stripe ---
+    const result = await stripeApi.listInvoices(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Set data for invoices list modal with result ---
       setInvoicesModalData(result.result)
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Create invoice in Stripe ---
   const handleInvoiceCreate = async data => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Create invoice in Stripe ---
-      const result = await stripeApi.createInvoice(modalData.stripe_id, data)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
+
+    // --- Create invoice in Stripe ---
+    const result = await stripeApi.createInvoice(modalData.stripe_id, data)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Delete invoice in Stripe ---
   const handleInvoiceDelete = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Delete invoice in Stripe ---
-      const result = await stripeApi.deleteInvoice(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Delete invoice in Stripe ---
+    const result = await stripeApi.deleteInvoice(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Replace state/modal invoice data with updated data ---
       const filteredData = invoicesModalData.filter(
         item => item.id !== result.result.id
@@ -524,56 +584,78 @@ const Dashboard = ({
       // --- Appointment api/logic ---
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
+
       // --- If got response, display success snackbar ---
-      if (response.message) {
+      if (response && response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
         handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with deleted invoice and delete ---
-      response.result.forEach(async appt => {
-        if (
-          appt &&
-          appt.data.invoice.hasOwnProperty("id") &&
-          appt.data.invoice.id === result.result.id
-        ) {
-          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
-            invoice: {},
-          })
-          // --- If got response, display success snackbar ---
-          if (res.message) {
-            console.log(res.message)
-            setApiSuccessMessage(res.message)
-            handleSuccessApiOpen()
+      if (response && response.result) {
+        response.result.forEach(async appt => {
+          if (
+            appt &&
+            appt.data.invoice.hasOwnProperty("id") &&
+            appt.data.invoice.id === result.result.id
+          ) {
+            const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+              invoice: {},
+            })
+
+            // --- If got response, display success snackbar ---
+            if (res && res.message) {
+              console.log(res.message)
+              setApiSuccessMessage(res.message)
+              handleSuccessApiOpen()
+            }
+
+            // --- Display any error in snackbar ---
+            if (res && res.error) {
+              console.log(res.error)
+              setApiErrorMessage(res.error)
+              handleErrorApiOpen()
+            }
           }
-        }
-      })
+        })
+      }
+
+      // --- Display any error in snackbar ---
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
+        handleErrorApiOpen()
+      }
+
       // --- End appointment api/logic ---
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Send invoice to customer via Stripe ---
   const handleSendInvoice = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Send invoice via Stripe ---
-      const result = await stripeApi.sendInvoice(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Send invoice via Stripe ---
+    const result = await stripeApi.sendInvoice(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Replace state/modal invoice data with updated data ---
       let index = invoicesModalData.findIndex(
         item => item.id === result.result.id
@@ -586,55 +668,76 @@ const Dashboard = ({
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
       // --- If got response, display success snackbar ---
-      if (response.message) {
+      if (response && response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
         handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with sent invoice and update ---
-      response.result.forEach(async appt => {
-        if (
-          appt &&
-          appt.data.invoice.hasOwnProperty("id") &&
-          appt.data.invoice.id === result.result.id
-        ) {
-          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
-            invoice: result.result,
-          })
-          // --- If got response, display success snackbar ---
-          if (res.message) {
-            console.log(res.message)
-            setApiSuccessMessage(res.message)
-            handleSuccessApiOpen()
+      if (response && response.result) {
+        response.result.forEach(async appt => {
+          if (
+            appt &&
+            appt.data.invoice.hasOwnProperty("id") &&
+            appt.data.invoice.id === result.result.id
+          ) {
+            const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+              invoice: result.result,
+            })
+
+            // --- If got response, display success snackbar ---
+            if (res && res.message) {
+              console.log(res.message)
+              setApiSuccessMessage(res.message)
+              handleSuccessApiOpen()
+            }
+
+            // --- Display any error in snackbar ---
+            if (res && res.error) {
+              console.log(res.error)
+              setApiErrorMessage(res.error)
+              handleErrorApiOpen()
+            }
           }
-        }
-      })
+        })
+      }
+
+      // --- Display any error in snackbar ---
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
+        handleErrorApiOpen()
+      }
+
       // --- End appointment api ---
-      // --- Unset loading api ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Voice invoice in Stripe ---
   const handleVoidInvoice = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Voice invoice in Stripe ---
-      const result = await stripeApi.voidInvoice(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Voice invoice in Stripe ---
+    const result = await stripeApi.voidInvoice(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Replace state/modal invoice data with updated data ---
       let index = invoicesModalData.findIndex(
         item => item.id === result.result.id
@@ -646,41 +749,60 @@ const Dashboard = ({
       // --- Appointments api logic ---
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
+
       // --- If got response, display success snackbar ---
-      if (response.message) {
+      if (response && response.message) {
         console.log(response.message)
         setApiSuccessMessage(response.message)
         handleSuccessApiOpen()
       }
 
       // --- Find the appointment in result with voided invoice and update ---
-      response.result.forEach(async appt => {
-        if (
-          appt &&
-          appt.data.invoice.hasOwnProperty("id") &&
-          appt.data.invoice.id === result.result.id
-        ) {
-          const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
-            invoice: result.result,
-          })
-          // --- If got response, display success snackbar ---
-          if (res.message) {
-            console.log(res.message)
-            setApiSuccessMessage(res.message)
-            handleSuccessApiOpen()
+      if (response && response.result) {
+        response.result.forEach(async appt => {
+          if (
+            appt &&
+            appt.data.invoice.hasOwnProperty("id") &&
+            appt.data.invoice.id === result.result.id
+          ) {
+            const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
+              invoice: result.result,
+            })
+            // --- If got response, display success snackbar ---
+            if (res && res.message) {
+              console.log(res.message)
+              setApiSuccessMessage(res.message)
+              handleSuccessApiOpen()
+            }
+
+            // --- Display any error in snackbar ---
+            if (res && res.error) {
+              console.log(res.error)
+              setApiErrorMessage(res.error)
+              handleErrorApiOpen()
+            }
           }
-        }
-      })
+        })
+      }
+
+      // --- Display any error in snackbar ---
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
+        handleErrorApiOpen()
+      }
       // --- End appointment api ---
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Create subscription in Stripe ---
@@ -689,55 +811,91 @@ const Dashboard = ({
     data.forEach(item => {
       delete item.nickname
     })
+
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Create subscription in Stripe ---
-      const result = await stripeApi.createSubscription(
-        modalData.stripe_id,
-        data
-      )
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
-      handleErrorApiOpen()
-      setLoading(false)
+
+    // --- Create subscription in Stripe ---
+    const result = await stripeApi.createSubscription(modalData.stripe_id, data)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
     }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Get subscriptions from Stripe ---
   const getSubs = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Get all invoices from Stripe ---
-      const result = await stripeApi.findSubscriptions(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Get all invoices from Stripe ---
+    const result = await stripeApi.findSubscriptions(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
       // --- Set data for invoices list modal with result ---
       setSubModalData(result.result.data)
-      // --- Unset loading ui ---
-      setLoading(false)
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log(err.error)
-      setApiErrorMessage(err.error)
+    }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
+  }
+
+  // --- Cancel subscription in Stripe ---
+  const handleSubDelete = async id => {
+    // --- Set loading ui ---
+    setLoading(true)
+
+    // --- Delete subscription in Stripe ---
+    const result = await stripeApi.deleteSubscription(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
+      // --- Replace state/modal invoice data with updated data ---
+      const filteredData = subModalData.filter(
+        item => item.id !== result.result.id
+      )
+      setSubModalData(filteredData)
+    }
+
+    // --- Display any error in snackbar and unset loading ui ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
       handleErrorApiOpen()
       setLoading(false)
     }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
   // -------------------- Stripe API End --------------------
 
@@ -928,7 +1086,7 @@ const Dashboard = ({
                 onClose={handleSubModalClose}
                 header={`${invoiceName} invoices`}
                 data={subModalData}
-                // handleDelete={handleInvoiceDelete}
+                handleDelete={handleSubDelete}
               />
               {/* --- Modals end --- */}
             </>

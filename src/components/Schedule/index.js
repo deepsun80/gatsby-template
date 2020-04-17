@@ -98,11 +98,11 @@ const Schedule = ({
           console.log(ret2.message)
           setValidation({ success: true, error: false })
         } catch (err) {
-          console.log(err.error)
+          console.log(err.message)
           setValidation({ success: false, error: true })
         }
       } catch (err1) {
-        console.log(err1.error)
+        console.log(err1.message)
         setValidation({ success: false, error: true })
       }
       setLoading(false)
@@ -121,11 +121,11 @@ const Schedule = ({
           console.log(ret2.message)
           setValidation({ success: true, error: false })
         } catch (err) {
-          console.log(err.error)
+          console.log(err.message)
           setValidation({ success: false, error: true })
         }
       } catch (err1) {
-        console.log(err1.error)
+        console.log(err1.message)
         setValidation({ success: false, error: true })
       }
       setLoading(false)

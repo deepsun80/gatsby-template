@@ -66,8 +66,8 @@ function ClientModal({
 
         setAppt(response.result)
       } catch (error) {
-        console.log(error.error)
-        setApiErrorMessage(error.error)
+        console.log(error.message)
+        setApiErrorMessage(error.message)
         handleErrorApiOpen()
       }
 

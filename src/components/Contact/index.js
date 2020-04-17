@@ -87,7 +87,7 @@ const Contact = ({
         console.log(res.message)
         setValidation({ success: true, error: false })
       } catch (err1) {
-        console.log(err1.error)
+        console.log(err1.message)
         setValidation({ success: false, error: true })
       }
       setLoading(false)
@@ -102,7 +102,7 @@ const Contact = ({
         console.log(ret.message)
         setValidation({ success: true, error: false })
       } catch (err2) {
-        console.log(err2.error)
+        console.log(err2.message)
         setValidation({ success: false, error: true })
       }
       setLoading(false)

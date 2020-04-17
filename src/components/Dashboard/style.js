@@ -82,6 +82,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     color: "darkslategrey",
   },
+  modalLabelHigh: {
+    fontWeight: 600,
+    color: "darkslategrey",
+    lineHeight: "2.5rem"
+  },
   modalSmallHeader: {
     fontWeight: 600,
     marginTop: 20,

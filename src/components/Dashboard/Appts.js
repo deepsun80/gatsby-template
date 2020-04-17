@@ -142,6 +142,7 @@ const Appt = ({
 
     // --- Get appointments from Fauna ---
     const response = await faunaApi.readAllAppts()
+
     // --- If not connected to Fauna display error ---
     if (response && response.error === "unauthorized") {
       if (isLocalHost()) {
@@ -156,6 +157,7 @@ const Appt = ({
       setLoading(false)
       return false
     }
+
     // ---If connected to Fauna and got response, display success snackbar ---
     if (response && response.message) {
       console.log(response.message)
@@ -164,7 +166,7 @@ const Appt = ({
     }
 
     // --- Once response array is loaded ---
-    if (response && response.message && response.result.length > 0) {
+    if (response && response.result.length > 0) {
       // --- For each appointment, get its invoice via id ---
       response.result.forEach(async appt => {
         if (appt && appt.data.invoice.hasOwnProperty("id")) {
@@ -186,13 +188,23 @@ const Appt = ({
 
               //-- Update the state invoice in appointment ---
               appt.data.invoice = ret.result
+
               // --- If response, display success snackbar ---
-              if (res.message) {
+              if (res && res.message) {
                 console.log(res.message)
                 setApiSuccessMessage(res.message)
                 handleSuccessApiOpen()
               }
+
+              // --- Display any error in snackbar and unset loading ui ---
+              if (res && res.error) {
+                console.log(res.error)
+                setApiErrorMessage(res.error)
+                handleErrorApiOpen()
+                setLoading(false)
+              }
             }
+
             // --- Within forEach, sort appointments to display newest date first ---
             const sortedArray = response.result.sort(
               (a, b) =>
@@ -205,14 +217,30 @@ const Appt = ({
             await faunaApi.updateAppt(appt.ref["@ref"].id, {
               invoice: {},
             })
+
             // --- Display any error in snackbar ---
-            console.log("No matching invoice found in appointment:", err)
-            setApiErrorMessage("No matching invoice found in appointment:", err)
+            console.log(
+              "No matching invoice found in appointment:",
+              err.message
+            )
+            setApiErrorMessage(
+              "No matching invoice found in appointment:",
+              err.message
+            )
             handleErrorApiOpen()
           }
         }
       })
     }
+
+    // --- Display any error in snackbar and unset loading ui ---
+    if (response && response.error && response.error !== "unauthorized") {
+      console.log(response.error)
+      setApiErrorMessage(response.error)
+      handleErrorApiOpen()
+      setLoading(false)
+    }
+
     // --- Unset loading ui ---
     setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -224,76 +252,83 @@ const Appt = ({
   const handleInvoiceCreate = async data => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Create invoice in Stripe ---
-      const result = await stripeApi.createInvoice(
-        clientData.data.stripe_id,
-        data
-      )
 
-      if (result.message) {
+    // --- Create invoice in Stripe ---
+    const result = await stripeApi.createInvoice(
+      clientData.data.stripe_id,
+      data
+    )
+
+    if (result && result.message) {
+      // --- If got response, display success snackbar ---
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+
+      // --- Update appointment in Fauna with created invoice ---
+      const res = await faunaApi.updateAppt(apptData.ref["@ref"].id, {
+        invoice: result.result,
+      })
+
+      if (res && res.message) {
         // --- If got response, display success snackbar ---
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
+        console.log(res.message)
+        setApiSuccessMessage(res.message)
         handleSuccessApiOpen()
 
-        try {
-          // --- Update appointment in Fauna with created invoice ---
-          const res = await faunaApi.updateAppt(apptData.ref["@ref"].id, {
-            invoice: result.result,
-          })
-          // --- If got response, display success snackbar ---
-          console.log(res.message)
-          setApiSuccessMessage(res.message)
-          handleSuccessApiOpen()
+        // --- Reset all appointments ---
+        const response = await faunaApi.readAllAppts()
 
-          // --- Reset all appointments ---
-          const response = await faunaApi.readAllAppts()
-          // --- Sort appointments to display newest date first ---
-          if (response && response.result.length > 0) {
-            const sortedArray = response.result.sort(
-              (a, b) =>
-                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-            )
-            setAppts(sortedArray)
-          }
-        } catch (err) {
-          // --- Display any error in snackbar and unset loading ui ---
-          console.log("Error updating appointment:", err)
-          setApiErrorMessage("Error updating appointment:", err)
-          handleErrorApiOpen()
-          setLoading(false)
+        // --- Sort appointments to display newest date first ---
+        if (response && response.result.length > 0) {
+          const sortedArray = response.result.sort(
+            (a, b) =>
+              moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+              moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+          )
+          setAppts(sortedArray)
         }
       }
-      // --- Else just Unset loading ui ---
-      setLoading(false)
-    } catch (error) {
+
       // --- Display any error in snackbar and unset loading ui ---
-      console.log("Error finding Stripe invoice:", error)
-      setApiErrorMessage("Error finding Stripe invoice:", error)
+      if (res && res.error) {
+        console.log(res.error)
+        setApiErrorMessage(res.error)
+        handleErrorApiOpen()
+        setLoading(false)
+      }
+    }
+
+    // --- Display any error in snackbar and unset loading ui ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
       handleErrorApiOpen()
       setLoading(false)
     }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
 
   // --- Send invoice to customer via Stripe ---
   const handleSendInvoice = async id => {
     // --- Set loading ui ---
     setLoading(true)
-    try {
-      // --- Send invoice via Stripe ---
-      const result = await stripeApi.sendInvoice(id)
-      // --- If got response, display success snackbar ---
-      if (result.message) {
-        console.log(result.message)
-        setApiSuccessMessage(result.message)
-        handleSuccessApiOpen()
-      }
+
+    // --- Send invoice via Stripe ---
+    const result = await stripeApi.sendInvoice(id)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
 
       // --- Start Appointments API logic ---
       // --- Get appointments from Fauna ---
       const response = await faunaApi.readAllAppts()
+
       // --- If got response, display success snackbar ---
       if (response.message) {
         console.log(response.message)
@@ -302,7 +337,7 @@ const Appt = ({
       }
 
       // --- Find the appointment with that invoice in Fauna and update ---
-      if (response && response.message && response.result.length > 0) {
+      if (response && response.result.length > 0) {
         response.result.forEach(async appt => {
           // --- if no invoice found, set state appointment invoice to void ---
           if (
@@ -311,6 +346,7 @@ const Appt = ({
             result.hasOwnProperty("error")
           ) {
             appt.data.invoice = { status: "void" }
+
             // --- Sort the result to newest first ---
             const sortedArray = response.result.sort(
               (a, b) =>
@@ -332,6 +368,7 @@ const Appt = ({
             const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
               invoice: result.result,
             })
+
             // --- If got response, display success snackbar ---
             if (res.message) {
               console.log(res.message)
@@ -341,12 +378,7 @@ const Appt = ({
 
             // --- Update the state appointment ---
             appt.data.invoice = JSON.parse(JSON.stringify(result.result))
-            // --- If got response, display success snackbar ---
-            if (response.message) {
-              console.log(response.message)
-              setApiSuccessMessage(response.message)
-              handleSuccessApiOpen()
-            }
+
             // --- Sort the result to newest first ---
             const sortedArray = response.result.sort(
               (a, b) =>
@@ -357,17 +389,26 @@ const Appt = ({
           }
         })
         // --- End appointment API logic ---
-
-        // --- Unset loading ui ---
-        setLoading(false)
       }
-    } catch (err) {
-      // --- Display any error in snackbar and unset loading ui ---
-      console.log("Error sending Stripe invoice:", err)
-      setApiErrorMessage("Error sending Stripe invoice:", err)
+
+      // --- Display any error in snackbar ---
+      if (response && response.error) {
+        console.log(response.error)
+        setApiErrorMessage(response.error)
+        handleErrorApiOpen()
+      }
+    }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
       handleErrorApiOpen()
       setLoading(false)
     }
+
+    // --- Unset loading ui ---
+    setLoading(false)
   }
   // -------------------- Stripe API End --------------------
 

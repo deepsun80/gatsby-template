@@ -104,6 +104,14 @@ const findSubscriptions = clientId => {
   )
 }
 
+const deleteSubscription = subId => {
+  return fetch(`/.netlify/functions/stripe-subscription-delete/${subId}`, {
+    method: "DELETE",
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export default {
   createClient: createClient,
   updateClient: updateClient,
@@ -118,4 +126,5 @@ export default {
   listPlans: listPlans,
   createSubscription: createSubscription,
   findSubscriptions: findSubscriptions,
+  deleteSubscription: deleteSubscription,
 }

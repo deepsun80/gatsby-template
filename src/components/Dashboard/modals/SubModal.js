@@ -12,19 +12,21 @@ import TableCell from "@material-ui/core/TableCell"
 import TableContainer from "@material-ui/core/TableContainer"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
+import Tooltip from "@material-ui/core/Tooltip"
+import IconButton from "@material-ui/core/IconButton"
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import useStyles from "../style"
 
-function SubModal({ onClose, open, data, header }) {
+function SubModal({ onClose, open, data, header, handleDelete }) {
   const classes = useStyles()
 
   const handleClose = () => {
     onClose()
   }
 
-  // const cancelSub = id => {
-  //   console.log(id)
-  // }
-  console.log(data)
+  const cancelSub = id => {
+    handleDelete(id)
+  }
 
   return (
     <Dialog
@@ -44,10 +46,23 @@ function SubModal({ onClose, open, data, header }) {
       </DialogTitle>
       <DialogContent>
         {data.map((sub, index) => (
-          <div key={sub.id}>
-            <Typography variant="body2" className={classes.modalLabel}>
-              Subscription {index + 1}
-            </Typography>
+          <TableContainer key={sub.id}>
+            <div className={classes.flexResponsive}>
+              <Typography variant="body2" className={classes.modalLabelHigh}>
+                Subscription {index + 1}
+              </Typography>
+              <Tooltip title="Cancel subscription" arrow>
+                <IconButton
+                  className={classes.iconPrimary}
+                  aria-label="delete"
+                  component="span"
+                  onClick={() => cancelSub(sub.id)}
+                >
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+
             <TableContainer className={classes.subBox}>
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -87,7 +102,7 @@ function SubModal({ onClose, open, data, header }) {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
+          </TableContainer>
         ))}
       </DialogContent>
       <DialogActions>
@@ -113,7 +128,7 @@ SubModal.propTypes = {
   open: PropTypes.bool.isRequired,
   data: PropTypes.array,
   header: PropTypes.string,
-  // handleDelete: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 }
 
 export default SubModal
