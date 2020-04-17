@@ -74,7 +74,7 @@ function ClientModal({
       setLoading(false)
     }
 
-    getAppts()
+    if (open) getAppts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLoading, data.email])
 

@@ -176,7 +176,8 @@ const Dashboard = ({
     let filteredClients = []
 
     clients.forEach(client => {
-      if (client.data.name.includes(searchTerm)) filteredClients.push(client)
+      if (client.data.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        filteredClients.push(client)
     })
     if (filteredClients.length > 0) setClients(filteredClients)
   }
