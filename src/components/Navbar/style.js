@@ -20,20 +20,24 @@ const useStyles = makeStyles(theme => ({
   },
   logoPrimaryHeight: {
     maxHeight: 60,
+    maxWidth: 160,
     [theme.breakpoints.up("md")]: {
       maxHeight: 65,
     },
     [theme.breakpoints.up("lg")]: {
       maxHeight: 80,
+      maxWidth: 200,
     },
   },
   logoSecondaryHeight: {
     maxHeight: 45,
+    maxWidth: 130,
     [theme.breakpoints.up("md")]: {
       maxHeight: 50,
     },
     [theme.breakpoints.up("lg")]: {
       maxHeight: 60,
+      maxWidth: 170,
     },
   },
   sectionDesktop: {
@@ -75,9 +79,9 @@ const useStyles = makeStyles(theme => ({
       borderBottom: "2px solid transparent",
     },
     "&:hover": {
-      opacity: 0.8,
+      color: theme.palette.secondary.main,
       [theme.breakpoints.up("md")]: {
-        borderBottom: "2px solid #fff",
+        borderBottom: `2px solid ${theme.palette.secondary.main}`,
       },
       background: "transparent",
     },
@@ -98,6 +102,10 @@ const useStyles = makeStyles(theme => ({
   navButton: {
     color: "#fff",
     border: "1px solid #fff",
+    "&:hover": {
+      background: theme.palette.secondary.light,
+      border: `1px solid ${theme.palette.secondary.light}`,
+    },
   },
   mobileButton: {
     margin: "1vh 2vw",

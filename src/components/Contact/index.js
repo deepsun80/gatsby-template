@@ -8,6 +8,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput"
 import InputLabel from "@material-ui/core/InputLabel"
 import TextMaskCustom from "./TextMaskCustom"
 import Button from "@material-ui/core/Button"
+import Typography from "@material-ui/core/Typography"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { AiOutlineLeft } from "react-icons/ai"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
@@ -15,7 +16,6 @@ import faunaApi from "../../utils/faunaApi"
 import validateEmail from "../../utils/validateEmail"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
-import { Typography } from "@material-ui/core"
 
 const encode = data => {
   return Object.keys(data)
@@ -24,6 +24,8 @@ const encode = data => {
 }
 
 const Contact = ({
+  header,
+  subHeader,
   successMessage,
   errorMessage,
   validationMessage,
@@ -123,7 +125,13 @@ const Contact = ({
 
   return (
     <section className={classes.section}>
-      <Container className={classes.container}>
+      <Typography variant="h3" align="center" className={classes.header}>
+        {header}
+      </Typography>
+      <Typography variant="body1" align="center" className={classes.subHeader}>
+        {subHeader}
+      </Typography>
+      <Container>
         {loading && (
           <div className={classes.loader}>
             <CircularProgress color="secondary" size="100px" thickness={1} />
@@ -285,6 +293,8 @@ const Contact = ({
 }
 
 Contact.propTypes = {
+  header: PropTypes.string.isRequired,
+  subHeader: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   errorMessage: PropTypes.string.isRequired,
   validationMessage: PropTypes.string.isRequired,

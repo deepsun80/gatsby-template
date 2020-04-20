@@ -9,13 +9,9 @@ import AniLink from "gatsby-plugin-transition-link/AniLink"
 import Img from "gatsby-image"
 import useStyles from "./style"
 
-const Section1 = ({
-  section1Header,
-  section1HeaderSpan,
-  section1Button,
-  section1Text,
-  section1Image,
-}) => {
+// ------------ 2 Columns, Left Text, Right Image ----------
+
+const TwoColTxtImg = ({ header, headerSpan, button, text, image }) => {
   const classes = useStyles()
 
   return (
@@ -25,15 +21,16 @@ const Section1 = ({
           <Grid container justify="center" spacing={2}>
             <Grid item lg={6} xs={12}>
               <div className={classes.flex}>
+                <div className={classes.line} />
                 <Typography variant="h3" color="primary">
-                  {section1Header}
+                  {header}
                 </Typography>
                 <Typography
                   variant="h3"
                   color="secondary"
                   className={classes.rightLetter}
                 >
-                  {section1HeaderSpan}
+                  {headerSpan}
                 </Typography>
               </div>
               <Typography
@@ -41,7 +38,7 @@ const Section1 = ({
                 color="primary"
                 className={classes.text}
               >
-                {section1Text}
+                {text}
               </Typography>
               <AniLink fade to={"/"}>
                 <Button
@@ -50,13 +47,13 @@ const Section1 = ({
                   color="secondary"
                   className={classes.button}
                 >
-                  {section1Button}
+                  {button}
                 </Button>
               </AniLink>
             </Grid>
             <div className={classes.grow} />
             <Grid item lg={6} xs={12}>
-              <Img fluid={section1Image.fluid} className={classes.image} />
+              <Img fluid={image.fluid} alt="2 col image" title="2 col image"/>
             </Grid>
           </Grid>
         </Container>
@@ -65,12 +62,12 @@ const Section1 = ({
   )
 }
 
-Section1.propTypes = {
-  section1Header: PropTypes.string.isRequired,
-  section1HeaderSpan: PropTypes.string.isRequired,
-  section1Button: PropTypes.string.isRequired,
-  section1Text: PropTypes.string.isRequired,
-  section1Image: PropTypes.object.isRequired,
+TwoColTxtImg.propTypes = {
+  header: PropTypes.string.isRequired,
+  headerSpan: PropTypes.string.isRequired,
+  button: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
 }
 
-export default Section1
+export default TwoColTxtImg

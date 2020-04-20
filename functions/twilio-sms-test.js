@@ -1,16 +1,21 @@
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
-const getId = require("./utils/getId")
+const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_BOT_NUMBER } = process.env
+
+const client = require("twilio")(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 exports.handler = (event, context, callback) => {
-  const id = getId(event.path)
+  const requestBody = JSON.parse(event.body)
 
-  return stripe.subscriptions
-    .del(id)
+  return client.messages
+    .create({
+      from: TWILIO_BOT_NUMBER,
+      to: requestBody.number,
+      body: requestBody.message,
+    })
     .then(result => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: "Stripe subscription cancelled",
+          message: "Twilio message created",
           result,
         }),
       }

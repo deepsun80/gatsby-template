@@ -11,6 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Menu from "@material-ui/core/Menu"
 import SignoutModal from "./SignoutModal"
 import { IoIosMenu } from "react-icons/io"
+import scrollTo from "gatsby-plugin-smoothscroll"
 import headerIndex from "../../utils/headerIndex"
 import useStyles from "./style"
 
@@ -66,8 +67,8 @@ const Navbar = ({
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
-  const renderMenu = (link, linkTitle, linkId) => (
-    <AniLink fade to={link}>
+  const renderMenu = (link, linkTitle, linkId) =>
+    linkTitle === "contact" ? (
       <MenuItem
         title={`${siteTitle} ${link}`}
         alt={`${siteTitle} ${link}`}
@@ -78,11 +79,27 @@ const Navbar = ({
             : classes.navLinkSecondaryColor
         )}
         id={linkId}
+        onClick={() => scrollTo(link)}
       >
         {linkTitle}
       </MenuItem>
-    </AniLink>
-  )
+    ) : (
+      <AniLink fade to={link}>
+        <MenuItem
+          title={`${siteTitle} ${link}`}
+          alt={`${siteTitle} ${link}`}
+          className={classNames(
+            classes.navLink,
+            menuColor
+              ? classes.navLinkPrimaryColor
+              : classes.navLinkSecondaryColor
+          )}
+          id={linkId}
+        >
+          {linkTitle}
+        </MenuItem>
+      </AniLink>
+    )
 
   const mobileMenuId = "menu-mobile"
   const renderMobileMenu = web ? (

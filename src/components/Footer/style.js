@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     maxHeight: 60,
+    maxWidth: 200,
   },
   icon: {
     transition: "all 0.5s",

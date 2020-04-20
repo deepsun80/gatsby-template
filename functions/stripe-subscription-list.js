@@ -1,7 +1,7 @@
 var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const getId = require("./utils/getId")
 
-module.exports.handler = (event, context, callback) => {
+exports.handler = (event, context, callback) => {
   const id = getId(event.path)
 
   return stripe.subscriptions

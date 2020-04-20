@@ -1,4 +1,4 @@
-import { blueGrey, indigo } from "@material-ui/core/colors"
+import { blueGrey, teal } from "@material-ui/core/colors"
 import { createMuiTheme } from "@material-ui/core/styles"
 import createBreakpoints from "@material-ui/core/styles/createBreakpoints"
 
@@ -25,22 +25,10 @@ const theme = createMuiTheme({
       dark: blueGrey[900],
     },
     secondary: {
-      light: indigo[100],
-      main: indigo.A200,
-      dark: indigo.A700,
+      light: teal[100],
+      main: teal[300],
+      dark: teal[700],
     },
-    warning: {
-      light: indigo.A200,
-      main: indigo.A400,
-      dark: indigo.A700,
-    },
-    // -- Used for Dashboard --
-    info: {
-      light: indigo[100],
-      main: indigo.A200,
-      dark: indigo.A700,
-    },
-    // ------
     background: {
       default: "#fff",
       paper: "#fff",
@@ -51,23 +39,26 @@ const theme = createMuiTheme({
       h1: {
         fontFamily: "Raleway, sans-serif",
         textTransform: "capitalize",
+        fontWeight: 600,
         fontSize: pxToRem(35),
-        [breakpoints.up("md")]: {
+        [breakpoints.up("lg")]: {
           fontSize: pxToRem(60),
         },
       },
       h2: {
         fontFamily: "Raleway, sans-serif",
         textTransform: "capitalize",
+        fontWeight: 600,
         fontSize: pxToRem(28),
-        [breakpoints.up("md")]: {
+        [breakpoints.up("lg")]: {
           fontSize: pxToRem(50),
         },
       },
       h3: {
         textTransform: "capitalize",
+        fontWeight: 600,
         fontSize: pxToRem(24),
-        [breakpoints.up("md")]: {
+        [breakpoints.up("lg")]: {
           fontSize: pxToRem(40),
         },
       },
@@ -75,7 +66,7 @@ const theme = createMuiTheme({
         fontFamily: "Roboto Slab, serif",
         textTransform: "capitalize",
         fontSize: pxToRem(22),
-        [breakpoints.up("md")]: {
+        [breakpoints.up("lg")]: {
           fontSize: pxToRem(30),
         },
       },
@@ -83,7 +74,7 @@ const theme = createMuiTheme({
         fontFamily: "Roboto Slab, serif",
         textTransform: "capitalize",
         fontSize: pxToRem(20),
-        [breakpoints.up("md")]: {
+        [breakpoints.up("lg")]: {
           fontSize: pxToRem(20),
         },
       },

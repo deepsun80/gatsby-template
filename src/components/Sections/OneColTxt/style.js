@@ -7,11 +7,16 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: "5vh",
     paddingBottom: "5vh",
+    [theme.breakpoints.up("xl")]: {
+      paddingTop: "12vh",
+      paddingBottom: "5vh",
+    },
   },
-  image: {
-    minWidth: "50%",
+  paper: {
+    position: "relative",
+    zIndex: 1,
   },
-  flexLine: {
+  flex: {
     display: "flex",
     justifyContent: "flex-start",
   },
@@ -21,15 +26,11 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
   },
   rightLetter: {
-    textTransform: "capitalize",
     color: theme.palette.secondary.main,
+    textTransform: "capitalize",
   },
-  pagination: {
-    justifyContent: "space-between",
-  },
-  flex: {
-    display: "flex",
-    justifyContent: "flex-start",
+  text: {
+    marginTop: 30,
   },
 }))
 

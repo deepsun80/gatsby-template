@@ -1,6 +1,6 @@
 var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
-module.exports.handler = (event, context, callback) => {
+exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
   return stripe.customers

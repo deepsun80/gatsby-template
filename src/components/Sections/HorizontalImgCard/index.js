@@ -6,13 +6,18 @@ import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import useStyles from "./style"
 
-const Testimonial = ({ text, author, image }) => {
+const HorizontalImgCard = ({ text, subText, image }) => {
   const classes = useStyles()
 
   return (
     <Card className={classes.card}>
       <div className={classes.content}>
-        <Img fluid={image} className={classes.image} />
+        <Img
+          fluid={image}
+          className={classes.image}
+          alt="horizontal card image"
+          title="horizontal card image"
+        />
         <CardContent>
           <Typography variant="body2" color="primary">
             {text}
@@ -20,9 +25,9 @@ const Testimonial = ({ text, author, image }) => {
           <Typography
             variant="body1"
             color="primary"
-            className={classes.author}
+            className={classes.subText}
           >
-            {author}
+            {subText}
           </Typography>
         </CardContent>
       </div>
@@ -30,10 +35,10 @@ const Testimonial = ({ text, author, image }) => {
   )
 }
 
-Testimonial.propTypes = {
+HorizontalImgCard.propTypes = {
   text: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
+  subText: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }
 
-export default Testimonial
+export default HorizontalImgCard

@@ -4,11 +4,9 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
-  background: {
-    background: `linear-gradient(top, ${theme.palette.secondary.light} 40%, #fff 40%)`,
+  container: {
+    paddingBottom: "10vh",
   },
-  container: {},
-  image: {},
 }))
 
 export default useStyles

@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "../layouts"
-import Banner2 from "../components/Banner/Banner2"
+import FullBg from "../components/Sections/FullBg"
 import Schedule from "../components/Schedule"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
@@ -20,7 +20,7 @@ const schedule = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} />
-      <Banner2
+      <FullBg
         header="schedule"
         headerSpan="appointment"
         subHeader="schedule your appointment online"

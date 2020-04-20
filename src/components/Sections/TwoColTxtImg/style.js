@@ -20,6 +20,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  line: {
+    borderLeft: `5px solid ${theme.palette.secondary.light}`,
+    minHeight: "100%",
+    marginRight: 10,
+  },
   button: {
     marginTop: 50,
     "&:hover": {
@@ -33,10 +38,6 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     marginTop: 30,
-  },
-  image: {
-    boxShadow: `30px -30px ${theme.palette.secondary.light}`,
-    marginTop: 50,
   },
 }))
 

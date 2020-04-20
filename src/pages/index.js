@@ -1,18 +1,20 @@
 import React from "react"
 import Layout from "../layouts"
-import Banner1 from "../components/Banner/Banner1"
-import Section1 from "../components/Section/Section1"
-import Section2 from "../components/Section/Section2"
+import FullBg from "../components/Sections/FullBg"
+import OneColTxt from "../components/Sections/OneColTxt"
+import Services from "../components/Services"
 import Testimonials from "../components/Testimonials"
+import Contact from "../components/Contact"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const index = ({ data }) => {
   const {
-    bannerImage,
+    heroBg,
     section1Image,
     section2Image1,
     section2Image2,
+    section2Image3,
     testimonial1Image,
     testimonial2Image,
   } = data
@@ -26,13 +28,24 @@ const index = ({ data }) => {
     section1HeaderSpan,
     section1Button,
     section1Text,
+    section2Button,
     section2Header1,
     section2Text1,
     section2Header2,
     section2Text2,
+    section2Header3,
+    section2Text3,
     section3SmallHeader,
     section3Header,
     section3HeaderSpan,
+    contactHeader,
+    contactSubHeader,
+    contactSuccess,
+    contactError,
+    contactValidation,
+    contactEmail,
+    localHostError,
+    liveError,
     testimonial1Author,
     testimonial1Text,
     testimonial2Author,
@@ -42,26 +55,41 @@ const index = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} />
-      <Banner1
+      <FullBg
         header={header}
         headerSpan={headerSpan}
         subHeader={subHeader}
-        bannerImage={bannerImage.childImageSharp}
+        image={heroBg.childImageSharp}
       />
-      <Section1
-        section1Header={section1Header}
-        section1HeaderSpan={section1HeaderSpan}
-        section1Button={section1Button}
-        section1Text={section1Text}
-        section1Image={section1Image.childImageSharp}
+      <OneColTxt
+        header={section1Header}
+        headerSpan={section1HeaderSpan}
+        button={section1Button}
+        text={section1Text}
+        image={section1Image.childImageSharp}
       />
-      <Section2
-        section2Header1={section2Header1}
-        section2Text1={section2Text1}
-        section2Image1={section2Image1.childImageSharp}
-        section2Header2={section2Header2}
-        section2Text2={section2Text2}
-        section2Image2={section2Image2.childImageSharp}
+      <Services
+        button={section2Button}
+        header1={section2Header1}
+        text1={section2Text1}
+        header2={section2Header2}
+        text2={section2Text2}
+        header3={section2Header3}
+        text3={section2Text3}
+        img1={section2Image1.childImageSharp}
+        img2={section2Image2.childImageSharp}
+        img3={section2Image3.childImageSharp}
+      />
+      <div className="contact" />
+      <Contact
+        header={contactHeader}
+        subHeader={contactSubHeader}
+        successMessage={contactSuccess}
+        errorMessage={contactError}
+        validationMessage={contactValidation}
+        emailMessage={contactEmail}
+        localHostError={localHostError}
+        liveError={liveError}
       />
       <Testimonials
         section3SmallHeader={section3SmallHeader}
@@ -80,7 +108,7 @@ const index = ({ data }) => {
 
 export const data = graphql`
   query {
-    bannerImage: file(relativePath: { eq: "bannerBg.jpg" }) {
+    heroBg: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
@@ -102,6 +130,13 @@ export const data = graphql`
       }
     }
     section2Image2: file(relativePath: { eq: "section2img2.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    section2Image3: file(relativePath: { eq: "section2img3.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
@@ -130,14 +165,24 @@ export const data = graphql`
         subHeader
         section1Header
         section1HeaderSpan
-        section1Button
+        section2Button
         section2Header1
         section2Text1
         section2Header2
         section2Text2
+        section2Header3
+        section2Text3
         section3SmallHeader
         section3Header
         section3HeaderSpan
+        contactHeader
+        contactSubHeader
+        contactSuccess
+        contactError
+        contactValidation
+        contactEmail
+        localHostError
+        liveError
         testimonial1Author
         testimonial2Author
         section1Text

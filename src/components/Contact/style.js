@@ -6,16 +6,19 @@ const useStyles = makeStyles(theme => ({
   },
   section: {
     minHeight: "80vh",
+    padding: "10vh 0",
+    backgroundColor: theme.palette.secondary.light,
   },
-  container: {
-    paddingTop: "12vh",
+  header: {
+    color: "#fff",
+  },
+  subHeader: {
+    color: "#fff",
+    fontStyle: "italic",
   },
   paper: {
     padding: 30,
-    boxShadow: `30px 30px ${theme.palette.secondary.light}`,
-    border: `1px solid ${theme.palette.secondary.light}`,
-    position: "relative",
-    zIndex: 1,
+    marginTop: 50,
   },
   field: {
     marginTop: 30,

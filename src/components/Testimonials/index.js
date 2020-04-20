@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import Container from "@material-ui/core/Container"
 import Pagination from "@material-ui/lab/Pagination"
 import Typography from "@material-ui/core/Typography"
-import Testimonial from "./Testimonial"
+import HorizontalImgCard from "../Sections/HorizontalImgCard"
 import useStyles from "./style"
 
 const Testimonials = ({
@@ -25,32 +25,28 @@ const Testimonials = ({
   return (
     <section>
       <Container className={classes.container}>
-        <Typography variant="h4" color="primary">
-          <i>{section3SmallHeader}</i>
-        </Typography>
-        <div className={classes.flex}>
-          <Typography variant="h3" color="primary">
-            {section3Header}
-          </Typography>
-          <Typography
-            variant="h3"
-            color="secondary"
-            className={classes.rightLetter}
-          >
-            {section3HeaderSpan}
+        <div className={classes.flexLine}>
+          <div className={classes.line} />
+          <Typography variant="h4" component="p" color="primary">
+            <i>{section3SmallHeader}</i>
           </Typography>
         </div>
-        <div className={classes.innerContainer} />
+        <div className={classes.flex}>
+          <Typography variant="h3" component="h4" color="primary">
+            {section3Header}
+            <span className={classes.rightLetter}> {section3HeaderSpan}</span>
+          </Typography>
+        </div>
         {page === 1 && (
-          <Testimonial
-            author={testimonial1Author}
+          <HorizontalImgCard
+            subText={testimonial1Author}
             text={testimonial1Text}
             image={testimonial1Image.fluid}
           />
         )}
         {page === 2 && (
-          <Testimonial
-            author={testimonial2Author}
+          <HorizontalImgCard
+            subText={testimonial2Author}
             text={testimonial2Text}
             image={testimonial2Image.fluid}
           />
