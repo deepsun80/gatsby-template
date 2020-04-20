@@ -243,17 +243,8 @@ const Schedule = ({
                   styles={{
                     height: "1000px",
                   }}
-                  url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&phone=${values.phone}`}
+                  url={`https://calendly.com/deepsun80?name=${firstName}%20${lastName}&email=${values.email}&a1=${values.phone}`}
                 />
-                {/* <iframe
-                    title="vyte"
-                    src="https://www.vyte.in/deepsun80?embed"
-                    width="100%"
-                    height="1000px"
-                    frameborder="0"
-                  >
-                    https://www.vyte.in/deepsun80
-                  </iframe> */}
               </>
             )}
 

@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "../layouts"
-import FullBg from "../components/Sections/FullBg"
+// import FullBg from "../components/Sections/FullBg"
 import Schedule from "../components/Schedule"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
@@ -20,12 +20,12 @@ const schedule = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} />
-      <FullBg
+      {/* <FullBg
         header="schedule"
         headerSpan="appointment"
         subHeader="schedule your appointment online"
         bannerImage={data.background.childImageSharp}
-      />
+      /> */}
       <Schedule
         successMessage={success}
         subSuccessMessage={subSuccess}

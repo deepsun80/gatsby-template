@@ -142,6 +142,7 @@ const Appt = ({
 
     // --- Get appointments from Fauna ---
     const response = await faunaApi.readAllAppts()
+    console.log(response)
 
     // --- If not connected to Fauna display error ---
     if (response && response.error === "unauthorized") {
@@ -230,6 +231,14 @@ const Appt = ({
             handleErrorApiOpen()
           }
         }
+
+        // --- Within forEach, sort appointments to display newest date first ---
+        const sortedArray = response.result.sort(
+          (a, b) =>
+            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+        )
+        setAppts(sortedArray)
       })
     }
 
