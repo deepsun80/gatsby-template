@@ -11,6 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogActions from "@material-ui/core/DialogActions"
 import IconButton from "@material-ui/core/IconButton"
 import ViewListIcon from "@material-ui/icons/ViewList"
+import SendIcon from "@material-ui/icons/Send"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 import faunaApi from "../../../utils/faunaApi"
 import moment from "moment"
@@ -32,6 +33,7 @@ function ClientModal({
   setApiSuccessMessage,
   handleErrorApiOpen,
   setApiErrorMessage,
+  handleApptReminder,
   setLoading,
 }) {
   const classes = useStyles()
@@ -187,12 +189,35 @@ function ClientModal({
                     ? "Last Appointment"
                     : "Upcoming Appointment"}
                 </Typography>
-                <DialogContentText
-                  variant="body2"
-                  className={classes.modalSecondaryBody}
-                >
-                  {appt.data.payload.event.start_time_pretty}
-                </DialogContentText>
+                <div className={classes.flex}>
+                  <DialogContentText
+                    variant="body2"
+                    className={classes.modalSecondaryBody}
+                  >
+                    {appt.data.payload.event.start_time_pretty}
+                  </DialogContentText>
+
+                  {moment(
+                    appt.data.payload.event.start_time
+                  ).isBefore() ? null : (
+                    <Tooltip title="Text appointment reminder" arrow>
+                      <IconButton
+                        className={classes.iconPrimary}
+                        aria-label="submit"
+                        component="span"
+                        onClick={() => {
+                          handleApptReminder({
+                            to: data.phone,
+                            body: `Hi ${data.name}, this is a friendly reminder that you have an upcoming appointment on ${appt.data.payload.event.start_time_pretty}`,
+                          })
+                          handleClose()
+                        }}
+                      >
+                        <SendIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </div>
               </>
             )}
           </Grid>
@@ -227,6 +252,7 @@ ClientModal.propTypes = {
   setApiSuccessMessage: PropTypes.func.isRequired,
   handleErrorApiOpen: PropTypes.func.isRequired,
   setApiErrorMessage: PropTypes.func.isRequired,
+  handleApptReminder: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
 }
 

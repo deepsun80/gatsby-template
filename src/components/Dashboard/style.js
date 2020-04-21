@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
   },
   modalSecondaryBody: {
     color: "blue",
-    marginTop: 10,
+    paddingTop: 15,
     paddingLeft: 10,
   },
   modalLabel: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   modalLabelHigh: {
     fontWeight: 600,
     color: "darkslategrey",
-    lineHeight: "2.5rem"
+    lineHeight: "2.5rem",
   },
   modalSmallHeader: {
     fontWeight: 600,

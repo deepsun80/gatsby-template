@@ -8,14 +8,14 @@ exports.handler = (event, context, callback) => {
   return client.messages
     .create({
       from: TWILIO_BOT_NUMBER,
-      to: requestBody.number,
-      body: requestBody.message,
+      to: requestBody.to,
+      body: requestBody.body,
     })
     .then(result => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
-          message: "Twilio message created",
+          message: "Twilio message sent",
           result,
         }),
       }

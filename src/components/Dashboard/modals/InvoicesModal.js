@@ -16,6 +16,7 @@ import Link from "@material-ui/core/Link"
 import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import SendIcon from "@material-ui/icons/Send"
 import BlockIcon from "@material-ui/icons/Block"
 import useStyles from "../style"
 
@@ -27,6 +28,7 @@ function InvoicesModal({
   handleDelete,
   handleSend,
   handleVoid,
+  handleInvReminder,
 }) {
   const classes = useStyles()
 
@@ -44,6 +46,10 @@ function InvoicesModal({
 
   const voidInvoice = id => {
     handleVoid(id)
+  }
+
+  const sendSms = data => {
+    handleInvReminder(data)
   }
 
   return (
@@ -75,6 +81,7 @@ function InvoicesModal({
                 <TableCell className={classes.tableHeader}>Send</TableCell>
                 <TableCell className={classes.tableHeader}>Delete</TableCell>
                 <TableCell className={classes.tableHeader}>Void</TableCell>
+                <TableCell className={classes.tableHeader}>Sms</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -173,6 +180,21 @@ function InvoicesModal({
                       }}
                     />
                   </TableCell>
+                  <TableCell>
+                    <SendIcon
+                      className={
+                        row.status !== "open"
+                          ? classes.disabledIcon
+                          : classes.icon
+                      }
+                      onClick={() => {
+                        if (row.status === "open") {
+                          sendSms(row.hosted_invoice_url)
+                          handleClose()
+                        }
+                      }}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -205,6 +227,7 @@ InvoicesModal.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleSend: PropTypes.func.isRequired,
   handleVoid: PropTypes.func.isRequired,
+  handleInvReminder: PropTypes.func.isRequired,
 }
 
 export default InvoicesModal

@@ -31,6 +31,7 @@ import Appts from "./Appts"
 import Navbar from "../Navbar"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
+import twilioApi from "../../utils/twilioApi"
 import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 
@@ -892,13 +893,69 @@ const Dashboard = ({
       console.log(result.error)
       setApiErrorMessage(result.error)
       handleErrorApiOpen()
-      setLoading(false)
     }
 
     // --- Unset loading ui ---
     setLoading(false)
   }
   // -------------------- Stripe API End --------------------
+
+  // -------------------- Twilio API Start --------------------
+  // --- Send appointment reminder in Twilio ---
+  const handleApptReminder = async data => {
+    // --- Set loading ui ---
+    setLoading(true)
+
+    // --- Delete subscription in Stripe ---
+    const result = await twilioApi.sendInvoice(data)
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+    }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
+  }
+
+  // --- Send invoice payment reminder in Twilio ---
+  const handleInvReminder = async data => {
+    // --- Set loading ui ---
+    setLoading(true)
+
+    // --- Delete subscription in Stripe ---
+    const result = await twilioApi.sendInvoice({
+      to: modalData.phone,
+      body: `Hi ${modalData.name}, this is a friendly remindar to please pay your invoice: ${data}`,
+    })
+
+    // --- If got response, display success snackbar ---
+    if (result && result.message) {
+      console.log(result.message)
+      setApiSuccessMessage(result.message)
+      handleSuccessApiOpen()
+    }
+
+    // --- Display any error in snackbar ---
+    if (result && result.error) {
+      console.log(result.error)
+      setApiErrorMessage(result.error)
+      handleErrorApiOpen()
+    }
+
+    // --- Unset loading ui ---
+    setLoading(false)
+  }
+  // -------------------- Twilio API End --------------------
 
   // -------------------- Start component logic --------------------
   useEffect(() => {
@@ -1046,6 +1103,7 @@ const Dashboard = ({
                 setApiSuccessMessage={setApiSuccessMessage}
                 handleErrorApiOpen={handleErrorApiOpen}
                 setApiErrorMessage={setApiErrorMessage}
+                handleApptReminder={handleApptReminder}
               />
               <DeleteModal
                 open={deleteModal}
@@ -1067,6 +1125,7 @@ const Dashboard = ({
                 handleDelete={handleInvoiceDelete}
                 handleSend={handleSendInvoice}
                 handleVoid={handleVoidInvoice}
+                handleInvReminder={handleInvReminder}
               />
               <CreateInvoiceModal
                 open={formInvModal}
