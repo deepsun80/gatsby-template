@@ -20,25 +20,30 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  gridFlex: {
+    display: "flex",
+    alignItems: "center",
+  },
   line: {
     borderLeft: `5px solid ${theme.palette.secondary.light}`,
     minHeight: "100%",
     marginRight: 10,
   },
-  button: {
-    marginTop: 50,
-    "&:hover": {
-      color: "#fff",
-      background: theme.palette.secondary.light,
-      border: `1px solid ${theme.palette.secondary.light}`,
-    },
-  },
   rightLetter: {
     marginLeft: 15,
+    fontStyle: "italic",
   },
   text: {
     marginTop: 30,
   },
+  // button: {
+  //   marginTop: 50,
+  //   "&:hover": {
+  //     color: "#fff",
+  //     background: theme.palette.secondary.light,
+  //     border: `1px solid ${theme.palette.secondary.light}`,
+  //   },
+  // },
 }))
 
 export default useStyles

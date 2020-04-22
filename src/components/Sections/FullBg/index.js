@@ -4,8 +4,7 @@ import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import BackgroundImage from "gatsby-background-image"
-import IconButton from "@material-ui/core/IconButton"
-import { AiOutlineDown } from "react-icons/ai"
+import { BsThreeDotsVertical } from "react-icons/bs"
 import scrollTo from "gatsby-plugin-smoothscroll"
 import useStyles from "./style"
 
@@ -21,35 +20,50 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
         alt="hero image"
         title="hero image"
         style={{
-          height: "100vh",
+          height: "80vh",
           backgroundSize: "cover",
         }}
         fluid={image.fluid}
       >
-        <Container maxWidth="xl" className={classes.container}>
-          <Paper elevation={0} className={classes.paper}>
-            <Typography variant="h1" className={classes.header}>
-              {header} <br />
-              <span className={classes.headerSpan}>{headerSpan}</span>
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              className={classes.subtitle}
-              component="p"
-            >
-              {subHeader}
-            </Typography>
-            <IconButton
-              type="submit"
-              aria-label="search"
-              color="secondary"
-              onClick={() => scrollTo(".scroll-down")}
-            >
-              <AiOutlineDown />
-            </IconButton>
-          </Paper>
-        </Container>
+        <div className={classes.overlay}>
+          <Container maxWidth="xl" className={classes.container}>
+            <Paper elevation={0} className={classes.paper}>
+              <Typography variant="h1" className={classes.header}>
+                {header} <br />
+                <span className={classes.headerSpan}>{headerSpan}</span>
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="primary"
+                className={classes.subtitle}
+                component="p"
+              >
+                {subHeader}
+              </Typography>
+            </Paper>
+            <div className={classes.verticalButton}>
+              <BsThreeDotsVertical
+                className={classes.icon}
+                style={{ opacity: 0.3 }}
+                onClick={() => scrollTo(".scroll-down")}
+              />
+              <BsThreeDotsVertical
+                className={classes.icon}
+                style={{ opacity: 0.5 }}
+                onClick={() => scrollTo(".scroll-down")}
+              />
+              <BsThreeDotsVertical
+                className={classes.icon}
+                style={{ opacity: 0.75 }}
+                onClick={() => scrollTo(".scroll-down")}
+              />
+              <BsThreeDotsVertical
+                className={classes.icon}
+                onClick={() => scrollTo(".scroll-down")}
+              />
+            </div>
+          </Container>
+        </div>
       </BackgroundImage>
       <div className="scroll-down" />
     </section>

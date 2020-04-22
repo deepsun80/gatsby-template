@@ -8,7 +8,7 @@ import useStyles from "./style"
 
 // ------------ 2 Columns, Left Text, Right Background Image ----------
 
-const TwoColTxtBg = ({ header, headerSpan, button, text, image }) => {
+const TwoColTxtBg = ({ header, headerSpan, text, image }) => {
   const classes = useStyles()
 
   return (
@@ -57,7 +57,6 @@ const TwoColTxtBg = ({ header, headerSpan, button, text, image }) => {
 TwoColTxtBg.propTypes = {
   header: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
-  button: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }

@@ -1,16 +1,36 @@
 import React from "react"
 import Layout from "../layouts"
-import FullBg from "../components/Sections/FullBg"
+import SEO from "../components/SEO"
+import FullBgHeader from "../components/Sections/FullBgHeader"
+import TwoColTxtImg from "../components/Sections/TwoColTxtImg"
 import { graphql } from "gatsby"
 
 const about = ({ data }) => {
+  const { background, image } = data
+
+  const {
+    title,
+    titleSpan,
+    subTitle,
+    header,
+    headerSpan,
+    text,
+  } = data.markdownRemark.frontmatter
+
   return (
     <Layout>
-      <FullBg
-        header="about"
-        headerSpan="us"
-        subHeader="about our company"
-        bannerImage={data.background.childImageSharp}
+      <SEO title={title} />
+      <FullBgHeader
+        header={title}
+        headerSpan={titleSpan}
+        subHeader={subTitle}
+        image={background.childImageSharp}
+      />
+      <TwoColTxtImg
+        header={header}
+        headerSpan={headerSpan}
+        text={text}
+        image={image.childImageSharp}
       />
     </Layout>
   )
@@ -18,18 +38,28 @@ const about = ({ data }) => {
 
 export const data = graphql`
   {
-    background: file(relativePath: { eq: "bannerBg.jpg" }) {
+    background: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    image: file(relativePath: { eq: "section1img.jpg" }) {
+    image: file(relativePath: { eq: "aboutImg.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
+      }
+    }
+    markdownRemark(frontmatter: { path: { eq: "/about" } }) {
+      frontmatter {
+        title
+        titleSpan
+        subTitle
+        header
+        headerSpan
+        text
       }
     }
   }
