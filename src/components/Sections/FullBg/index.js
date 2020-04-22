@@ -20,7 +20,7 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
         alt="hero image"
         title="hero image"
         style={{
-          height: "80vh",
+          height: "90vh",
           backgroundSize: "cover",
         }}
         fluid={image.fluid}
@@ -50,22 +50,22 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
               <BsThreeDotsVertical
                 className={classes.icon}
                 style={{ opacity: 0.5 }}
-                onClick={() => scrollTo(".scroll-down")}
+                onClick={() => scrollTo("#scroll-down")}
               />
               <BsThreeDotsVertical
                 className={classes.icon}
                 style={{ opacity: 0.75 }}
-                onClick={() => scrollTo(".scroll-down")}
+                onClick={() => scrollTo("#scroll-down")}
               />
               <BsThreeDotsVertical
                 className={classes.icon}
-                onClick={() => scrollTo(".scroll-down")}
+                onClick={() => scrollTo("#scroll-down")}
               />
             </div>
           </Container>
         </div>
       </BackgroundImage>
-      <div className="scroll-down" />
+      <div id="scroll-down" className={classes.scrollDown} />
     </section>
   )
 }

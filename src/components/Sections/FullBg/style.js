@@ -6,17 +6,17 @@ const useStyles = makeStyles(theme => ({
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.4)",
-    height: "80vh",
+    height: "90vh",
   },
   container: {
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
-    height: "70vh",
+    height: "60vh",
   },
   paper: {
     textAlign: "right",
-    padding: "10vh 5vw 5vh",
+    padding: "5vh 5vw 3vh",
     width: 800,
     maxWidth: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.0)",
@@ -48,6 +48,13 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     marginBottom: "-10px",
     padding: 0,
+  },
+  scrollDown: {
+    minHeight: "230px",
+    background: "#fff",
+    transformOrigin: "top right",
+    transform: "skewY(7deg)",
+    marginBottom: "-300px",
   },
 }))
 

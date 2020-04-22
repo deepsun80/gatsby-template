@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: "relative",
     zIndex: 1,
+    backgroundColor: "transparent",
   },
   flex: {
     display: "flex",
