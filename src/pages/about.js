@@ -3,10 +3,12 @@ import Layout from "../layouts"
 import SEO from "../components/SEO"
 import FullBgHeader from "../components/Sections/FullBgHeader"
 import TwoColTxtImg from "../components/Sections/TwoColTxtImg"
+import Contact from "../components/Contact"
+import OneColTxt from "../components/Sections/OneColTxt"
 import { graphql } from "gatsby"
 
 const about = ({ data }) => {
-  const { background, image } = data
+  const { background, image, contactBg } = data
 
   const {
     title,
@@ -15,6 +17,18 @@ const about = ({ data }) => {
     header,
     headerSpan,
     text,
+    headerTwo,
+    headerSpanTwo,
+    subHeaderTwo,
+    textTwo,
+    contactHeader,
+    contactSubHeader,
+    contactSuccess,
+    contactError,
+    contactValidation,
+    contactEmail,
+    localHostError,
+    liveError,
   } = data.markdownRemark.frontmatter
 
   return (
@@ -30,6 +44,25 @@ const about = ({ data }) => {
         header={header}
         headerSpan={headerSpan}
         text={text}
+        image={image.childImageSharp}
+      />
+      <div className="contact" />
+      <Contact
+        header={contactHeader}
+        subHeader={contactSubHeader}
+        successMessage={contactSuccess}
+        errorMessage={contactError}
+        validationMessage={contactValidation}
+        emailMessage={contactEmail}
+        localHostError={localHostError}
+        liveError={liveError}
+        image={contactBg.childImageSharp}
+      />
+      <OneColTxt
+        header={headerTwo}
+        headerSpan={headerSpanTwo}
+        subHeader={subHeaderTwo}
+        text={textTwo}
         image={image.childImageSharp}
       />
     </Layout>
@@ -52,6 +85,13 @@ export const data = graphql`
         }
       }
     }
+    contactBg: file(relativePath: { eq: "overlayPattern.png" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
     markdownRemark(frontmatter: { path: { eq: "/about" } }) {
       frontmatter {
         title
@@ -60,6 +100,18 @@ export const data = graphql`
         header
         headerSpan
         text
+        headerTwo
+        headerSpanTwo
+        subHeaderTwo
+        textTwo
+        contactHeader
+        contactSubHeader
+        contactSuccess
+        contactError
+        contactValidation
+        contactEmail
+        localHostError
+        liveError
       }
     }
   }

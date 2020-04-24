@@ -21,7 +21,7 @@ const Services = ({
 
   return (
     <section>
-      <Container maxWidth="lg" className={classes.container}>
+      <Container className={classes.container}>
         <Grid container spacing={2}>
           <Grid item md={4} xs={12}>
             <VerticalImgCard
@@ -31,7 +31,7 @@ const Services = ({
               button={button}
             />
           </Grid>
-          <Grid item md={4} xs={12}>
+          <Grid item md={4} xs={12} className={classes.middleGrid}>
             <VerticalImgCard
               image={img2}
               header={header2}

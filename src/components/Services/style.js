@@ -7,6 +7,11 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingBottom: "10vh",
   },
+  middleGrid: {
+    [theme.breakpoints.up("md")]: {
+      marginTop: "-30px",
+    },
+  },
 }))
 
 export default useStyles

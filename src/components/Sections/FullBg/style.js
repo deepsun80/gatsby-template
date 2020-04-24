@@ -12,18 +12,29 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "flex-end",
     justifyContent: "flex-end",
-    height: "60vh",
+    height: "70vh",
+    [theme.breakpoints.up("md")]: {
+      height: "70vh",
+    },
   },
   paper: {
-    textAlign: "right",
-    padding: "5vh 5vw 3vh",
-    width: 800,
+    padding: "5vh 5vw",
+    [theme.breakpoints.up("sm")]: {
+      padding: "0vh 5vw",
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "5vh 5vw",
+    },
     maxWidth: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     border: "1px solid #fff",
   },
   header: {
     color: "#fff",
+    textTransform: "capitalize",
+    [theme.breakpoints.up("xl")]: {
+      fontSize: "5em",
+    },
   },
   headerSpan: {
     textTransform: "capitalize",
@@ -39,13 +50,13 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     transition: "all 0.3s",
+    color: "#fff",
     "&:hover": {
-      opacity: 0.4,
+      color: theme.palette.secondary.main,
     },
   },
   icon: {
     fontSize: "3rem",
-    color: "#fff",
     marginBottom: "-10px",
     padding: 0,
   },
@@ -54,7 +65,16 @@ const useStyles = makeStyles(theme => ({
     background: "#fff",
     transformOrigin: "top right",
     transform: "skewY(7deg)",
-    marginBottom: "-300px",
+    [theme.breakpoints.up("sm")]: {
+      transform: "skewY(5deg)",
+    },
+    [theme.breakpoints.up("md")]: {
+      transform: "skewY(7deg)",
+    },
+    marginBottom: "-230px",
+    [theme.breakpoints.up("md")]: {
+      marginBottom: "-300px",
+    },
   },
 }))
 

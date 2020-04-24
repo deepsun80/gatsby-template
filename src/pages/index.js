@@ -17,6 +17,7 @@ const index = ({ data }) => {
     section2Image3,
     testimonial1Image,
     testimonial2Image,
+    contactBg,
   } = data
 
   const {
@@ -26,7 +27,6 @@ const index = ({ data }) => {
     subHeader,
     section1Header,
     section1HeaderSpan,
-    section1Button,
     section1Text,
     section2Button,
     section2Header1,
@@ -64,7 +64,6 @@ const index = ({ data }) => {
       <OneColTxt
         header={section1Header}
         headerSpan={section1HeaderSpan}
-        button={section1Button}
         text={section1Text}
         image={section1Image.childImageSharp}
       />
@@ -90,6 +89,7 @@ const index = ({ data }) => {
         emailMessage={contactEmail}
         localHostError={localHostError}
         liveError={liveError}
+        image={contactBg.childImageSharp}
       />
       <Testimonials
         section3SmallHeader={section3SmallHeader}
@@ -137,6 +137,13 @@ export const data = graphql`
       }
     }
     section2Image3: file(relativePath: { eq: "section2img3.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    contactBg: file(relativePath: { eq: "overlayPattern.png" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp

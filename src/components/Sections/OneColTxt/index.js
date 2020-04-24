@@ -7,7 +7,7 @@ import useStyles from "./style"
 
 // ------------ 1 Column Text with Button ----------
 
-const OneColTxt = ({ header, headerSpan, button, text }) => {
+const OneColTxt = ({ header, headerSpan, subHeader, text }) => {
   const classes = useStyles()
 
   return (
@@ -21,6 +21,14 @@ const OneColTxt = ({ header, headerSpan, button, text }) => {
               <span className={classes.rightLetter}> {headerSpan}</span>
             </Typography>
           </div>
+          <Typography
+            variant="h3"
+            component="h4"
+            color="primary"
+            className={classes.text}
+          >
+            {subHeader}
+          </Typography>
           <Typography variant="body2" color="primary" className={classes.text}>
             {text}
           </Typography>
@@ -30,9 +38,14 @@ const OneColTxt = ({ header, headerSpan, button, text }) => {
   )
 }
 
+OneColTxt.defaultProps = {
+  subHeader: "",
+}
+
 OneColTxt.propTypes = {
   header: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
+  subHeader: PropTypes.string,
   text: PropTypes.string.isRequired,
 }
 

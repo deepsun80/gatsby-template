@@ -1,6 +1,10 @@
 ---
 path: "/contact"
 title: "Contact"
+titleSpan: "Us"
+subTitle: "get in touch with us"
+header: "contact us"
+subHeader: "fill out the form below for a free estimate"
 success: "Thank you for contacting us. We will get back to you
   shortly."
 error: "Something went wrong, please try again or give us a call."

@@ -104,6 +104,16 @@ const theme = createMuiTheme({
         textTransform: "none",
       },
     },
+    MuiPaper: {
+      rounded: {
+        borderRadius: 0,
+      },
+    },
+    MuiButton: {
+      root: {
+        borderRadius: 0,
+      },
+    },
   },
 })
 

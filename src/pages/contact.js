@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "../layouts"
-import FullBg from "../components/Sections/FullBg"
+import FullBgHeader from "../components/Sections/FullBgHeader"
 import Contact from "../components/Contact"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
@@ -8,6 +8,10 @@ import { graphql } from "gatsby"
 const contact = ({ data }) => {
   const {
     title,
+    titleSpan,
+    subTitle,
+    header,
+    subHeader,
     success,
     error,
     validation,
@@ -19,13 +23,15 @@ const contact = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} />
-      <FullBg
-        header="contact"
-        headerSpan="us"
-        subHeader="questions? send us a message"
-        bannerImage={data.background.childImageSharp}
+      <FullBgHeader
+        header={title}
+        headerSpan={titleSpan}
+        subHeader={subTitle}
+        image={data.background.childImageSharp}
       />
       <Contact
+        header={header}
+        subHeader={subHeader}
         successMessage={success}
         errorMessage={error}
         validationMessage={validation}
@@ -39,14 +45,7 @@ const contact = ({ data }) => {
 
 export const data = graphql`
   query {
-    background: file(relativePath: { eq: "bannerBg.jpg" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-    image: file(relativePath: { eq: "section1img.jpg" }) {
+    background: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
@@ -56,6 +55,10 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/contact" } }) {
       frontmatter {
         title
+        titleSpan
+        subTitle
+        header
+        subHeader
         success
         error
         validation

@@ -9,13 +9,15 @@ const useStyles = makeStyles(theme => ({
     margin: "50px auto",
   },
   content: {
-    [theme.breakpoints.up("md")]: {
+    padding: 50,
+    [theme.breakpoints.up("lg")]: {
       display: "flex",
       justifyContent: "space-between",
     },
   },
   image: {
-    minWidth: "50%",
+    width: "35%",
+    borderRadius: "50%",
   },
   subText: {
     fontWeight: 600,

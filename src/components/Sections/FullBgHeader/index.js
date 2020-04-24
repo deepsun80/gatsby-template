@@ -24,17 +24,19 @@ const FullBgHeader = ({ header, headerSpan, subHeader, image }) => {
       >
         <Paper elevation={0} className={classes.paper}>
           <Container maxWidth="xl" className={classes.container}>
-            <Typography variant="h1" className={classes.header}>
-              {header} <span className={classes.headerSpan}>{headerSpan}</span>
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color="primary"
-              className={classes.subtitle}
-              component="p"
-            >
-              {subHeader}
-            </Typography>
+            <div className={classes.border}>
+              <Typography variant="h1" className={classes.header}>
+                {header}{" "}
+                <span className={classes.headerSpan}>{headerSpan}</span>
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                className={classes.subtitle}
+                component="p"
+              >
+                {subHeader}
+              </Typography>
+            </div>
           </Container>
         </Paper>
       </BackgroundImage>

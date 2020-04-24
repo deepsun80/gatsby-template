@@ -6,8 +6,11 @@ const useStyles = makeStyles(theme => ({
   },
   section: {
     minHeight: "80vh",
-    padding: "10vh 0",
+    padding: 0,
     backgroundColor: theme.palette.secondary.light,
+  },
+  container: {
+    padding: "8vh 10px 10vh",
   },
   header: {
     color: "#fff",
