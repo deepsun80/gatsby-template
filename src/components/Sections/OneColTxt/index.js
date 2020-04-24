@@ -7,7 +7,7 @@ import useStyles from "./style"
 
 // ------------ 1 Column Text with Button ----------
 
-const OneColTxt = ({ header, headerSpan, subHeader, text }) => {
+const OneColTxt = ({ header, headerSpan, subHeaderSpan, subHeader, text }) => {
   const classes = useStyles()
 
   return (
@@ -21,13 +21,11 @@ const OneColTxt = ({ header, headerSpan, subHeader, text }) => {
               <span className={classes.rightLetter}> {headerSpan}</span>
             </Typography>
           </div>
-          <Typography
-            variant="h3"
-            component="h4"
-            color="primary"
-            className={classes.text}
-          >
-            {subHeader}
+          <Typography variant="h4" color="primary" className={classes.text}>
+            <i>{subHeader}</i>
+            <a href={`tel:${subHeaderSpan}`}>
+              <span className={classes.rightLetter}> {subHeaderSpan}</span>
+            </a>
           </Typography>
           <Typography variant="body2" color="primary" className={classes.text}>
             {text}
@@ -40,12 +38,14 @@ const OneColTxt = ({ header, headerSpan, subHeader, text }) => {
 
 OneColTxt.defaultProps = {
   subHeader: "",
+  subHeaderSpan: "",
 }
 
 OneColTxt.propTypes = {
   header: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
   subHeader: PropTypes.string,
+  subHeaderSpan: PropTypes.string,
   text: PropTypes.string.isRequired,
 }
 

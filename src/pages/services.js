@@ -4,11 +4,16 @@ import SEO from "../components/SEO"
 import FullBgHeader from "../components/Sections/FullBgHeader"
 import TwoColTxtImg from "../components/Sections/TwoColTxtImg"
 import Contact from "../components/Contact"
-import OneColTxt from "../components/Sections/OneColTxt"
 import { graphql } from "gatsby"
 
 const about = ({ data }) => {
-  const { background, image, contactBg, site } = data
+  const {
+    background,
+    section1Image,
+    section2Image,
+    section3Image,
+    contactBg,
+  } = data
 
   const {
     title,
@@ -19,8 +24,10 @@ const about = ({ data }) => {
     text,
     headerTwo,
     headerSpanTwo,
-    subHeaderTwo,
     textTwo,
+    headerThree,
+    headerSpanThree,
+    textThree,
     contactHeader,
     contactSubHeader,
     contactSuccess,
@@ -44,7 +51,7 @@ const about = ({ data }) => {
         header={header}
         headerSpan={headerSpan}
         text={text}
-        image={image.childImageSharp}
+        image={section1Image.childImageSharp}
       />
       <div className="contact" />
       <Contact
@@ -58,27 +65,12 @@ const about = ({ data }) => {
         liveError={liveError}
         image={contactBg.childImageSharp}
       />
-      <OneColTxt
-        header={headerTwo}
-        headerSpan={headerSpanTwo}
-        subHeader={subHeaderTwo}
-        subHeaderSpan={site.siteMetadata.data.tel}
-        text={textTwo}
-        image={image.childImageSharp}
-      />
     </Layout>
   )
 }
 
 export const data = graphql`
-  {
-    site {
-      siteMetadata {
-        data {
-          tel
-        }
-      }
-    }
+  query {
     background: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
@@ -86,7 +78,21 @@ export const data = graphql`
         }
       }
     }
-    image: file(relativePath: { eq: "aboutImg.jpg" }) {
+    section1Image: file(relativePath: { eq: "section2img1.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    section2Image: file(relativePath: { eq: "section2img2.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
+    section3Image: file(relativePath: { eq: "section2img3.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
@@ -100,7 +106,7 @@ export const data = graphql`
         }
       }
     }
-    markdownRemark(frontmatter: { path: { eq: "/about" } }) {
+    markdownRemark(frontmatter: { path: { eq: "/services" } }) {
       frontmatter {
         title
         titleSpan
@@ -110,8 +116,10 @@ export const data = graphql`
         text
         headerTwo
         headerSpanTwo
-        subHeaderTwo
         textTwo
+        headerThree
+        headerSpanThree
+        textThree
         contactHeader
         contactSubHeader
         contactSuccess
