@@ -14,7 +14,19 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
   return (
     <section>
       <Grid container justify="center" className={classes.container}>
-        <Grid item lg={8} xs={12} className={classes.grid}>
+        <Grid item md={4} xs={12}>
+          <BackgroundImage
+            Tag="section"
+            alt="2 col background"
+            title="2 col background"
+            style={{
+              height: "100%",
+              backgroundSize: "cover",
+            }}
+            fluid={image.fluid}
+          />
+        </Grid>
+        <Grid item md={8} xs={12} className={classes.grid}>
           <Container maxWidth="sm">
             <div className={classes.flex}>
               <Typography variant="h2" component="p" color="primary">
@@ -38,18 +50,6 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
               {text}
             </Typography>
           </Container>
-        </Grid>
-        <Grid item lg={4} xs={12}>
-          <BackgroundImage
-            Tag="section"
-            alt="2 col background"
-            title="2 col background"
-            style={{
-              height: "100%",
-              backgroundSize: "cover",
-            }}
-            fluid={image.fluid}
-          />
         </Grid>
       </Grid>
     </section>

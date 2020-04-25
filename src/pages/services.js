@@ -3,6 +3,8 @@ import Layout from "../layouts"
 import SEO from "../components/SEO"
 import FullBgHeader from "../components/Sections/FullBgHeader"
 import TwoColTxtImg from "../components/Sections/TwoColTxtImg"
+import TwoColBgTxt from "../components/Sections/TwoColBgTxt"
+import TwoColTxtBg from "../components/Sections/TwoColTxtBg"
 import Contact from "../components/Contact"
 import { graphql } from "gatsby"
 
@@ -65,6 +67,18 @@ const about = ({ data }) => {
         liveError={liveError}
         image={contactBg.childImageSharp}
       />
+      <TwoColBgTxt
+        header={headerTwo}
+        headerSpan={headerSpanTwo}
+        text={text}
+        image={section2Image.childImageSharp}
+      />
+      <TwoColTxtBg
+        header={headerThree}
+        headerSpan={headerSpanThree}
+        text={text}
+        image={section3Image.childImageSharp}
+      />
     </Layout>
   )
 }
@@ -78,21 +92,21 @@ export const data = graphql`
         }
       }
     }
-    section1Image: file(relativePath: { eq: "section2img1.jpg" }) {
+    section1Image: file(relativePath: { eq: "gardenCare.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    section2Image: file(relativePath: { eq: "section2img2.jpg" }) {
+    section2Image: file(relativePath: { eq: "lawnCare.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    section3Image: file(relativePath: { eq: "section2img3.jpg" }) {
+    section3Image: file(relativePath: { eq: "landscaping.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp

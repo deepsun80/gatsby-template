@@ -16,6 +16,7 @@ const about = ({ data }) => {
     subTitle,
     header,
     headerSpan,
+    subHeader,
     text,
     headerTwo,
     headerSpanTwo,
@@ -43,6 +44,7 @@ const about = ({ data }) => {
       <TwoColTxtImg
         header={header}
         headerSpan={headerSpan}
+        subHeader={subHeader}
         text={text}
         image={image.childImageSharp}
       />
@@ -107,6 +109,7 @@ export const data = graphql`
         subTitle
         header
         headerSpan
+        subHeader
         text
         headerTwo
         headerSpanTwo

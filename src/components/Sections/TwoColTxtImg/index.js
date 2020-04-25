@@ -9,7 +9,7 @@ import useStyles from "./style"
 
 // ------------ 2 Columns, Left Text, Right Image ----------
 
-const TwoColTxtImg = ({ header, headerSpan, text, image }) => {
+const TwoColTxtImg = ({ header, headerSpan, subHeader, text, image }) => {
   const classes = useStyles()
 
   return (
@@ -23,15 +23,16 @@ const TwoColTxtImg = ({ header, headerSpan, text, image }) => {
                   <div className={classes.line} />
                   <Typography variant="h2" component="p" color="primary">
                     {header}
+                    <span className={classes.rightLetter}> {headerSpan}</span>
                   </Typography>
                 </div>
                 <Typography
                   variant="h5"
                   component="h2"
                   color="secondary"
-                  className={classes.rightLetter}
+                  className={classes.subHeader}
                 >
-                  {headerSpan}
+                  {subHeader}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -66,6 +67,7 @@ const TwoColTxtImg = ({ header, headerSpan, text, image }) => {
 TwoColTxtImg.propTypes = {
   header: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
+  subHeader: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }

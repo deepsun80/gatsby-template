@@ -28,6 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginTop: 40,
+    color: "#fff",
   },
   successMessage: {
     color: theme.palette.secondary.main,
@@ -42,34 +43,6 @@ const useStyles = makeStyles(theme => ({
   validationMessage: {
     color: theme.palette.error.main,
     marginTop: 20,
-  },
-  link: {
-    display: "flex",
-    justifyContent: "flex-start",
-    marginTop: "12vh",
-    "&:hover": {
-      cursor: "pointer",
-    },
-  },
-  icon: {
-    color: theme.palette.primary.main,
-    fontSize: "1.6rem",
-    "&:hover": {
-      transition: "all 0.5s",
-      "&::-webkit-transition": "all 0.5s",
-      color: theme.palette.secondary.light,
-    },
-  },
-  iconText: {
-    color: theme.palette.primary.main,
-    textTransform: "capitalize",
-
-    fontSize: "1.2rem",
-    marginLeft: 10,
-    "&:hover": {
-      transition: "all 0.5s",
-      color: theme.palette.secondary.light,
-    },
   },
   loader: {
     position: "absolute",

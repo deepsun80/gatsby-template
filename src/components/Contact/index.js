@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import BackgroundImage from "gatsby-background-image"
 import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
 import TextField from "@material-ui/core/TextField"
 import FormControl from "@material-ui/core/FormControl"
@@ -188,40 +189,46 @@ const Contact = ({
                       onChange={handleChange}
                       className={classes.field}
                     />
-                    <TextField
-                      id="email"
-                      variant="outlined"
-                      label="Email"
-                      name="email"
-                      color="secondary"
-                      fullWidth
-                      onChange={handleChange}
-                      className={classes.field}
-                    />
+                    <Grid container spacing={1}>
+                      <Grid item md={6} xs={12}>
+                        <TextField
+                          id="email"
+                          variant="outlined"
+                          label="Email"
+                          name="email"
+                          color="secondary"
+                          fullWidth
+                          onChange={handleChange}
+                          className={classes.field}
+                        />
 
-                    {!validateEmail(values.email) && (
-                      <Typography
-                        variant="body2"
-                        className={classes.validationMessage}
-                      >
-                        {emailMessage}
-                      </Typography>
-                    )}
+                        {!validateEmail(values.email) && (
+                          <Typography
+                            variant="body2"
+                            className={classes.validationMessage}
+                          >
+                            {emailMessage}
+                          </Typography>
+                        )}
+                      </Grid>
+                      <Grid item md={6} xs={12}>
+                        <FormControl
+                          fullWidth
+                          className={classes.field}
+                          color="secondary"
+                        >
+                          <InputLabel htmlFor="phone">Phone Number</InputLabel>
+                          <OutlinedInput
+                            value={values.phone}
+                            onChange={handleChange}
+                            name="phone"
+                            id="phone"
+                            inputComponent={TextMaskCustom}
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
 
-                    <FormControl
-                      fullWidth
-                      className={classes.field}
-                      color="secondary"
-                    >
-                      <InputLabel htmlFor="phone">Phone Number</InputLabel>
-                      <OutlinedInput
-                        value={values.phone}
-                        onChange={handleChange}
-                        name="phone"
-                        id="phone"
-                        inputComponent={TextMaskCustom}
-                      />
-                    </FormControl>
                     <TextField
                       id="message"
                       variant="outlined"
@@ -256,7 +263,7 @@ const Contact = ({
                         values.name === "" ||
                         values.email === "" ||
                         values.phone === "" ||
-                        values.address === ""
+                        values.message === ""
                       }
                       className={classes.button}
                     >
@@ -266,47 +273,23 @@ const Contact = ({
                 )}
 
               {validation.success && message.success && (
-                <>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.successMessage}
-                  >
-                    {successMessage}
-                  </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
-                </>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.successMessage}
+                >
+                  {successMessage}
+                </Typography>
               )}
 
               {(validation.error || message.error) && (
-                <>
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.errorMessage}
-                  >
-                    {errorMessage}
-                  </Typography>
-                  <AniLink fade to="/" className={classes.link}>
-                    <AiOutlineLeft className={classes.icon} />
-                    <Typography
-                      variant="body2"
-                      color="primary"
-                      className={classes.iconText}
-                    >
-                      home
-                    </Typography>
-                  </AniLink>
-                </>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.errorMessage}
+                >
+                  {errorMessage}
+                </Typography>
               )}
             </>
           </Paper>

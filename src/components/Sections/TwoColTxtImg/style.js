@@ -30,7 +30,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
   },
   rightLetter: {
-    marginLeft: 15,
+    color: theme.palette.secondary.main,
+    textTransform: "capitalize",
+  },
+  subHeader: {
     fontStyle: "italic",
   },
   text: {

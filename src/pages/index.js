@@ -122,21 +122,21 @@ export const data = graphql`
         }
       }
     }
-    section2Image1: file(relativePath: { eq: "section2img1.jpg" }) {
+    section2Image1: file(relativePath: { eq: "gardenCareThumb.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    section2Image2: file(relativePath: { eq: "section2img2.jpg" }) {
+    section2Image2: file(relativePath: { eq: "lawnCareThumb.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    section2Image3: file(relativePath: { eq: "section2img3.jpg" }) {
+    section2Image3: file(relativePath: { eq: "landscapingThumb.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
