@@ -12,8 +12,6 @@ import TextMaskCustom from "./TextMaskCustom"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import CircularProgress from "@material-ui/core/CircularProgress"
-import { AiOutlineLeft } from "react-icons/ai"
-import AniLink from "gatsby-plugin-transition-link/AniLink"
 import faunaApi from "../../utils/faunaApi"
 import validateEmail from "../../utils/validateEmail"
 import isLocalHost from "../../utils/isLocalHost"
@@ -41,7 +39,7 @@ const Contact = ({
   const [values, setValues] = useState({
     name: "",
     email: "",
-    phone: "(1  )    -    ",
+    phone: "(   )   -    ",
     message: "",
   })
   const [validation, setValidation] = useState({

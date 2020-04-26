@@ -12,7 +12,7 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
   const classes = useStyles()
 
   return (
-    <section>
+    <section className={classes.section}>
       <Grid container justify="center" className={classes.container}>
         <Grid item lg={8} xs={12} className={classes.grid}>
           <Container maxWidth="sm">

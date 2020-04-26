@@ -20,29 +20,33 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-start",
   },
+  gridFlex: {
+    display: "flex",
+    alignItems: "center",
+  },
   line: {
     borderLeft: `5px solid ${theme.palette.secondary.light}`,
     minHeight: "100%",
     marginRight: 10,
   },
-  button: {
-    marginTop: 50,
-    "&:hover": {
-      color: "#fff",
-      background: theme.palette.secondary.light,
-      border: `1px solid ${theme.palette.secondary.light}`,
-    },
-  },
   rightLetter: {
-    marginLeft: 15,
+    color: theme.palette.secondary.main,
+    textTransform: "capitalize",
+  },
+  subHeader: {
+    fontStyle: "italic",
   },
   text: {
     marginTop: 30,
   },
-  image: {
-    // boxShadow: `30px -30px ${theme.palette.secondary.light}`,
-    // marginTop: 50,
-  },
+  // button: {
+  //   marginTop: 50,
+  //   "&:hover": {
+  //     color: "#fff",
+  //     background: theme.palette.secondary.light,
+  //     border: `1px solid ${theme.palette.secondary.light}`,
+  //   },
+  // },
 }))
 
 export default useStyles

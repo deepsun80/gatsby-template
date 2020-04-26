@@ -8,7 +8,7 @@ import useStyles from "./style"
 
 // ------------ Full banner with text ------------
 
-const FullBgHeader = ({ header, headerSpan, subHeader, image }) => {
+const FullBgHeader = ({ largeFont, header, headerSpan, subHeader, image }) => {
   const classes = useStyles()
 
   return (
@@ -25,7 +25,11 @@ const FullBgHeader = ({ header, headerSpan, subHeader, image }) => {
         <Paper elevation={0} className={classes.paper}>
           <Container maxWidth="xl" className={classes.container}>
             <div className={classes.border}>
-              <Typography variant="h1" className={classes.header}>
+              <Typography
+                variant="h1"
+                className={classes.header}
+                style={largeFont ? { fontSize: "2.5rem" } : null}
+              >
                 {header}{" "}
                 <span className={classes.headerSpan}>{headerSpan}</span>
               </Typography>
@@ -45,7 +49,12 @@ const FullBgHeader = ({ header, headerSpan, subHeader, image }) => {
   )
 }
 
+FullBgHeader.defaultProps = {
+  largeFont: false,
+}
+
 FullBgHeader.propTypes = {
+  largeFont: PropTypes.bool,
   header: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
   subHeader: PropTypes.string.isRequired,

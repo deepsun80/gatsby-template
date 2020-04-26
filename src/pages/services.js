@@ -4,7 +4,6 @@ import SEO from "../components/SEO"
 import FullBgHeader from "../components/Sections/FullBgHeader"
 import TwoColTxtImg from "../components/Sections/TwoColTxtImg"
 import TwoColBgTxt from "../components/Sections/TwoColBgTxt"
-import TwoColTxtBg from "../components/Sections/TwoColTxtBg"
 import Contact from "../components/Contact"
 import { graphql } from "gatsby"
 
@@ -70,13 +69,13 @@ const about = ({ data }) => {
       <TwoColBgTxt
         header={headerTwo}
         headerSpan={headerSpanTwo}
-        text={text}
+        text={textTwo}
         image={section2Image.childImageSharp}
       />
-      <TwoColTxtBg
+      <TwoColTxtImg
         header={headerThree}
         headerSpan={headerSpanThree}
-        text={text}
+        text={textThree}
         image={section3Image.childImageSharp}
       />
     </Layout>

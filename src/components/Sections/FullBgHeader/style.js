@@ -18,10 +18,12 @@ const useStyles = makeStyles(theme => ({
     width: 650,
     maxWidth: "90%",
     margin: "auto",
+    padding: 5,
   },
   header: {
     color: "#fff",
     textTransform: "capitalize",
+    lineHeight: "4rem",
   },
   headerSpan: {
     textTransform: "capitalize",

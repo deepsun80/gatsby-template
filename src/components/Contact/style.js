@@ -5,7 +5,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   section: {
-    minHeight: "80vh",
     padding: 0,
     backgroundColor: theme.palette.secondary.light,
   },

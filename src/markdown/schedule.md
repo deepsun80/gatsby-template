@@ -1,6 +1,8 @@
 ---
 path: "/schedule"
 title: "Schedule"
+titleSpan: "Appointment"
+subTitle: "schedule your next appointment"
 success: "Thank you for entering your information. Next schedule your appointment."
 subSuccess: 'In the final step, for  "Enter Details", simply confirm your information and click  "Schedule Event".'
 error: "Something went wrong, please try again or give us a call."

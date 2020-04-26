@@ -1,13 +1,17 @@
 import React from "react"
 import Layout from "../layouts"
-// import FullBg from "../components/Sections/FullBg"
+import FullBgHeader from "../components/Sections/FullBgHeader"
 import Schedule from "../components/Schedule"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
+  const { background } = data
+
   const {
     title,
+    titleSpan,
+    subTitle,
     success,
     subSuccess,
     error,
@@ -20,12 +24,14 @@ const schedule = ({ data }) => {
   return (
     <Layout>
       <SEO title={title} />
-      {/* <FullBg
-        header="schedule"
-        headerSpan="appointment"
-        subHeader="schedule your appointment online"
-        bannerImage={data.background.childImageSharp}
-      /> */}
+      <FullBgHeader
+        largeFont
+        header={title}
+        headerSpan={titleSpan}
+        subHeader={subTitle}
+        image={background.childImageSharp}
+      />
+      <div className="contact" />
       <Schedule
         successMessage={success}
         subSuccessMessage={subSuccess}
@@ -41,14 +47,7 @@ const schedule = ({ data }) => {
 
 export const data = graphql`
   query {
-    background: file(relativePath: { eq: "bannerBg.jpg" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-    image: file(relativePath: { eq: "section1img.jpg" }) {
+    background: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid_withWebp
@@ -58,6 +57,8 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/schedule" } }) {
       frontmatter {
         title
+        titleSpan
+        subTitle
         success
         subSuccess
         error

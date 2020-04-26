@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
+  section: {
+    backgroundColor: theme.palette.grey[100],
+  },
   container: {
     minHeight: 500,
   },
