@@ -9,6 +9,7 @@ import InputBase from "@material-ui/core/InputBase"
 import IconButton from "@material-ui/core/IconButton"
 import SearchIcon from "@material-ui/icons/Search"
 import ReplayIcon from "@material-ui/icons/Replay"
+import { FaCcStripe } from "react-icons/fa"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
@@ -369,8 +370,8 @@ const Dashboard = ({
     // --- Delete client in Fauna
     const res1 = await faunaApi.deleteClient(targetClient.ref["@ref"].id)
 
-    // --- If got response, display success snackbar ---
-    if (res1 && res1.message) {
+    // --- If got response, and client is a customer, display success snackbar ---
+    if (res1 && res1.message && targetClient.data.customer) {
       console.log(res1.message)
       setApiSuccessMessage(res1.message)
       handleSuccessApiOpen()
@@ -410,12 +411,6 @@ const Dashboard = ({
           console.log(res2.message)
           setApiSuccessMessage(res2.message)
           handleSuccessApiOpen()
-
-          // --- Replace state client data with updated data ---
-          const filteredClients = clients.filter(
-            item => item.ts !== res1.result.ts
-          )
-          setClients(filteredClients)
         }
 
         // --- Display any error in snackbar and unset loading ui ---
@@ -424,6 +419,12 @@ const Dashboard = ({
           setApiErrorMessage(res2.error)
           handleErrorApiOpen()
         }
+
+        // --- Replace state client data with updated data ---
+        const filteredClients = clients.filter(
+          item => item.ts !== res1.result.ts
+        )
+        setClients(filteredClients)
       }
 
       // --- Display any error in snackbar and unset loading ui ---
@@ -432,6 +433,13 @@ const Dashboard = ({
         setApiErrorMessage(ret.error)
         handleErrorApiOpen()
       }
+    }
+
+    // --- If result, and client is a lead, skip above logic and ---
+    // -- only replace state client data with updated data ---
+    if (res1 && res1.message && !targetClient.data.customer) {
+      const filteredClients = clients.filter(item => item.ts !== res1.result.ts)
+      setClients(filteredClients)
     }
 
     // --- Display any error in snackbar ---
@@ -1005,35 +1013,46 @@ const Dashboard = ({
             // --- Otherwise set screen to clients screen ---
             <>
               {/* --- Search bar start --- */}
-              <Paper
-                component="form"
-                elevation={1}
-                className={classes.searchField}
-                onSubmit={handleSubmit}
-              >
-                <InputBase
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={handleChange}
-                  name="search"
-                  id="search"
-                  inputProps={{ "aria-label": "search" }}
-                  className={classes.input}
-                />
-                <IconButton type="submit" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              </Paper>
-              <Tooltip title="Reset all clients" arrow>
-                <IconButton
-                  className={classes.iconPrimary}
-                  aria-label="reset"
-                  component="span"
-                  onClick={handleReset}
+              <div className={classes.flexResponsiveSmall}>
+                <div>
+                  <Paper
+                    component="form"
+                    elevation={1}
+                    className={classes.searchField}
+                    onSubmit={handleSubmit}
+                  >
+                    <InputBase
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={handleChange}
+                      name="search"
+                      id="search"
+                      inputProps={{ "aria-label": "search" }}
+                      className={classes.input}
+                    />
+                    <IconButton type="submit" aria-label="search">
+                      <SearchIcon />
+                    </IconButton>
+                  </Paper>
+                  <Tooltip title="Reset all clients" arrow>
+                    <IconButton
+                      className={classes.iconPrimary}
+                      aria-label="reset"
+                      component="span"
+                      onClick={handleReset}
+                    >
+                      <ReplayIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <a
+                  href="https://dashboard.stripe.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <ReplayIcon />
-                </IconButton>
-              </Tooltip>
+                  <FaCcStripe className={classes.iconFa} />
+                </a>
+              </div>
               {/* --- Search bar end --- */}
 
               {/* --- Clients list start --- */}

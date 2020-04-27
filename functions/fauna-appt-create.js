@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
             const response = {
               statusCode: 500,
               body: JSON.stringify({
-                error: err.message,
+                error: `Twilio error: ${error.message}`,
               }),
             }
             callback(null, response)

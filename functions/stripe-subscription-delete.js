@@ -20,7 +20,7 @@ exports.handler = (event, context, callback) => {
       const response = {
         statusCode: 500,
         body: JSON.stringify({
-          error: error.message,
+          error: `Stripe error: ${error.message}`,
         }),
       }
       callback(null, response)

@@ -59,6 +59,16 @@ const useStyles = makeStyles(theme => ({
       cursor: "pointer",
     },
   },
+  iconFa: {
+    color: "blue",
+    padding: 0,
+    fontSize: "2.5rem",
+    cursor: "pointer",
+    transition: "all 0.3s",
+    "&:hover": {
+      opacity: 0.6,
+    },
+  },
   disabledIcon: {
     color: "gainsboro",
   },
@@ -130,6 +140,13 @@ const useStyles = makeStyles(theme => ({
       display: "flex",
       justifyContent: "space-between",
     },
+  },
+  flexResponsiveSmall: {
+    [theme.breakpoints.up("xs")]: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    paddingBottom: 30,
   },
   tableHeader: {
     color: "slategrey",
