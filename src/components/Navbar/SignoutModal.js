@@ -11,8 +11,12 @@ import useStyles from "./style"
 function SignoutModal({ onClose, open, header, logout }) {
   const classes = useStyles()
 
-  const handleClose = async () => {
+  const handleLogout = async () => {
     await logout()
+    onClose()
+  }
+
+  const handleClose = async () => {
     onClose()
   }
 
@@ -36,7 +40,7 @@ function SignoutModal({ onClose, open, header, logout }) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleClose} color="secondary">
+        <Button variant="outlined" onClick={handleLogout} color="secondary">
           Yes
         </Button>
         <Button variant="contained" onClick={handleClose} color="secondary">
