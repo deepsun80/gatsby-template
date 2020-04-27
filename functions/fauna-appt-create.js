@@ -31,28 +31,24 @@ exports.handler = async (event, context) => {
             body: `Hi ${data.payload.invitee.name}, your appointment is set for ${data.payload.event.start_time_pretty}`,
           })
           .then(result => {
-            const response = {
+            return {
               statusCode: 200,
               body: JSON.stringify({
-                message: "Appointment added and Twilio sms message sent",
+                message: "Appointment added and Twilio sms sent",
                 result,
               }),
             }
-            callback(null, response)
           })
           .catch(err => {
-            const response = {
-              statusCode: 500,
-              body: JSON.stringify({
-                error: `Twilio error: ${error.message}`,
-              }),
+            return {
+              statusCode: 200,
+              body: JSON.stringify(`Twilio error: ${err.message}`),
             }
-            callback(null, response)
           })
       })
       .catch(error => {
         return {
-          statusCode: 400,
+          statusCode: 200,
           body: JSON.stringify(error),
         }
       })
