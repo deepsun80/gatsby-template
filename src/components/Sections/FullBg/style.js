@@ -11,23 +11,32 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     alignItems: "flex-end",
-    justifyContent: "flex-end",
-    height: "70vh",
+    justifyContent: "flex-start",
+    height: "85vh",
     [theme.breakpoints.up("md")]: {
+      height: "85vh",
+    },
+    [theme.breakpoints.up("lg")]: {
       height: "70vh",
     },
   },
   paper: {
-    padding: "5vh 5vw",
+    padding: "3vh 5vw",
     [theme.breakpoints.up("sm")]: {
-      padding: "0vh 5vw",
+      padding: "2vh 5vw",
     },
     [theme.breakpoints.up("md")]: {
       padding: "5vh 5vw",
     },
     maxWidth: "100%",
+    minWidth: "60vw",
     backgroundColor: "rgba(0, 0, 0, 0.0)",
     border: "1px solid #fff",
+  },
+  button: {
+    [theme.breakpoints.up("lg")]: {
+      padding: "10px 80px",
+    },
   },
   header: {
     color: "#fff",
@@ -42,8 +51,8 @@ const useStyles = makeStyles(theme => ({
   },
   subtitle: {
     color: "#fff",
-    marginTop: "3vh",
-    marginBottom: "1vh",
+    marginTop: "2vh",
+    marginBottom: "3vh",
   },
   verticalButton: {
     cursor: "pointer",
@@ -57,24 +66,8 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     fontSize: "3rem",
-    marginBottom: "-10px",
+    marginBottom: "-5px",
     padding: 0,
-  },
-  scrollDown: {
-    minHeight: "230px",
-    background: "#fff",
-    transformOrigin: "top right",
-    transform: "skewY(7deg)",
-    [theme.breakpoints.up("sm")]: {
-      transform: "skewY(5deg)",
-    },
-    [theme.breakpoints.up("md")]: {
-      transform: "skewY(7deg)",
-    },
-    marginBottom: "-230px",
-    [theme.breakpoints.up("md")]: {
-      marginBottom: "-300px",
-    },
   },
 }))
 

@@ -15,7 +15,11 @@ const useStyles = makeStyles(theme => ({
     color: "blue",
   },
   buttonDark: {
-    color: "mediumblue",
+    color: "#fff",
+    backgroundColor: "blue",
+    "&:hover": {
+      backgroundColor: "mediumblue",
+    },
   },
   paper: {
     padding: "30px 0",

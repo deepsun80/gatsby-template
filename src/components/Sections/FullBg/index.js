@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
+import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
@@ -27,20 +29,6 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
       >
         <div className={classes.overlay}>
           <Container maxWidth="xl" className={classes.container}>
-            <Paper elevation={0} className={classes.paper}>
-              <Typography variant="h1" className={classes.header}>
-                {header} <br />
-                <span className={classes.headerSpan}>{headerSpan}</span>
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                className={classes.subtitle}
-                component="p"
-              >
-                {subHeader}
-              </Typography>
-            </Paper>
             <div className={classes.verticalButton}>
               <BsThreeDotsVertical
                 className={classes.icon}
@@ -62,10 +50,34 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
                 onClick={() => scrollTo("#scroll-down")}
               />
             </div>
+            <Paper elevation={0} className={classes.paper}>
+              <Typography variant="h1" className={classes.header}>
+                {header} <br />
+                <span className={classes.headerSpan}>{headerSpan}</span>
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="primary"
+                className={classes.subtitle}
+                component="p"
+              >
+                {subHeader}
+              </Typography>
+              <AniLink fade to={"/schedule"}>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="secondary"
+                  className={classes.button}
+                >
+                  book appointment now
+                </Button>
+              </AniLink>
+            </Paper>
           </Container>
         </div>
       </BackgroundImage>
-      <div id="scroll-down" className={classes.scrollDown} />
+      <div id="scroll-down" />
     </section>
   )
 }

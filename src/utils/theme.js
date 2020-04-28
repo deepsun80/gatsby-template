@@ -113,6 +113,9 @@ const theme = createMuiTheme({
       root: {
         borderRadius: 0,
       },
+      containedSecondary: {
+        color: "#fff",
+      },
     },
   },
 })

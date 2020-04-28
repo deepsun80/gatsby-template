@@ -103,8 +103,8 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     border: "1px solid #fff",
     "&:hover": {
-      background: theme.palette.secondary.light,
-      border: `1px solid ${theme.palette.secondary.light}`,
+      background: theme.palette.secondary.main,
+      border: `1px solid ${theme.palette.secondary.main}`,
     },
   },
   mobileButton: {
