@@ -26,6 +26,7 @@ import isLocalHost from "../../utils/isLocalHost"
 import moment from "moment"
 import useStyles from "./style"
 import { Typography } from "@material-ui/core"
+import calendlyImg from "../../images/calendly.svg"
 
 const Appt = ({
   localHostError,
@@ -482,7 +483,7 @@ const Appt = ({
           </Tooltip>
         </div>
         {/* --- Search bar end --- */}
-
+        <div className={classes.grow} />
         {/* --- Filter ui start --- */}
         <div>
           <FormControl variant="outlined" className={classes.searchField}>
@@ -500,6 +501,18 @@ const Appt = ({
             </Select>
           </FormControl>
         </div>
+        <a
+          href="https://calendly.com/event_types/user/me"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Calendly Icon"
+            variant="square"
+            src={calendlyImg}
+            className={classes.calendly}
+          />
+        </a>
       </div>
       {/* --- Filter ui end --- */}
 

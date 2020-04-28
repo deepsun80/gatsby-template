@@ -61,12 +61,13 @@ const useStyles = makeStyles(theme => ({
   },
   iconFa: {
     color: "blue",
+    opacity: 0.7,
     padding: 0,
-    fontSize: "2.5rem",
+    fontSize: "2rem",
     cursor: "pointer",
     transition: "all 0.3s",
     "&:hover": {
-      opacity: 0.6,
+      opacity: 0.5,
     },
   },
   disabledIcon: {
@@ -204,6 +205,15 @@ const useStyles = makeStyles(theme => ({
   subBox: {
     background: "#ededed",
     borderRadius: 10,
+  },
+  calendly: {
+    width: 60,
+    height: 60,
+    marginLeft: 30,
+    transition: "all 0.3s",
+    "&:hover": {
+      opacity: 0.7,
+    },
   },
 }))
 

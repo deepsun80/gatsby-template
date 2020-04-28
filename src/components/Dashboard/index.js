@@ -402,37 +402,33 @@ const Dashboard = ({
         })
       }
 
-      if (ret && ret.message) {
-        // --- Delete client in Stripe ---
-        const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
-
-        // --- If got response, display success snackbar ---
-        if (res2 && res2.message) {
-          console.log(res2.message)
-          setApiSuccessMessage(res2.message)
-          handleSuccessApiOpen()
-        }
-
-        // --- Display any error in snackbar and unset loading ui ---
-        if (res2 && res2.error) {
-          console.log(res2.error)
-          setApiErrorMessage(res2.error)
-          handleErrorApiOpen()
-        }
-
-        // --- Replace state client data with updated data ---
-        const filteredClients = clients.filter(
-          item => item.ts !== res1.result.ts
-        )
-        setClients(filteredClients)
-      }
-
       // --- Display any error in snackbar and unset loading ui ---
       if (ret && ret.error) {
         console.log(ret.error)
         setApiErrorMessage(ret.error)
         handleErrorApiOpen()
       }
+
+      // --- Delete client in Stripe ---
+      const res2 = await stripeApi.deleteClient(targetClient.data.stripe_id)
+
+      // --- If got response, display success snackbar ---
+      if (res2 && res2.message) {
+        console.log(res2.message)
+        setApiSuccessMessage(res2.message)
+        handleSuccessApiOpen()
+      }
+
+      // --- Display any error in snackbar and unset loading ui ---
+      if (res2 && res2.error) {
+        console.log(res2.error)
+        setApiErrorMessage(res2.error)
+        handleErrorApiOpen()
+      }
+
+      // --- Replace state client data with updated data ---
+      const filteredClients = clients.filter(item => item.ts !== res1.result.ts)
+      setClients(filteredClients)
     }
 
     // --- If result, and client is a lead, skip above logic and ---
@@ -552,6 +548,7 @@ const Dashboard = ({
 
     // --- Create invoice in Stripe ---
     const result = await stripeApi.createInvoice(modalData.stripe_id, data)
+    console.log(result)
 
     // --- If got response, display success snackbar ---
     if (result && result.message) {
