@@ -41,8 +41,6 @@ const Schedule = ({
     error: false,
   })
   const [loading, setLoading] = useState(false)
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
 
   const handleChange = event => {
     setValues({
@@ -54,15 +52,12 @@ const Schedule = ({
   const handleSubmit = async event => {
     event.preventDefault()
 
-    setFirstName(values.name.split(" ")[0])
-    if (values.name.split(" ").length > 1)
-      setLastName(values.name.split(" ").pop())
     setValidation({ success: true, error: false })
     setLoading(true)
 
     const response = await faunaApi.searchClients(values.email)
 
-    if (response.message === "unauthorized") {
+    if (response && response.message === "unauthorized") {
       if (isLocalHost()) {
         alert(localHostError)
       } else {
@@ -131,8 +126,6 @@ const Schedule = ({
       setLoading(false)
     }
   }
-
-  console.log(values)
 
   return (
     <section className={classes.section}>
@@ -242,41 +235,20 @@ const Schedule = ({
                 </Typography>
                 <InlineWidget
                   pageSettings={{
-                    backgroundColor: "ffffff",
-                    hideEventTypeDetails: false,
+                    hideEventTypeDetails: true,
                     hideLandingPageDetails: false,
-                    primaryColor: "00a2ff",
-                    textColor: "4d5055",
                   }}
                   prefill={{
                     customAnswers: {
-                      a1: "a1",
-                      a10: "a10",
-                      a2: "a2",
-                      a3: "a3",
-                      a4: "a4",
-                      a5: "a5",
-                      a6: "a6",
-                      a7: "a7",
-                      a8: "a8",
-                      a9: "a9",
+                      a1: values.phone,
                     },
                     email: values.email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    name: "Jon Snow",
+                    name: values.name,
                   }}
                   styles={{
                     height: "1000px",
                   }}
                   url="https://calendly.com/deepsun80"
-                  utm={{
-                    utmCampaign: "Spring Sale 2019",
-                    utmContent: "Shoe and Shirts",
-                    utmMedium: "Ad",
-                    utmSource: "Facebook",
-                    utmTerm: "Spring",
-                  }}
                 />
               </>
             )}
@@ -301,8 +273,7 @@ const Schedule = ({
                   </Typography>
                 </AniLink>
               </>
-            )}{" "}
-            */}
+            )}
           </>
         </Paper>
       </Container>

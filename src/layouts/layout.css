@@ -36,3 +36,8 @@ a {
 .loadModal .MuiPaper-root {
   background-color: transparent;
 }
+
+/* --- Calendly Widget styling --- */
+.DetailsForm__cls1___H2Xvx .DetailsForm__isTabletDown___1TkYv h2 {
+  display: none;
+}
