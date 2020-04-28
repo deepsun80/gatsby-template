@@ -5,10 +5,13 @@ exports.handler = (event, context, callback) => {
   const id = getId(event.path)
 
   return stripe.subscriptions
-    .list({
-      customer: id,
-      status: "all",
-    })
+    .list(
+      {
+        customer: id,
+        status: "all",
+      },
+      { maxNetworkRetries: 2 }
+    )
     .then(result => {
       const response = {
         statusCode: 200,

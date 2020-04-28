@@ -5,7 +5,7 @@ exports.handler = (event, context, callback) => {
   const id = getId(event.path)
 
   return stripe.customers
-    .del(id)
+    .del(id, { maxNetworkRetries: 2 })
     .then(result => {
       const response = {
         statusCode: 200,

@@ -2,7 +2,7 @@ var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 exports.handler = (event, context, callback) => {
   return stripe.plans
-    .list()
+    .list({ maxNetworkRetries: 2 })
     .then(result => {
       const response = {
         statusCode: 200,

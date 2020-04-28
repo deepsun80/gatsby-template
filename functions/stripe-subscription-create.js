@@ -6,10 +6,13 @@ exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
   return stripe.subscriptions
-    .create({
-      customer: id,
-      items: requestBody,
-    })
+    .create(
+      {
+        customer: id,
+        items: requestBody,
+      },
+      { maxNetworkRetries: 2 }
+    )
     .then(result => {
       const response = {
         statusCode: 200,

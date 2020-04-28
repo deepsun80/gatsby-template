@@ -6,12 +6,15 @@ exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
   requestBody.forEach(item => {
-    stripe.invoiceItems.create({
-      customer: id,
-      amount: item.amount,
-      currency: "usd",
-      description: item.description,
-    })
+    stripe.invoiceItems.create(
+      {
+        customer: id,
+        amount: item.amount,
+        currency: "usd",
+        description: item.description,
+      },
+      { maxNetworkRetries: 2 }
+    )
   })
 
   return stripe.invoices

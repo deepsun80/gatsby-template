@@ -4,11 +4,14 @@ exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body)
 
   return stripe.customers
-    .create({
-      email: requestBody.email,
-      name: requestBody.name,
-      phone: requestBody.phone,
-    })
+    .create(
+      {
+        email: requestBody.email,
+        name: requestBody.name,
+        phone: requestBody.phone,
+      },
+      { maxNetworkRetries: 2 }
+    )
     .then(result => {
       const response = {
         statusCode: 200,
