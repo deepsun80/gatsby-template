@@ -212,6 +212,7 @@ function ClientModal({
                           })
                           handleClose()
                         }}
+                        style={{ maxHeight: 55 }}
                       >
                         <SendIcon />
                       </IconButton>

@@ -34,9 +34,17 @@ const listInvoices = clientId => {
   )
 }
 
-const createInvoice = (clientId, data) => {
-  return fetch(`/.netlify/functions/stripe-invoice-create/${clientId}`, {
+const createInvoiceItems = (clientId, data) => {
+  return fetch(`/.netlify/functions/stripe-invoice-item-create/${clientId}`, {
     body: JSON.stringify(data),
+    method: "POST",
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const createInvoice = clientId => {
+  return fetch(`/.netlify/functions/stripe-invoice-create/${clientId}`, {
     method: "POST",
   }).then(response => {
     return response.json()
@@ -117,6 +125,7 @@ export default {
   updateClient: updateClient,
   deleteClient: deleteClient,
   listInvoices: listInvoices,
+  createInvoiceItems: createInvoiceItems,
   createInvoice: createInvoice,
   deleteInvoice: deleteInvoice,
   sendInvoice: sendInvoice,

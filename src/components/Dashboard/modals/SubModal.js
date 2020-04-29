@@ -52,20 +52,21 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
               <Typography variant="body2" className={classes.modalLabelHigh}>
                 Subscription {index + 1}
               </Typography>
-              {sub.status === "trialing" &&
-                sub.status === "active" &&
-                sub.status === "past_due" && (
-                  <Tooltip title="Cancel subscription" arrow>
-                    <IconButton
-                      className={classes.iconPrimary}
-                      aria-label="delete"
-                      component="span"
-                      onClick={() => cancelSub(sub.id)}
-                    >
-                      <DeleteForeverIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
+              {(sub.status === "trialing" ||
+                sub.status === "active" ||
+                sub.status === "past_due" ||
+                sub.status === "incomplete") && (
+                <Tooltip title="Cancel subscription" arrow>
+                  <IconButton
+                    className={classes.iconPrimary}
+                    aria-label="delete"
+                    component="span"
+                    onClick={() => cancelSub(sub.id)}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
             </div>
 
             <TableContainer className={classes.subBox}>

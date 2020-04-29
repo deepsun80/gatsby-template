@@ -263,58 +263,69 @@ const Appt = ({
     // --- Set loading ui ---
     setLoading(true)
 
-    // --- Create invoice in Stripe ---
-    const result = await stripeApi.createInvoice(
+    // --- Create invoice items in Stripe ---
+    const res1 = await stripeApi.createInvoiceItems(
       clientData.data.stripe_id,
       data
     )
 
-    if (result && result.message) {
-      // --- If got response, display success snackbar ---
-      console.log(result.message)
-      setApiSuccessMessage(result.message)
-      handleSuccessApiOpen()
+    // --- If response ---
+    if (res1 && res1.message) {
+      // --- Create invoice in Stripe ---
+      const result = await stripeApi.createInvoice(clientData.data.stripe_id)
 
-      // --- Update appointment in Fauna with created invoice ---
-      const res = await faunaApi.updateAppt(apptData.ref["@ref"].id, {
-        invoice: result.result,
-      })
-
-      if (res && res.message) {
+      if (result && result.message) {
         // --- If got response, display success snackbar ---
-        console.log(res.message)
-        setApiSuccessMessage(res.message)
+        console.log(result.message)
+        setApiSuccessMessage(result.message)
         handleSuccessApiOpen()
 
-        // --- Reset all appointments ---
-        const response = await faunaApi.readAllAppts()
+        // --- Update appointment in Fauna with created invoice ---
+        const res = await faunaApi.updateAppt(apptData.ref["@ref"].id, {
+          invoice: result.result,
+        })
 
-        // --- Sort appointments to display newest date first ---
-        if (response && response.result.length > 0) {
-          const sortedArray = response.result.sort(
-            (a, b) =>
-              moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-              moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-          )
-          setAppts(sortedArray)
+        if (res && res.message) {
+          // --- If got response, display success snackbar ---
+          console.log(res.message)
+          setApiSuccessMessage(res.message)
+          handleSuccessApiOpen()
+
+          // --- Reset all appointments ---
+          const response = await faunaApi.readAllAppts()
+
+          // --- Sort appointments to display newest date first ---
+          if (response && response.result.length > 0) {
+            const sortedArray = response.result.sort(
+              (a, b) =>
+                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+            )
+            setAppts(sortedArray)
+          }
+        }
+
+        // --- Display any error in snackbar ---
+        if (res && res.error) {
+          console.log(res.error)
+          setApiErrorMessage(res.error)
+          handleErrorApiOpen()
         }
       }
 
-      // --- Display any error in snackbar and unset loading ui ---
-      if (res && res.error) {
-        console.log(res.error)
-        setApiErrorMessage(res.error)
+      // --- Display any error in snackbar ---
+      if (result && result.error) {
+        console.log(result.error)
+        setApiErrorMessage(result.error)
         handleErrorApiOpen()
-        setLoading(false)
       }
     }
 
-    // --- Display any error in snackbar and unset loading ui ---
-    if (result && result.error) {
-      console.log(result.error)
-      setApiErrorMessage(result.error)
+    // --- Display any error in snackbar ---
+    if (res1 && res1.error) {
+      console.log(res1.error)
+      setApiErrorMessage(res1.error)
       handleErrorApiOpen()
-      setLoading(false)
     }
 
     // --- Unset loading ui ---
@@ -622,7 +633,11 @@ const Appt = ({
                     row.data.invoice.hasOwnProperty("status") &&
                     row.data.invoice.status === "void" ? (
                       <ClearIcon style={{ color: "red" }} />
+                    ) : row.data.invoice.status === "uncollectible" ? (
+                      <ClearIcon style={{ color: "red" }} />
                     ) : row.data.invoice.status === "open" ? (
+                      <DoneIcon style={{ color: "green" }} />
+                    ) : row.data.invoice.status === "paid" ? (
                       <DoneIcon style={{ color: "green" }} />
                     ) : row.data.invoice.hasOwnProperty("status") &&
                       row.data.invoice.status === "draft" ? (

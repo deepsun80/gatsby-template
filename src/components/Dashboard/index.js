@@ -546,15 +546,32 @@ const Dashboard = ({
     // --- Set loading ui ---
     setLoading(true)
 
-    // --- Create invoice in Stripe ---
-    const result = await stripeApi.createInvoice(modalData.stripe_id, data)
-    console.log(result)
+    // --- Create invoice items in Stripe ---
+    const result = await stripeApi.createInvoiceItems(modalData.stripe_id, data)
 
-    // --- If got response, display success snackbar ---
+    // --- If got response ---
     if (result && result.message) {
+      // --- Display success snackbar ----
       console.log(result.message)
       setApiSuccessMessage(result.message)
       handleSuccessApiOpen()
+
+      // --- Create invoice in Stripe ---
+      const res = await stripeApi.createInvoice(modalData.stripe_id)
+
+      // --- If got response, display success snackbar ----
+      if (res && res.error) {
+        console.log(res.message)
+        setApiSuccessMessage(res.message)
+        handleSuccessApiOpen()
+      }
+
+      // --- Display any error in snackbar ---
+      if (res && res.error) {
+        console.log(res.error)
+        setApiErrorMessage(res.error)
+        handleErrorApiOpen()
+      }
     }
 
     // --- Display any error in snackbar ---
