@@ -28,6 +28,7 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
     handleDelete(id)
   }
 
+  console.log(data)
   return (
     <Dialog
       onClose={handleClose}
@@ -51,16 +52,20 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
               <Typography variant="body2" className={classes.modalLabelHigh}>
                 Subscription {index + 1}
               </Typography>
-              <Tooltip title="Cancel subscription" arrow>
-                <IconButton
-                  className={classes.iconPrimary}
-                  aria-label="delete"
-                  component="span"
-                  onClick={() => cancelSub(sub.id)}
-                >
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
+              {sub.status === "trialing" &&
+                sub.status === "active" &&
+                sub.status === "past_due" && (
+                  <Tooltip title="Cancel subscription" arrow>
+                    <IconButton
+                      className={classes.iconPrimary}
+                      aria-label="delete"
+                      component="span"
+                      onClick={() => cancelSub(sub.id)}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
             </div>
 
             <TableContainer className={classes.subBox}>
@@ -73,6 +78,9 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
                     </TableCell>
                     <TableCell className={classes.tableHeader}>
                       Frequency
+                    </TableCell>
+                    <TableCell className={classes.tableHeader}>
+                      Status
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -95,6 +103,20 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
                       <TableCell>
                         <Typography variant="body2">
                           {row.plan.interval}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          variant="body2"
+                          style={
+                            sub.status === "active"
+                              ? { color: "green" }
+                              : row.status === "trialing"
+                              ? { color: "cornflowerblue" }
+                              : { color: "red" }
+                          }
+                        >
+                          {sub.status}
                         </Typography>
                       </TableCell>
                     </TableRow>

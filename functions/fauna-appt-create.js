@@ -23,11 +23,11 @@ exports.handler = async (event, context) => {
   if (data.event === "invitee.created") {
     return faunaClient
       .query(q.Create(q.Ref("classes/appointments"), apptItem))
-      .then(response => {
+      .then(() => {
         return twilioClient.messages
           .create({
             from: TWILIO_BOT_NUMBER,
-            to: data.payload.questions_and_responses["2_response"],
+            to: data.payload.questions_and_responses["1_response"],
             body: `Hi ${data.payload.invitee.name}, your appointment is set for ${data.payload.event.start_time_pretty}`,
           })
           .then(result => {
@@ -39,19 +39,19 @@ exports.handler = async (event, context) => {
               }),
             }
           })
-          .catch(err => {
-            return {
-              statusCode: 200,
-              body: JSON.stringify(`Twilio error: ${err.message}`),
-            }
-          })
+        // .catch(err => {
+        //   return {
+        //     statusCode: 200,
+        //     body: JSON.stringify(`Twilio error: ${err.message}`),
+        //   }
+        // })
       })
-      .catch(error => {
-        return {
-          statusCode: 200,
-          body: JSON.stringify(error),
-        }
-      })
+    // .catch(error => {
+    //   return {
+    //     statusCode: 200,
+    //     body: JSON.stringify(error),
+    //   }
+    // })
   }
 
   /* Customer Cancelled Event */
@@ -59,16 +59,13 @@ exports.handler = async (event, context) => {
     .query(q.Paginate(q.Match(q.Ref("indexes/all_appointments"))))
     .then(response => {
       const apptRefs = response.data
-      // create new query out of refs. http://bit.ly/2LG3MLg
       const getAllApptDataQuery = apptRefs.map(ref => {
         return q.Get(ref)
       })
-      // then query the refs
       return faunaClient
         .query(getAllApptDataQuery)
         .then(ret => {
           let retValue = ""
-          // then find the ref that matches param
           ret.forEach(ref => {
             if (ref.data.payload.event.uuid === data.payload.event.uuid)
               retValue = ref.ref.id

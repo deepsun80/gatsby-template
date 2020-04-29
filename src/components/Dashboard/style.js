@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       backgroundColor: "mediumblue",
     },
+    "&:disabled": {
+      color: "#fff",
+      backgroundColor: "lightgrey",
+    },
   },
   paper: {
     padding: "30px 0",
