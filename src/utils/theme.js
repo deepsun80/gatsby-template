@@ -117,6 +117,11 @@ const theme = createMuiTheme({
         color: "#fff",
       },
     },
+    MuiPagination: {
+      ul: {
+        justifyContent: "space-between"
+      }
+    }
   },
 })
 

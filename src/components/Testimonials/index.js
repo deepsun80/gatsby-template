@@ -4,6 +4,7 @@ import Container from "@material-ui/core/Container"
 import Pagination from "@material-ui/lab/Pagination"
 import Typography from "@material-ui/core/Typography"
 import HorizontalImgCard from "../Sections/HorizontalImgCard"
+import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const Testimonials = ({
@@ -37,26 +38,29 @@ const Testimonials = ({
             <span className={classes.rightLetter}> {section3HeaderSpan}</span>
           </Typography>
         </div>
-        {page === 1 && (
-          <HorizontalImgCard
-            subText={testimonial1Author}
-            text={testimonial1Text}
-            image={testimonial1Image.fluid}
-          />
-        )}
-        {page === 2 && (
-          <HorizontalImgCard
-            subText={testimonial2Author}
-            text={testimonial2Text}
-            image={testimonial2Image.fluid}
-          />
-        )}
+        <Fade duration={1600} ssrFadeout>
+          <>
+            {page === 1 && (
+              <HorizontalImgCard
+                subText={testimonial1Author}
+                text={testimonial1Text}
+                image={testimonial1Image.fluid}
+              />
+            )}
+            {page === 2 && (
+              <HorizontalImgCard
+                subText={testimonial2Author}
+                text={testimonial2Text}
+                image={testimonial2Image.fluid}
+              />
+            )}
+          </>
+        </Fade>
         <Pagination
           size="large"
           page={page}
           count={2}
           onChange={handleChange}
-          className={classes.pagination}
         />
       </Container>
     </section>

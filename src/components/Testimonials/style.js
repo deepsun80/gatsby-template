@@ -24,9 +24,6 @@ const useStyles = makeStyles(theme => ({
     textTransform: "capitalize",
     color: theme.palette.secondary.main,
   },
-  pagination: {
-    justifyContent: "space-between",
-  },
   flex: {
     display: "flex",
     justifyContent: "flex-start",

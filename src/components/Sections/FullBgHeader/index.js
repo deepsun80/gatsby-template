@@ -19,6 +19,7 @@ const FullBgHeader = ({ largeFont, header, headerSpan, subHeader, image }) => {
         title="hero image"
         style={{
           backgroundSize: "cover",
+          backgroundAttachment: "fixed"
         }}
         fluid={image.fluid}
       >

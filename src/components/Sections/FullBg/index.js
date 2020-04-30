@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import BackgroundImage from "gatsby-background-image"
 import { BsThreeDotsVertical } from "react-icons/bs"
 import scrollTo from "gatsby-plugin-smoothscroll"
+import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 // ------------ Full banner with text ------------
@@ -24,6 +25,7 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
         style={{
           height: "90vh",
           backgroundSize: "cover",
+          backgroundAttachment: "fixed"
         }}
         fluid={image.fluid}
       >
@@ -51,28 +53,30 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
               />
             </div>
             <Paper elevation={0} className={classes.paper}>
-              <Typography variant="h1" className={classes.header}>
-                {header} <br />
-                <span className={classes.headerSpan}>{headerSpan}</span>
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                className={classes.subtitle}
-                component="p"
-              >
-                {subHeader}
-              </Typography>
-              <AniLink fade to={"/schedule"}>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  color="secondary"
-                  className={classes.button}
+              <Fade duration={1600} ssrFadeout>
+                <Typography variant="h1" className={classes.header}>
+                  {header} <br />
+                  <span className={classes.headerSpan}>{headerSpan}</span>
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="primary"
+                  className={classes.subtitle}
+                  component="p"
                 >
-                  book appointment now
-                </Button>
-              </AniLink>
+                  {subHeader}
+                </Typography>
+                <AniLink fade to={"/schedule"}>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    color="secondary"
+                    className={classes.button}
+                  >
+                    book appointment now
+                  </Button>
+                </AniLink>
+              </Fade>
             </Paper>
           </Container>
         </div>

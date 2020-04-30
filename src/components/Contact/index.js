@@ -15,6 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import faunaApi from "../../utils/faunaApi"
 import validateEmail from "../../utils/validateEmail"
 import isLocalHost from "../../utils/isLocalHost"
+import Fade from "react-reveal/Fade"
 import useStyles from "./style"
 
 const encode = data => {
@@ -137,16 +138,18 @@ const Contact = ({
         fluid={image.fluid}
       >
         <Container className={classes.container}>
-          <Typography variant="h3" align="center" className={classes.header}>
-            {header}
-          </Typography>
-          <Typography
-            variant="body1"
-            align="center"
-            className={classes.subHeader}
-          >
-            {subHeader}
-          </Typography>
+          <Fade duration={1600} ssrFadeout>
+            <Typography variant="h3" align="center" className={classes.header}>
+              {header}
+            </Typography>
+            <Typography
+              variant="body1"
+              align="center"
+              className={classes.subHeader}
+            >
+              {subHeader}
+            </Typography>
+          </Fade>
           {loading && (
             <div className={classes.loader}>
               <CircularProgress color="secondary" size="100px" thickness={1} />
