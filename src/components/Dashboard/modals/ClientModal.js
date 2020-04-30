@@ -66,7 +66,12 @@ function ClientModal({
           handleSuccessApiOpen()
         }
 
-        setAppt(response.result)
+        const sortedArray = response.result.sort(
+          (a, b) =>
+            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+        )
+        setAppt(sortedArray[0])
       } catch (error) {
         console.log(error.message)
         setApiErrorMessage(error.message)
@@ -78,7 +83,7 @@ function ClientModal({
 
     if (open) getAppts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setLoading, data.email])
+  }, [setLoading, data.email, open])
 
   return (
     <Dialog

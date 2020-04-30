@@ -28,7 +28,6 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
     handleDelete(id)
   }
 
-  console.log(data)
   return (
     <Dialog
       onClose={handleClose}

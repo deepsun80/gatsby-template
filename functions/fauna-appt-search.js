@@ -20,14 +20,14 @@ exports.handler = (event, context) => {
       return client
         .query(getAllApptDataQuery)
         .then(ret => {
-          let result = {}
+          let result = []
           // then find the ref that matches param
           ret.forEach(ref => {
             if (
               ref.data.payload.invitee.email.toLowerCase() ===
               data.toLowerCase()
             )
-              result = ref
+              result.push(ref)
           })
           return {
             statusCode: 200,

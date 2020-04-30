@@ -11,7 +11,7 @@ const ApiErrorModal = ({ open, message, handleClose }) => {
     <Portal container={container.current}>
       <Snackbar
         open={open}
-        autoHideDuration={1800}
+        autoHideDuration={2000}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         onClose={handleClose}
       >

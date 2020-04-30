@@ -11,7 +11,7 @@ const ApiSuccessModal = ({ open, message, handleClose }) => {
     <Portal container={container.current}>
       <Snackbar
         open={open}
-        autoHideDuration={1800}
+        autoHideDuration={1700}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         onClose={handleClose}
       >

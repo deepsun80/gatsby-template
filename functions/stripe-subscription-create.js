@@ -9,6 +9,8 @@ exports.handler = (event, context, callback) => {
     .create(
       {
         customer: id,
+        // collection_method: "send_invoice",
+        // days_until_due: 30,
         items: requestBody,
       },
       { maxNetworkRetries: 2 }

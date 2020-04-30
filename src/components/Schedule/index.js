@@ -76,7 +76,6 @@ const Schedule = ({
             ...values,
             stripe_id: response.result.data.stripe_id,
             customer: true,
-            appointment: {},
           }
         )
         console.log(ret.message)
@@ -111,7 +110,6 @@ const Schedule = ({
             ...values,
             stripe_id: ret.result.id,
             customer: true,
-            appointment: {},
           })
           console.log(ret2.message)
           setValidation({ success: true, error: false })

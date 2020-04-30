@@ -74,7 +74,7 @@ const Dashboard = ({
   const [invoicesModalData, setInvoicesModalData] = useState([])
   const [subModalData, setSubModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
-  const [filter, setFilter] = useState("customers")
+  const [filter, setFilter] = useState("appts")
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [successApi, setSuccessApi] = useState(false)
@@ -1177,7 +1177,7 @@ const Dashboard = ({
               <SubModal
                 open={subModal}
                 onClose={handleSubModalClose}
-                header={`${invoiceName} invoices`}
+                header={`${invoiceName} subscriptions`}
                 data={subModalData}
                 handleDelete={handleSubDelete}
               />

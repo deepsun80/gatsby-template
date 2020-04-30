@@ -139,6 +139,20 @@ const Navbar = ({
       onClose={handleMobileMenuClose}
     >
       <MenuItem
+        title={`${siteTitle} appointments`}
+        alt={`${siteTitle} appointments`}
+        className={classNames(
+          classes.navLink,
+          menuColor
+            ? classes.navLinkPrimaryColor
+            : classes.navLinkSecondaryColor
+        )}
+        id="appointments"
+        onClick={() => setFilter("appts")}
+      >
+        appointments
+      </MenuItem>
+      <MenuItem
         title={`${siteTitle} leads`}
         alt={`${siteTitle} leads`}
         className={classNames(
@@ -165,20 +179,6 @@ const Navbar = ({
         onClick={() => setFilter("leads")}
       >
         leads
-      </MenuItem>
-      <MenuItem
-        title={`${siteTitle} appointments`}
-        alt={`${siteTitle} appointments`}
-        className={classNames(
-          classes.navLink,
-          menuColor
-            ? classes.navLinkPrimaryColor
-            : classes.navLinkSecondaryColor
-        )}
-        id="appointments"
-        onClick={() => setFilter("appts")}
-      >
-        appointments
       </MenuItem>
       <Button
         variant="text"
@@ -228,6 +228,20 @@ const Navbar = ({
             ) : (
               <>
                 <MenuItem
+                  title={`${siteTitle} appointments`}
+                  alt={`${siteTitle} appointments`}
+                  className={classNames(
+                    classes.navLink,
+                    menuColor
+                      ? classes.navLinkPrimaryColor
+                      : classes.navLinkSecondaryColor
+                  )}
+                  id="appointments"
+                  onClick={() => setFilter("appts")}
+                >
+                  appointments
+                </MenuItem>
+                <MenuItem
                   title={`${siteTitle} customers`}
                   alt={`${siteTitle} customers`}
                   className={classNames(
@@ -254,20 +268,6 @@ const Navbar = ({
                   onClick={() => setFilter("leads")}
                 >
                   leads
-                </MenuItem>
-                <MenuItem
-                  title={`${siteTitle} appointments`}
-                  alt={`${siteTitle} appointments`}
-                  className={classNames(
-                    classes.navLink,
-                    menuColor
-                      ? classes.navLinkPrimaryColor
-                      : classes.navLinkSecondaryColor
-                  )}
-                  id="appointments"
-                  onClick={() => setFilter("appts")}
-                >
-                  appointments
                 </MenuItem>
                 <Button
                   variant="outlined"

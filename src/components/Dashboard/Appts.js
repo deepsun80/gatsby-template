@@ -143,7 +143,7 @@ const Appt = ({
 
     // --- Get appointments from Fauna ---
     const response = await faunaApi.readAllAppts()
-    console.log(response)
+    console.log(response.message)
 
     // --- If not connected to Fauna display error ---
     if (response && response.error === "unauthorized") {
