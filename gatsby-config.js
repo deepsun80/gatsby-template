@@ -4,8 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: "Gatsby Template",
-    description: "Gatsby template for static sites.",
+    title: "Gatsby template for static site",
     author: "Sandeep Chandran",
     data: {
       tel: "648.244.1060",

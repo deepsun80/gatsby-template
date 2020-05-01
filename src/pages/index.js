@@ -22,6 +22,7 @@ const index = ({ data }) => {
 
   const {
     title,
+    description,
     header,
     headerSpan,
     subHeader,
@@ -54,7 +55,7 @@ const index = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO home title={title} description={description} />
       <FullBg
         header={header}
         headerSpan={headerSpan}
@@ -63,6 +64,7 @@ const index = ({ data }) => {
       />
       <OneColTxt
         header={section1Header}
+        headerTag="h2"
         headerSpan={section1HeaderSpan}
         text={section1Text}
         image={section1Image.childImageSharp}
@@ -167,6 +169,7 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/" } }) {
       frontmatter {
         title
+        description
         header
         headerSpan
         subHeader

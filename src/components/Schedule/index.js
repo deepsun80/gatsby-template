@@ -20,6 +20,7 @@ import useStyles from "./style"
 import { Typography } from "@material-ui/core"
 
 const Schedule = ({
+  title,
   successMessage,
   subSuccessMessage,
   errorMessage,
@@ -260,7 +261,13 @@ const Schedule = ({
                 >
                   {errorMessage}
                 </Typography>
-                <AniLink fade to="/" className={classes.link}>
+                <AniLink
+                  fade
+                  to="/"
+                  className={classes.link}
+                  title={title}
+                  alt={title}
+                >
                   <AiOutlineLeft className={classes.icon} />
                   <Typography
                     variant="body2"
@@ -280,6 +287,7 @@ const Schedule = ({
 }
 
 Schedule.propTypes = {
+  title: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   subSuccessMessage: PropTypes.string.isRequired,
   errorMessage: PropTypes.string.isRequired,

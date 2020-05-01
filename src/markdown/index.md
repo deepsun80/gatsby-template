@@ -1,6 +1,7 @@
 ---
 path: "/"
-title: "Home"
+title: "Lawncare template"
+description: "Gatsby lawncare template. This template is used as the starter for all my static websites and uses Gatsby.js on front-end and Netlify functions on back-end."
 header: "our lawncare"
 headerSpan: "template"
 subHeader: "lorem ipsum dolor sit amet, consectetur adipiscing elit."

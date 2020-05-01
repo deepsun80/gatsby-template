@@ -6,10 +6,11 @@ import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
 const schedule = ({ data }) => {
-  const { background } = data
+  const { site, background } = data
 
   const {
     title,
+    description,
     titleSpan,
     subTitle,
     success,
@@ -23,7 +24,7 @@ const schedule = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={title} description={description} />
       <FullBgHeader
         largeFont
         header={title}
@@ -33,6 +34,7 @@ const schedule = ({ data }) => {
       />
       <div className="contact" />
       <Schedule
+        title={site.siteMetadata.title}
         successMessage={success}
         subSuccessMessage={subSuccess}
         errorMessage={error}
@@ -47,6 +49,11 @@ const schedule = ({ data }) => {
 
 export const data = graphql`
   query {
+    site {
+      siteMetadata {
+        title
+      }
+    }
     background: file(relativePath: { eq: "heroBg.jpg" }) {
       childImageSharp {
         fluid {
@@ -57,6 +64,7 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/schedule" } }) {
       frontmatter {
         title
+        description
         titleSpan
         subTitle
         success

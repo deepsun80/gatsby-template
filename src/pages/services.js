@@ -7,7 +7,7 @@ import TwoColBgTxt from "../components/Sections/TwoColBgTxt"
 import Contact from "../components/Contact"
 import { graphql } from "gatsby"
 
-const about = ({ data }) => {
+const services = ({ data }) => {
   const {
     background,
     section1Image,
@@ -18,6 +18,7 @@ const about = ({ data }) => {
 
   const {
     title,
+    description,
     titleSpan,
     subTitle,
     header,
@@ -41,7 +42,7 @@ const about = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={title} description={description} />
       <FullBgHeader
         header={title}
         headerSpan={titleSpan}
@@ -50,6 +51,7 @@ const about = ({ data }) => {
       />
       <TwoColTxtImg
         header={header}
+        headerTag="h2"
         headerSpan={headerSpan}
         text={text}
         image={section1Image.childImageSharp}
@@ -68,12 +70,14 @@ const about = ({ data }) => {
       />
       <TwoColBgTxt
         header={headerTwo}
+        headerTag="h2"
         headerSpan={headerSpanTwo}
         text={textTwo}
         image={section2Image.childImageSharp}
       />
       <TwoColTxtImg
         header={headerThree}
+        headerTag="h2"
         headerSpan={headerSpanThree}
         text={textThree}
         image={section3Image.childImageSharp}
@@ -122,6 +126,7 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/services" } }) {
       frontmatter {
         title
+        description
         titleSpan
         subTitle
         header
@@ -146,4 +151,4 @@ export const data = graphql`
   }
 `
 
-export default about
+export default services

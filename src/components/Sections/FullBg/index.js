@@ -17,7 +17,7 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
   const classes = useStyles()
 
   return (
-    <section>
+    <>
       <BackgroundImage
         Tag="section"
         alt="hero image"
@@ -25,7 +25,7 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
         style={{
           height: "90vh",
           backgroundSize: "cover",
-          backgroundAttachment: "fixed"
+          backgroundAttachment: "fixed",
         }}
         fluid={image.fluid}
       >
@@ -66,7 +66,12 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
                 >
                   {subHeader}
                 </Typography>
-                <AniLink fade to={"/schedule"}>
+                <AniLink
+                  fade
+                  to={"/schedule"}
+                  title="schedule online"
+                  alt="schedule online"
+                >
                   <Button
                     variant="contained"
                     size="medium"
@@ -82,7 +87,7 @@ const FullBg = ({ header, headerSpan, subHeader, image }) => {
         </div>
       </BackgroundImage>
       <div id="scroll-down" />
-    </section>
+    </>
   )
 }
 

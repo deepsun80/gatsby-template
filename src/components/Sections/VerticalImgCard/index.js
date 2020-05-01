@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import useStyles from "./style"
 
-const VerticalImgCard = ({ header, text, image, button }) => {
+const VerticalImgCard = ({ header, text, image, button, headerTag }) => {
   const classes = useStyles()
 
   return (
@@ -19,7 +19,7 @@ const VerticalImgCard = ({ header, text, image, button }) => {
         <CardContent className={classes.cardContent}>
           <Typography
             variant="h3"
-            component="p"
+            component={headerTag}
             color="primary"
             className={classes.header}
           >
@@ -46,6 +46,7 @@ const VerticalImgCard = ({ header, text, image, button }) => {
 VerticalImgCard.propTypes = {
   text: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
+  headerTag: PropTypes.string.isRequired,
   button: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }

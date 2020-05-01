@@ -29,6 +29,7 @@ const Services = ({
               <VerticalImgCard
                 image={img1}
                 header={header1}
+                headerTag="h3"
                 text={text1}
                 button={button}
               />
@@ -39,6 +40,7 @@ const Services = ({
               <VerticalImgCard
                 image={img2}
                 header={header2}
+                headerTag="h3"
                 text={text2}
                 button={button}
               />
@@ -49,6 +51,7 @@ const Services = ({
               <VerticalImgCard
                 image={img3}
                 header={header3}
+                headerTag="h3"
                 text={text3}
                 button={button}
               />

@@ -128,9 +128,9 @@ const Contact = ({
   return (
     <section className={classes.section}>
       <BackgroundImage
-        Tag="section"
-        alt="hero image"
-        title="hero image"
+        Tag="div"
+        alt="contact background image"
+        title="contact background image"
         style={{
           backgroundSize: "contain",
           backgroundPosition: "bottom right",
@@ -139,7 +139,12 @@ const Contact = ({
       >
         <Container className={classes.container}>
           <Fade duration={1600} ssrFadeout>
-            <Typography variant="h3" align="center" className={classes.header}>
+            <Typography
+              variant="h3"
+              component="h6"
+              align="center"
+              className={classes.header}
+            >
               {header}
             </Typography>
             <Typography

@@ -70,8 +70,6 @@ const Navbar = ({
   const renderMenu = (link, linkTitle, linkId) =>
     linkTitle === "contact" ? (
       <MenuItem
-        title={`${siteTitle} ${link}`}
-        alt={`${siteTitle} ${link}`}
         className={classNames(
           classes.navLink,
           menuColor
@@ -84,10 +82,8 @@ const Navbar = ({
         {linkTitle}
       </MenuItem>
     ) : (
-      <AniLink fade to={link}>
+      <AniLink fade to={link} title={link} alt={link}>
         <MenuItem
-          title={`${siteTitle} ${link}`}
-          alt={`${siteTitle} ${link}`}
           className={classNames(
             classes.navLink,
             menuColor
@@ -117,7 +113,12 @@ const Navbar = ({
           <div key={index}>{renderMenu(link.path, link.name, link.name)}</div>
         )
       })}
-      <AniLink fade to={"/schedule"}>
+      <AniLink
+        fade
+        to={"/schedule"}
+        title="schedule online"
+        alt="schedule online"
+      >
         <Button
           variant="outlined"
           size="small"
@@ -139,8 +140,6 @@ const Navbar = ({
       onClose={handleMobileMenuClose}
     >
       <MenuItem
-        title={`${siteTitle} appointments`}
-        alt={`${siteTitle} appointments`}
         className={classNames(
           classes.navLink,
           menuColor
@@ -153,8 +152,6 @@ const Navbar = ({
         appointments
       </MenuItem>
       <MenuItem
-        title={`${siteTitle} leads`}
-        alt={`${siteTitle} leads`}
         className={classNames(
           classes.navLink,
           menuColor
@@ -167,8 +164,6 @@ const Navbar = ({
         customers
       </MenuItem>
       <MenuItem
-        title={`${siteTitle} leads`}
-        alt={`${siteTitle} leads`}
         className={classNames(
           classes.navLink,
           menuColor
@@ -202,7 +197,7 @@ const Navbar = ({
         )}
       >
         <Toolbar>
-          <AniLink fade to="/">
+          <AniLink fade to="/" title={siteTitle} alt={siteTitle}>
             <img
               alt={`${siteTitle} Logo`}
               title={`${siteTitle} Logo`}
@@ -228,8 +223,6 @@ const Navbar = ({
             ) : (
               <>
                 <MenuItem
-                  title={`${siteTitle} appointments`}
-                  alt={`${siteTitle} appointments`}
                   className={classNames(
                     classes.navLink,
                     menuColor
@@ -242,8 +235,6 @@ const Navbar = ({
                   appointments
                 </MenuItem>
                 <MenuItem
-                  title={`${siteTitle} customers`}
-                  alt={`${siteTitle} customers`}
                   className={classNames(
                     classes.navLink,
                     menuColor
@@ -256,8 +247,6 @@ const Navbar = ({
                   customers
                 </MenuItem>
                 <MenuItem
-                  title={`${siteTitle} leads`}
-                  alt={`${siteTitle} leads`}
                   className={classNames(
                     classes.navLink,
                     menuColor
@@ -281,7 +270,12 @@ const Navbar = ({
               </>
             )}
             {web && (
-              <AniLink fade to={"/schedule"}>
+              <AniLink
+                fade
+                to={"/schedule"}
+                title="schedule online"
+                alt="schedule online"
+              >
                 <Button
                   variant="outlined"
                   size="medium"

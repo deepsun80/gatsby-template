@@ -1,6 +1,7 @@
 ---
 path: "/schedule"
 title: "Schedule"
+description: "Schedule appointment. Gatsby template is used as the starter for all my websites and uses Gatsby.js on front-end and Netlify functions on back-end."
 titleSpan: "Appointment"
 subTitle: "schedule your next appointment"
 success: "Thank you for entering your information. Next schedule your appointment."

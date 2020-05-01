@@ -9,7 +9,14 @@ import useStyles from "./style"
 
 // ------------ 2 Columns, Left Text, Right Background Image ----------
 
-const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
+const TwoColBgTxt = ({
+  header,
+  headerSpan,
+  subHeader,
+  text,
+  image,
+  headerTag,
+}) => {
   const classes = useStyles()
 
   return (
@@ -31,14 +38,14 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
           <Container maxWidth="sm">
             <Fade duration={1600} ssrFadeout style={{ width: "100vw" }}>
               <div className={classes.flex}>
-                <Typography variant="h2" component="p" color="primary">
+                <Typography variant="h2" component={headerTag} color="primary">
                   {header}
                   <span className={classes.rightLetter}> {headerSpan}</span>
                 </Typography>
               </div>
               <Typography
                 variant="h5"
-                component="h2"
+                component="p"
                 color="secondary"
                 className={classes.subHeader}
               >
@@ -59,12 +66,16 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
   )
 }
 
-TwoColTxtBg.propTypes = {
+TwoColBgTxt.defaultProps = {
+  subHeader: "",
+}
+
+TwoColBgTxt.propTypes = {
   header: PropTypes.string.isRequired,
+  headerTag: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
-  subHeader: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
 }
 
-export default TwoColTxtBg
+export default TwoColBgTxt

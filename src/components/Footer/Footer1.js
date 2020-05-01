@@ -10,6 +10,7 @@ import FacebookIcon from "@material-ui/icons/Facebook"
 import InstagramIcon from "@material-ui/icons/Instagram"
 import LinkedInIcon from "@material-ui/icons/LinkedIn"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
+import scrollTo from "gatsby-plugin-smoothscroll"
 import useStyles from "./style"
 
 const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
@@ -24,7 +25,12 @@ const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
               <Typography variant="body1" color="secondary">
                 {tel}
               </Typography>
-              <AniLink fade to="/contact">
+              <AniLink
+                to={null}
+                onClick={() => scrollTo(".contact")}
+                title="contact us"
+                alt="contact us"
+              >
                 <Typography
                   variant="body1"
                   color="primary"

@@ -33,7 +33,7 @@ const Testimonials = ({
           </Typography>
         </div>
         <div className={classes.flex}>
-          <Typography variant="h3" component="h4" color="primary">
+          <Typography variant="h3" component="p" color="primary">
             {section3Header}
             <span className={classes.rightLetter}> {section3HeaderSpan}</span>
           </Typography>

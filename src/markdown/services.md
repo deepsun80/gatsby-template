@@ -1,6 +1,7 @@
 ---
 path: "/services"
 title: "Our"
+description: "Our services. Gatsby template is used as the starter for all my websites and uses Gatsby.js on front-end and Netlify functions on back-end."
 titleSpan: "Services"
 subTitle: "services we provide"
 header: "garden"

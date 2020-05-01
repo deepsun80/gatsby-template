@@ -12,6 +12,7 @@ const about = ({ data }) => {
 
   const {
     title,
+    description,
     titleSpan,
     subTitle,
     header,
@@ -34,7 +35,7 @@ const about = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={title} description={description} />
       <FullBgHeader
         header={title}
         headerSpan={titleSpan}
@@ -43,6 +44,7 @@ const about = ({ data }) => {
       />
       <TwoColTxtImg
         header={header}
+        headerTag="h2"
         headerSpan={headerSpan}
         subHeader={subHeader}
         text={text}
@@ -62,6 +64,7 @@ const about = ({ data }) => {
       />
       <OneColTxt
         header={headerTwo}
+        headerTag="p"
         headerSpan={headerSpanTwo}
         subHeader={subHeaderTwo}
         subHeaderSpan={site.siteMetadata.data.tel}
@@ -105,6 +108,7 @@ export const data = graphql`
     markdownRemark(frontmatter: { path: { eq: "/about" } }) {
       frontmatter {
         title
+        description
         titleSpan
         subTitle
         header

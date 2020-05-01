@@ -520,7 +520,8 @@ const Appt = ({
           rel="noopener noreferrer"
         >
           <img
-            alt="Calendly Icon"
+            title="Calendly icon"
+            alt="Calendly icon"
             variant="square"
             src={calendlyImg}
             className={classes.calendly}

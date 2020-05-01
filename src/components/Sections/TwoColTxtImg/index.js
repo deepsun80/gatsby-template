@@ -10,7 +10,14 @@ import useStyles from "./style"
 
 // ------------ 2 Columns, Left Text, Right Image ----------
 
-const TwoColTxtImg = ({ header, headerSpan, subHeader, text, image }) => {
+const TwoColTxtImg = ({
+  header,
+  headerSpan,
+  subHeader,
+  text,
+  image,
+  headerTag,
+}) => {
   const classes = useStyles()
 
   return (
@@ -23,14 +30,18 @@ const TwoColTxtImg = ({ header, headerSpan, subHeader, text, image }) => {
                 <>
                   <div className={classes.flex}>
                     <div className={classes.line} />
-                    <Typography variant="h2" component="p" color="primary">
+                    <Typography
+                      variant="h2"
+                      component={headerTag}
+                      color="primary"
+                    >
                       {header}
                       <span className={classes.rightLetter}> {headerSpan}</span>
                     </Typography>
                   </div>
                   <Typography
                     variant="h5"
-                    component="h2"
+                    component="p"
                     color="secondary"
                     className={classes.subHeader}
                   >
@@ -69,6 +80,7 @@ const TwoColTxtImg = ({ header, headerSpan, subHeader, text, image }) => {
 
 TwoColTxtImg.propTypes = {
   header: PropTypes.string.isRequired,
+  headerTag: PropTypes.string.isRequired,
   headerSpan: PropTypes.string.isRequired,
   subHeader: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
