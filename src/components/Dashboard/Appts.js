@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search"
 import ReplayIcon from "@material-ui/icons/Replay"
 import ClearIcon from "@material-ui/icons/Clear"
 import DoneIcon from "@material-ui/icons/Done"
+import SendIcon from "@material-ui/icons/Send"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import Table from "@material-ui/core/Table"
@@ -38,6 +39,7 @@ const Appt = ({
   handleErrorApiOpen,
   setApiSuccessMessage,
   setApiErrorMessage,
+  handleApptReminder,
 }) => {
   const classes = useStyles()
 
@@ -545,6 +547,7 @@ const Appt = ({
                 <TableCell className={classes.tableHeader}>
                   Invoice Action
                 </TableCell>
+                <TableCell className={classes.tableHeader}>Sms</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -660,6 +663,27 @@ const Appt = ({
                       </Tooltip>
                     )}
                   </TableCell>
+                  {/* --- Send Twilio appointment reminder --- */}
+                  <TableCell>
+                    {moment(row.data.payload.event.start_time).isAfter() ? (
+                      <Tooltip title="Text appointment reminder" arrow>
+                        <SendIcon
+                          className={classes.icon}
+                          onClick={() => {
+                            handleApptReminder({
+                              to:
+                                row.data.payload.questions_and_responses[
+                                  "1_response"
+                                ],
+                              body: `Hi ${row.data.payload.invitee.name}, this is a friendly reminder that you have an upcoming appointment on ${row.data.payload.event.start_time_pretty}`,
+                            })
+                          }}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <SendIcon className={classes.disabledIcon} />
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -690,6 +714,7 @@ Appt.propTypes = {
   setApiSuccessMessage: PropTypes.func.isRequired,
   handleErrorApiOpen: PropTypes.func.isRequired,
   setApiErrorMessage: PropTypes.func.isRequired,
+  handleApptReminder: PropTypes.func.isRequired,
 }
 
 export default Appt

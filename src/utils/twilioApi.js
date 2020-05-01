@@ -1,6 +1,6 @@
 /* Api methods to call /functions */
 
-const sendInvoice = data => {
+const sendSms = data => {
   return fetch("/.netlify/functions/twilio-sms-send", {
     body: JSON.stringify(data),
     method: "POST",
@@ -10,5 +10,5 @@ const sendInvoice = data => {
 }
 
 export default {
-  sendInvoice: sendInvoice,
+  sendSms: sendSms,
 }

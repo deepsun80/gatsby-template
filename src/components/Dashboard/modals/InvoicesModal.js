@@ -18,6 +18,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import SendIcon from "@material-ui/icons/Send"
 import BlockIcon from "@material-ui/icons/Block"
+import moment from "moment"
+import Loading from "../Loading"
 import useStyles from "../style"
 
 function InvoicesModal({
@@ -29,6 +31,7 @@ function InvoicesModal({
   handleSend,
   handleVoid,
   handleInvReminder,
+  loading,
 }) {
   const classes = useStyles()
 
@@ -58,8 +61,11 @@ function InvoicesModal({
       aria-labelledby="invoices-modal"
       open={open}
       fullWidth
-      maxWidth="md"
+      maxWidth="lg"
     >
+      {/* ---Loading UI --- */}
+      {loading && <Loading modal />}
+
       <DialogTitle id="invoices-modal" className={classes.modalHeaderSection}>
         <Typography variant="body1" className={classes.modalHeader}>
           {header}
@@ -70,6 +76,7 @@ function InvoicesModal({
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
+                <TableCell className={classes.tableHeader}>Date</TableCell>
                 <TableCell className={classes.tableHeader}>
                   Amount Due
                 </TableCell>
@@ -87,6 +94,11 @@ function InvoicesModal({
             <TableBody>
               {data.map(row => (
                 <TableRow key={row.id} hover selected={row.status === "void"}>
+                  <TableCell>
+                    <Typography variant="body2">
+                      {moment.unix(row.created).format("MM/DD/YYYY")}
+                    </Typography>
+                  </TableCell>
                   <TableCell
                     style={row.status === "void" ? { opacity: 0.4 } : null}
                   >
@@ -228,6 +240,7 @@ InvoicesModal.propTypes = {
   handleSend: PropTypes.func.isRequired,
   handleVoid: PropTypes.func.isRequired,
   handleInvReminder: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 }
 
 export default InvoicesModal

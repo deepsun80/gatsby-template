@@ -29,7 +29,7 @@ const TwoColTxtBg = ({ header, headerSpan, subHeader, text, image }) => {
         </Grid>
         <Grid item md={8} xs={12} className={classes.grid}>
           <Container maxWidth="sm">
-            <Fade duration={1600} ssrFadeout style={{ width: "100vw"}}>
+            <Fade duration={1600} ssrFadeout style={{ width: "100vw" }}>
               <div className={classes.flex}>
                 <Typography variant="h2" component="p" color="primary">
                   {header}

@@ -15,9 +15,10 @@ import TableRow from "@material-ui/core/TableRow"
 import Tooltip from "@material-ui/core/Tooltip"
 import IconButton from "@material-ui/core/IconButton"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
+import Loading from "../Loading"
 import useStyles from "../style"
 
-function SubModal({ onClose, open, data, header, handleDelete }) {
+function SubModal({ onClose, open, data, header, handleDelete, loading }) {
   const classes = useStyles()
 
   const handleClose = () => {
@@ -34,8 +35,11 @@ function SubModal({ onClose, open, data, header, handleDelete }) {
       aria-labelledby="subscription-modal"
       open={open}
       fullWidth
-      maxWidth="md"
+      maxWidth="lg"
     >
+      {/* ---Loading UI --- */}
+      {loading && <Loading modal />}
+
       <DialogTitle
         id="subscription-modal"
         className={classes.modalHeaderSection}
@@ -151,6 +155,7 @@ SubModal.propTypes = {
   data: PropTypes.array,
   header: PropTypes.string,
   handleDelete: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 }
 
 export default SubModal

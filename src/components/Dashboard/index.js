@@ -929,7 +929,7 @@ const Dashboard = ({
     setLoading(true)
 
     // --- Delete subscription in Stripe ---
-    const result = await twilioApi.sendInvoice(data)
+    const result = await twilioApi.sendSms(data)
 
     // --- If got response, display success snackbar ---
     if (result && result.message) {
@@ -955,7 +955,7 @@ const Dashboard = ({
     setLoading(true)
 
     // --- Delete subscription in Stripe ---
-    const result = await twilioApi.sendInvoice({
+    const result = await twilioApi.sendSms({
       to: modalData.phone,
       body: `Hi ${modalData.name}, this is a friendly remindar to please pay your invoice: ${data}`,
     })
@@ -1022,6 +1022,7 @@ const Dashboard = ({
               setApiSuccessMessage={setApiSuccessMessage}
               handleErrorApiOpen={handleErrorApiOpen}
               setApiErrorMessage={setApiErrorMessage}
+              handleApptReminder={handleApptReminder}
             />
           ) : (
             // --- Otherwise set screen to clients screen ---
@@ -1137,6 +1138,7 @@ const Dashboard = ({
                 handleErrorApiOpen={handleErrorApiOpen}
                 setApiErrorMessage={setApiErrorMessage}
                 handleApptReminder={handleApptReminder}
+                loading={loading}
               />
               <DeleteModal
                 open={deleteModal}
@@ -1159,6 +1161,7 @@ const Dashboard = ({
                 handleSend={handleSendInvoice}
                 handleVoid={handleVoidInvoice}
                 handleInvReminder={handleInvReminder}
+                loading={loading}
               />
               <CreateInvoiceModal
                 open={formInvModal}
@@ -1180,14 +1183,15 @@ const Dashboard = ({
                 header={`${invoiceName} subscriptions`}
                 data={subModalData}
                 handleDelete={handleSubDelete}
+                loading={loading}
               />
               {/* --- Modals end --- */}
             </>
           )}
         </Container>
 
-        {/* ---Loading Modal--- */}
-        <Loading loading={loading} />
+        {/* ---Loading UI --- */}
+        {loading && <Loading />}
 
         {/* --- Success snackbar --- */}
         {successApi && (

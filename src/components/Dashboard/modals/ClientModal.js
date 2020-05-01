@@ -15,6 +15,7 @@ import SendIcon from "@material-ui/icons/Send"
 import AddBoxIcon from "@material-ui/icons/AddBox"
 import faunaApi from "../../../utils/faunaApi"
 import moment from "moment"
+import Loading from "../Loading"
 import useStyles from "../style"
 
 function ClientModal({
@@ -35,6 +36,7 @@ function ClientModal({
   setApiErrorMessage,
   handleApptReminder,
   setLoading,
+  loading,
 }) {
   const classes = useStyles()
 
@@ -91,8 +93,11 @@ function ClientModal({
       aria-labelledby="client-modal"
       open={open}
       fullWidth
-      maxWidth="md"
+      maxWidth="lg"
     >
+      {/* ---Loading UI --- */}
+      {loading && <Loading modal />}
+
       <DialogTitle id="client-modal" className={classes.modalHeaderSection}>
         <Typography variant="body1" className={classes.modalHeader}>
           {header}
@@ -142,7 +147,10 @@ function ClientModal({
                   <ViewListIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Create invoice" arrow>
+              <Tooltip
+                title="Create invoice, Warning: not for appointments"
+                arrow
+              >
                 <IconButton
                   className={classes.iconPrimary}
                   aria-label="submit"
@@ -260,6 +268,7 @@ ClientModal.propTypes = {
   setApiErrorMessage: PropTypes.func.isRequired,
   handleApptReminder: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 }
 
 export default ClientModal

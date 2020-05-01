@@ -45,7 +45,7 @@ const CreateSubModal = ({ data, onClose, open, header, handleCreate }) => {
       aria-labelledby="form-modal"
       open={open}
       fullWidth
-      maxWidth="md"
+      maxWidth="lg"
     >
       <DialogTitle id="form-modal" className={classes.modalHeaderSection}>
         <Typography variant="body1" className={classes.modalHeader}>

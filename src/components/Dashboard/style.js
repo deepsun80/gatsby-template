@@ -132,9 +132,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
   loader: {
-    color: "#fff",
-    margin: "auto",
-    overflow: "hidden",
+    color: "cornflowerblue",
+  },
+  loadContainer: {
+    position: "absolute",
+    zIndex: 199,
+    width: "100%",
+    textAlign: "center",
+    color: "blue",
   },
   input: {
     paddingLeft: 10,
