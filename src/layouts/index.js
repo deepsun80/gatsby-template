@@ -20,11 +20,6 @@ const Layout = ({ children }) => {
             }
           }
         }
-        markdownRemark(frontmatter: { path: { eq: "*" } }) {
-          frontmatter {
-            copy
-          }
-        }
       }
     `
   )
@@ -43,7 +38,6 @@ const Layout = ({ children }) => {
         siteTitle={query.site.siteMetadata.title}
         author={query.site.siteMetadata.author}
         company={query.site.siteMetadata.data.company}
-        text={query.markdownRemark.frontmatter.copy}
         tel={query.site.siteMetadata.data.tel}
       />
     </>

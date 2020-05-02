@@ -136,6 +136,7 @@ const useStyles = makeStyles(theme => ({
   },
   loadContainer: {
     position: "absolute",
+    top: "35%",
     zIndex: 199,
     width: "100%",
     textAlign: "center",

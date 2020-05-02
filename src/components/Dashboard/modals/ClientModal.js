@@ -96,7 +96,7 @@ function ClientModal({
       maxWidth="lg"
     >
       {/* ---Loading UI --- */}
-      {loading && <Loading modal />}
+      {loading && <Loading />}
 
       <DialogTitle id="client-modal" className={classes.modalHeaderSection}>
         <Typography variant="body1" className={classes.modalHeader}>
@@ -105,7 +105,7 @@ function ClientModal({
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <DialogContentText variant="body2" className={classes.modalBody}>
               <span className={classes.modalLabel}>Name</span>: {data.name}
             </DialogContentText>
@@ -128,7 +128,7 @@ function ClientModal({
               </a>
             </DialogContentText>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} xs={12}>
             <Typography variant="body2" className={classes.modalSmallHeader}>
               Invoices
             </Typography>

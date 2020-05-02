@@ -38,7 +38,7 @@ function SubModal({ onClose, open, data, header, handleDelete, loading }) {
       maxWidth="lg"
     >
       {/* ---Loading UI --- */}
-      {loading && <Loading modal />}
+      {loading && <Loading />}
 
       <DialogTitle
         id="subscription-modal"

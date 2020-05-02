@@ -64,7 +64,7 @@ function InvoicesModal({
       maxWidth="lg"
     >
       {/* ---Loading UI --- */}
-      {loading && <Loading modal />}
+      {loading && <Loading />}
 
       <DialogTitle id="invoices-modal" className={classes.modalHeaderSection}>
         <Typography variant="body1" className={classes.modalHeader}>

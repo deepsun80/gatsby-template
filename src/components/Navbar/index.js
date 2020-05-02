@@ -11,7 +11,6 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Menu from "@material-ui/core/Menu"
 import SignoutModal from "./SignoutModal"
 import { IoIosMenu } from "react-icons/io"
-import scrollTo from "gatsby-plugin-smoothscroll"
 import headerIndex from "../../utils/headerIndex"
 import useStyles from "./style"
 
@@ -67,8 +66,8 @@ const Navbar = ({
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
-  const renderMenu = (link, linkTitle, linkId) =>
-    linkTitle === "contact" ? (
+  const renderMenu = (link, linkTitle, linkId) => (
+    <AniLink fade to={link} title={link} alt={link}>
       <MenuItem
         className={classNames(
           classes.navLink,
@@ -77,25 +76,12 @@ const Navbar = ({
             : classes.navLinkSecondaryColor
         )}
         id={linkId}
-        onClick={() => scrollTo(link)}
+        onClick={handleMobileMenuClose}
       >
         {linkTitle}
       </MenuItem>
-    ) : (
-      <AniLink fade to={link} title={link} alt={link}>
-        <MenuItem
-          className={classNames(
-            classes.navLink,
-            menuColor
-              ? classes.navLinkPrimaryColor
-              : classes.navLinkSecondaryColor
-          )}
-          id={linkId}
-        >
-          {linkTitle}
-        </MenuItem>
-      </AniLink>
-    )
+    </AniLink>
+  )
 
   const mobileMenuId = "menu-mobile"
   const renderMobileMenu = web ? (
@@ -124,6 +110,7 @@ const Navbar = ({
           size="small"
           color="secondary"
           className={classes.mobileButton}
+          onClick={handleMobileMenuClose}
         >
           schedule online
         </Button>
@@ -147,7 +134,10 @@ const Navbar = ({
             : classes.navLinkSecondaryColor
         )}
         id="appointments"
-        onClick={() => setFilter("appts")}
+        onClick={() => {
+          setFilter("appts")
+          handleMobileMenuClose()
+        }}
       >
         appointments
       </MenuItem>
@@ -159,7 +149,10 @@ const Navbar = ({
             : classes.navLinkSecondaryColor
         )}
         id="leads"
-        onClick={() => setFilter("customers")}
+        onClick={() => {
+          setFilter("customers")
+          handleMobileMenuClose()
+        }}
       >
         customers
       </MenuItem>
@@ -171,7 +164,10 @@ const Navbar = ({
             : classes.navLinkSecondaryColor
         )}
         id="leads"
-        onClick={() => setFilter("leads")}
+        onClick={() => {
+          setFilter("leads")
+          handleMobileMenuClose()
+        }}
       >
         leads
       </MenuItem>

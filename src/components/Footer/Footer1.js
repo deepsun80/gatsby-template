@@ -9,11 +9,9 @@ import Typography from "@material-ui/core/Typography"
 import FacebookIcon from "@material-ui/icons/Facebook"
 import InstagramIcon from "@material-ui/icons/Instagram"
 import LinkedInIcon from "@material-ui/icons/LinkedIn"
-import AniLink from "gatsby-plugin-transition-link/AniLink"
-import scrollTo from "gatsby-plugin-smoothscroll"
 import useStyles from "./style"
 
-const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
+const Footer1 = ({ logo, siteTitle, tel, author, company }) => {
   const classes = useStyles()
 
   return (
@@ -25,20 +23,6 @@ const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
               <Typography variant="body1" color="secondary">
                 {tel}
               </Typography>
-              <AniLink
-                to={null}
-                onClick={() => scrollTo(".contact")}
-                title="contact us"
-                alt="contact us"
-              >
-                <Typography
-                  variant="body1"
-                  color="primary"
-                  className={classes.link}
-                >
-                  {text}
-                </Typography>
-              </AniLink>
             </Grid>
             <Grid
               item
@@ -104,7 +88,6 @@ const Footer1 = ({ logo, siteTitle, text, tel, author, company }) => {
 Footer1.propTypes = {
   logo: PropTypes.string.isRequired,
   siteTitle: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
   tel: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
