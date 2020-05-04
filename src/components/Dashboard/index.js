@@ -1016,6 +1016,7 @@ const Dashboard = ({
               localHostError={localHostError}
               liveError={liveError}
               setLoading={setLoading}
+              loading={loading}
               formInvModalData={formInvModalData}
               invoiceHeader={invoiceHeader}
               handleSuccessApiOpen={handleSuccessApiOpen}

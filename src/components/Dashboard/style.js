@@ -80,6 +80,7 @@ const useStyles = makeStyles(theme => ({
   },
   disabledIcon: {
     color: "gainsboro",
+    cursor: "auto",
   },
   modalHeaderSection: {
     background: "slategrey",
@@ -136,11 +137,14 @@ const useStyles = makeStyles(theme => ({
   },
   loadContainer: {
     position: "absolute",
-    top: "35%",
+    bottom: "12%",
     zIndex: 199,
     width: "100%",
     textAlign: "center",
     color: "blue",
+    [theme.breakpoints.up("md")]: {
+      bottom: "18%",
+    },
   },
   input: {
     paddingLeft: 10,

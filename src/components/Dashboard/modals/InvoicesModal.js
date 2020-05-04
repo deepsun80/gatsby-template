@@ -141,7 +141,8 @@ function InvoicesModal({
                       <SettingsApplicationsIcon
                         className={
                           row.status !== "uncollectible" &&
-                          row.status !== "draft"
+                          row.status !== "draft" &&
+                          !loading
                             ? classes.icon
                             : classes.disabledIcon
                         }
@@ -151,7 +152,9 @@ function InvoicesModal({
                   <TableCell>
                     <ExitToAppIcon
                       className={
-                        row.status === "void" || row.status === "paid"
+                        row.status === "void" ||
+                        row.status === "paid" ||
+                        loading
                           ? classes.disabledIcon
                           : classes.icon
                       }
@@ -163,7 +166,9 @@ function InvoicesModal({
                   <TableCell>
                     <DeleteForeverIcon
                       className={
-                        row.status === "void" || row.status !== "draft"
+                        row.status === "void" ||
+                        row.status !== "draft" ||
+                        loading
                           ? classes.disabledIcon
                           : classes.icon
                       }
@@ -178,7 +183,8 @@ function InvoicesModal({
                       className={
                         row.status === "void" ||
                         row.status === "draft" ||
-                        row.status === "paid"
+                        row.status === "paid" ||
+                        loading
                           ? classes.disabledIcon
                           : classes.icon
                       }
@@ -195,7 +201,7 @@ function InvoicesModal({
                   <TableCell>
                     <SendIcon
                       className={
-                        row.status !== "open"
+                        row.status !== "open" || loading
                           ? classes.disabledIcon
                           : classes.icon
                       }

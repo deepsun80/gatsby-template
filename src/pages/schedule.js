@@ -1,7 +1,7 @@
 import React from "react"
 import Layout from "../layouts"
 import FullBgHeader from "../components/Sections/FullBgHeader"
-import Schedule from "../components/Schedule"
+import HalfPageSchedule from "../components/Schedule/HalfPageSchedule"
 import SEO from "../components/SEO"
 import { graphql } from "gatsby"
 
@@ -33,7 +33,7 @@ const schedule = ({ data }) => {
         image={background.childImageSharp}
       />
       <div className="contact" />
-      <Schedule
+      <HalfPageSchedule
         title={site.siteMetadata.title}
         successMessage={success}
         subSuccessMessage={subSuccess}

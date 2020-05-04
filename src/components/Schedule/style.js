@@ -4,19 +4,8 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
-  section: {
-    minHeight: "80vh",
-    marginBottom: "15vh",
-  },
   container: {
-    paddingTop: "12vh",
-  },
-  paper: {
-    padding: 30,
-    boxShadow: `30px 30px ${theme.palette.secondary.light}`,
-    border: `1px solid ${theme.palette.secondary.light}`,
-    position: "relative",
-    zIndex: 1,
+    margin: "10vh auto",
   },
   field: {
     marginTop: 30,
@@ -76,10 +65,32 @@ const useStyles = makeStyles(theme => ({
   loader: {
     position: "absolute",
     left: "50vw",
-    top: "50vh",
+    bottom: "50%",
     zIndex: 2,
     transform: " translateX(-50%)",
     "&::-webkit-transform": " translateX(-50%)",
+  },
+  iconGrid: {
+    marginRight: 0,
+    textAlign: "center",
+  },
+  flex: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+  smIcon: {
+    fontSize: "2rem",
+    color: theme.palette.secondary.main,
+  },
+  smHeader: {
+    fontSize: "1.25rem",
+    marginLeft: 15,
+    textTransform: "uppercase",
+  },
+  divider: {
+    margin: "5vh auto",
+    color: theme.palette.secondary.main,
   },
 }))
 

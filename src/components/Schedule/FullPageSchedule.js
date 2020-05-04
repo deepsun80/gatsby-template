@@ -19,7 +19,7 @@ import isLocalHost from "../../utils/isLocalHost"
 import useStyles from "./style"
 import { Typography } from "@material-ui/core"
 
-const Schedule = ({
+const FullPageSchedule = ({
   title,
   successMessage,
   subSuccessMessage,
@@ -127,14 +127,14 @@ const Schedule = ({
   }
 
   return (
-    <section className={classes.section}>
+    <section>
       <Container className={classes.container}>
         {loading && (
           <div className={classes.loader}>
             <CircularProgress color="secondary" size="100px" thickness={1} />
           </div>
         )}
-        <Paper elevation={1} className={classes.paper}>
+        <Paper elevation={0} className={classes.paper}>
           <>
             {!validation.success && !validation.error && (
               <form onSubmit={handleSubmit}>
@@ -286,7 +286,7 @@ const Schedule = ({
   )
 }
 
-Schedule.propTypes = {
+FullPageSchedule.propTypes = {
   title: PropTypes.string.isRequired,
   successMessage: PropTypes.string.isRequired,
   subSuccessMessage: PropTypes.string.isRequired,
@@ -297,4 +297,4 @@ Schedule.propTypes = {
   liveError: PropTypes.string.isRequired,
 }
 
-export default Schedule
+export default FullPageSchedule

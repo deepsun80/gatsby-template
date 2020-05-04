@@ -21,7 +21,7 @@ const TwoColBgTxt = ({
 
   return (
     <section className={classes.section}>
-      <Grid container justify="center" className={classes.container}>
+      <Grid container className={classes.container}>
         <Grid item md={4} xs={12}>
           <BackgroundImage
             Tag="section"

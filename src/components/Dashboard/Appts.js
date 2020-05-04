@@ -33,6 +33,7 @@ const Appt = ({
   localHostError,
   liveError,
   setLoading,
+  loading,
   formInvModalData,
   invoiceHeader,
   handleSuccessApiOpen,
@@ -647,7 +648,9 @@ const Appt = ({
                       row.data.invoice.status === "draft" ? (
                       <Tooltip title="Send invoice" arrow>
                         <ExitToAppIcon
-                          className={classes.icon}
+                          className={
+                            loading ? classes.disabledIcon : classes.icon
+                          }
                           onClick={() => {
                             handleSendInvoice(row.data.invoice.id)
                           }}
@@ -656,7 +659,9 @@ const Appt = ({
                     ) : (
                       <Tooltip title="Create invoice" arrow>
                         <AddBoxIcon
-                          className={classes.icon}
+                          className={
+                            loading ? classes.disabledIcon : classes.icon
+                          }
                           onClick={() => {
                             handleInvFormModalOpen(row)
                           }}
@@ -669,7 +674,9 @@ const Appt = ({
                     {moment(row.data.payload.event.start_time).isAfter() ? (
                       <Tooltip title="Text appointment reminder" arrow>
                         <SendIcon
-                          className={classes.icon}
+                          className={
+                            loading ? classes.disabledIcon : classes.icon
+                          }
                           onClick={() => {
                             handleApptReminder({
                               to:
@@ -709,6 +716,7 @@ Appt.propTypes = {
   localHostError: PropTypes.string.isRequired,
   liveError: PropTypes.string.isRequired,
   setLoading: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   formInvModalData: PropTypes.array.isRequired,
   invoiceHeader: PropTypes.string.isRequired,
   handleSuccessApiOpen: PropTypes.func.isRequired,

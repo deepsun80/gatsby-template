@@ -21,7 +21,7 @@ const TwoColTxtBg = ({
 
   return (
     <section className={classes.section}>
-      <Grid container justify="center" className={classes.container}>
+      <Grid container className={classes.container}>
         <Grid item lg={8} xs={12} className={classes.grid}>
           <Fade duration={1600} ssrFadeout>
             <Container maxWidth="sm">
