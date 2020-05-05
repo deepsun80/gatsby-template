@@ -136,64 +136,10 @@ const HalfPageSchedule = ({
           <CircularProgress color="secondary" size="100px" thickness={1} />
         </div>
       )}
-      <Grid container className={classes.container}>
-        <Hidden mdDown>
-          <Grid item md={6} xs={12} className={classes.iconGrid}>
-            <Container maxWidth="md">
-              <div className={classes.flex}>
-                <FaAward color="primary" className={classes.smIcon} />
-                <Typography
-                  color="primary"
-                  variant="body2"
-                  component="h2"
-                  className={classes.smHeader}
-                >
-                  3 years experience
-                </Typography>
-              </div>
-              <Typography color="primary" variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
-                nobis?
-              </Typography>
-              <Divider className={classes.divider} />
-              <div className={classes.flex}>
-                <FaWallet color="primary" className={classes.smIcon} />
-                <Typography
-                  color="primary"
-                  variant="body2"
-                  component="h2"
-                  className={classes.smHeader}
-                >
-                  most affordable in your area
-                </Typography>
-              </div>
-              <Typography color="primary" variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
-                nobis?
-              </Typography>
-              <Divider className={classes.divider} />
-              <div className={classes.flex}>
-                <FaWallet color="primary" className={classes.smIcon} />
-                <Typography
-                  color="primary"
-                  variant="body2"
-                  component="h2"
-                  className={classes.smHeader}
-                >
-                  most affordable in your area
-                </Typography>
-              </div>
-              <Typography color="primary" variant="body2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
-                nobis?
-              </Typography>
-            </Container>
-          </Grid>
-        </Hidden>
-
+      <Grid container className={classes.gridContainer}>
         {/* --- From section --- */}
         <Grid item lg={6} xs={12}>
-          <Container maxWidth="lg">
+          <Container maxWidth="md" className={classes.formContainer}>
             <>
               {!validation.success && !validation.error && (
                 <form onSubmit={handleSubmit}>
@@ -345,6 +291,60 @@ const HalfPageSchedule = ({
             </>
           </Container>
         </Grid>
+        {/* --- Ui Section --- */}
+        <Hidden mdDown>
+          <Grid item md={6} xs={12} className={classes.iconGrid}>
+            <Container maxWidth="md">
+              <div className={classes.flex}>
+                <FaAward color="primary" className={classes.smIcon} />
+                <Typography
+                  color="primary"
+                  variant="body2"
+                  component="h2"
+                  className={classes.smHeader}
+                >
+                  3 years experience
+                </Typography>
+              </div>
+              <Typography color="primary" variant="body2">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
+                nobis?
+              </Typography>
+              <Divider className={classes.divider} />
+              <div className={classes.flex}>
+                <FaWallet color="primary" className={classes.smIcon} />
+                <Typography
+                  color="primary"
+                  variant="body2"
+                  component="h2"
+                  className={classes.smHeader}
+                >
+                  most affordable in your area
+                </Typography>
+              </div>
+              <Typography color="primary" variant="body2">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
+                nobis?
+              </Typography>
+              <Divider className={classes.divider} />
+              <div className={classes.flex}>
+                <FaWallet color="primary" className={classes.smIcon} />
+                <Typography
+                  color="primary"
+                  variant="body2"
+                  component="h2"
+                  className={classes.smHeader}
+                >
+                  most affordable in your area
+                </Typography>
+              </div>
+              <Typography color="primary" variant="body2">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque,
+                nobis?
+              </Typography>
+            </Container>
+          </Grid>
+        </Hidden>
       </Grid>
     </section>
   )

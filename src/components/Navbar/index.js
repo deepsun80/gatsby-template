@@ -136,6 +136,7 @@ const Navbar = ({
         id="appointments"
         onClick={() => {
           setFilter("appts")
+          sessionStorage.setItem("dashboard", "appts")
           handleMobileMenuClose()
         }}
       >
@@ -151,6 +152,7 @@ const Navbar = ({
         id="leads"
         onClick={() => {
           setFilter("customers")
+          sessionStorage.setItem("dashboard", "customers")
           handleMobileMenuClose()
         }}
       >
@@ -166,6 +168,7 @@ const Navbar = ({
         id="leads"
         onClick={() => {
           setFilter("leads")
+          sessionStorage.setItem("dashboard", "leads")
           handleMobileMenuClose()
         }}
       >
@@ -226,7 +229,10 @@ const Navbar = ({
                       : classes.navLinkSecondaryColor
                   )}
                   id="appointments"
-                  onClick={() => setFilter("appts")}
+                  onClick={() => {
+                    setFilter("appts")
+                    sessionStorage.setItem("dashboard", "appts")
+                  }}
                 >
                   appointments
                 </MenuItem>
@@ -238,7 +244,10 @@ const Navbar = ({
                       : classes.navLinkSecondaryColor
                   )}
                   id="customers"
-                  onClick={() => setFilter("customers")}
+                  onClick={() => {
+                    setFilter("customers")
+                    sessionStorage.setItem("dashboard", "customers")
+                  }}
                 >
                   customers
                 </MenuItem>
@@ -250,7 +259,10 @@ const Navbar = ({
                       : classes.navLinkSecondaryColor
                   )}
                   id="leads"
-                  onClick={() => setFilter("leads")}
+                  onClick={() => {
+                    setFilter("leads")
+                    sessionStorage.setItem("dashboard", "leads")
+                  }}
                 >
                   leads
                 </MenuItem>

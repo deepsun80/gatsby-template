@@ -60,15 +60,6 @@ const readAllAppts = () => {
   })
 }
 
-const searchAppts = data => {
-  return fetch("/.netlify/functions/fauna-appt-search", {
-    body: JSON.stringify(data),
-    method: "POST",
-  }).then(response => {
-    return response.json()
-  })
-}
-
 const updateAppt = (apptId, data) => {
   return fetch(`/.netlify/functions/fauna-appt-update/${apptId}`, {
     body: JSON.stringify(data),
@@ -94,7 +85,6 @@ export default {
   deleteClient: deleteClient,
   batchDeleteClient: batchDeleteClient,
   readAllAppts: readAllAppts,
-  searchAppts: searchAppts,
   updateAppt: updateAppt,
   deleteAppt: deleteAppt,
 }

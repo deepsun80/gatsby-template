@@ -74,7 +74,9 @@ const Dashboard = ({
   const [invoicesModalData, setInvoicesModalData] = useState([])
   const [subModalData, setSubModalData] = useState([])
   const [targetClient, setTargetClient] = useState({})
-  const [filter, setFilter] = useState("appts")
+  const [filter, setFilter] = useState(
+    sessionStorage.getItem("dashboard") || "appts"
+  )
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [successApi, setSuccessApi] = useState(false)
@@ -986,9 +988,11 @@ const Dashboard = ({
     // ---Get services from Stripe---
     getServices()
     // ---Get subscription plans from Stripe---
+
     getPlans()
   }, [getClients, getServices, getPlans])
 
+  console.log(clients)
   return (
     <>
       {/* --- Navbar Start --- */}

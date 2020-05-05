@@ -110,6 +110,7 @@ const Appt = ({
     setLoading(true)
 
     const response = await faunaApi.readAllAppts()
+
     // --- If not connected to Fauna display error ---
     if (response && response.error === "unauthorized") {
       if (isLocalHost()) {
@@ -163,87 +164,21 @@ const Appt = ({
       return false
     }
 
-    // ---If connected to Fauna and got response, display success snackbar ---
+    // --- If connected to Fauna and got response, display success snackbar ---
     if (response && response.message) {
       console.log(response.message)
       setApiSuccessMessage(response.message)
       handleSuccessApiOpen()
     }
 
-    // --- Once response array is loaded ---
-    if (response && response.result.length > 0) {
-      // --- For each appointment, get its invoice via id ---
-      response.result.forEach(async appt => {
-        if (appt && appt.data.invoice.hasOwnProperty("id")) {
-          try {
-            // --- Search stripe for matching invoice id ---
-            const ret = await stripeApi.findInvoice(appt.data.invoice.id)
-
-            // --- If no invoice found, set state invoice in appointment to void ---
-            if (ret && ret.hasOwnProperty("error")) {
-              appt.data.invoice = { status: "void" }
-              console.log(ret.error)
-            }
-
-            // --- If invoice found update the invoice field in that appointment in Fauna ---
-            if (ret && ret.hasOwnProperty("message")) {
-              const res = await faunaApi.updateAppt(appt.ref["@ref"].id, {
-                invoice: ret.result,
-              })
-
-              //-- Update the state invoice in appointment ---
-              appt.data.invoice = ret.result
-
-              // --- If response, display success snackbar ---
-              if (res && res.message) {
-                console.log(res.message)
-                setApiSuccessMessage(res.message)
-                handleSuccessApiOpen()
-              }
-
-              // --- Display any error in snackbar and unset loading ui ---
-              if (res && res.error) {
-                console.log(res.error)
-                setApiErrorMessage(res.error)
-                handleErrorApiOpen()
-                setLoading(false)
-              }
-            }
-
-            // --- Within forEach, sort appointments to display newest date first ---
-            const sortedArray = response.result.sort(
-              (a, b) =>
-                moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-                moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-            )
-            setAppts(sortedArray)
-          } catch (err) {
-            // --- If no matching invoice found, set appointment invoice in Fauna to empty ---
-            await faunaApi.updateAppt(appt.ref["@ref"].id, {
-              invoice: {},
-            })
-
-            // --- Display any error in snackbar ---
-            console.log(
-              "No matching invoice found in appointment:",
-              err.message
-            )
-            setApiErrorMessage(
-              "No matching invoice found in appointment:",
-              err.message
-            )
-            handleErrorApiOpen()
-          }
-        }
-
-        // --- Within forEach, sort appointments to display newest date first ---
-        const sortedArray = response.result.sort(
-          (a, b) =>
-            moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
-            moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
-        )
-        setAppts(sortedArray)
-      })
+    // --- If response, sort appointments to display newest date first ---
+    if (response && response.result && response.result.length > 0) {
+      const sortedArray = response.result.sort(
+        (a, b) =>
+          moment(a.data.payload.event.start_time).format("YYYYMMDDHH") -
+          moment(b.data.payload.event.start_time).format("YYYYMMDDHH")
+      )
+      setAppts(sortedArray)
     }
 
     // --- Display any error in snackbar and unset loading ui ---

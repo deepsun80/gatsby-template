@@ -4,8 +4,11 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
   },
-  container: {
+  gridContainer: {
     margin: "10vh auto",
+  },
+  formContainer: {
+    marginRight: 0,
   },
   field: {
     marginTop: 30,
@@ -72,11 +75,10 @@ const useStyles = makeStyles(theme => ({
   },
   iconGrid: {
     marginRight: 0,
-    textAlign: "center",
+    textAlign: "left",
   },
   flex: {
     display: "flex",
-    justifyContent: "center",
     marginBottom: 20,
   },
   smIcon: {

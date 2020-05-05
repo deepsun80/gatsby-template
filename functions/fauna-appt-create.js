@@ -31,7 +31,9 @@ exports.handler = async (event, context) => {
 
   /* Customer Cancelled Event */
   return client
-    .query(q.Paginate(q.Match(q.Ref("indexes/all_appointments"))))
+    .query(
+      q.Paginate(q.Match(q.Ref("indexes/all_appointments")), { size: 2000 })
+    )
     .then(response => {
       const apptRefs = response.data
       const getAllApptDataQuery = apptRefs.map(ref => {
