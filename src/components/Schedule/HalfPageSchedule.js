@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import { AiOutlineLeft } from "react-icons/ai"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 import { FaAward, FaWallet } from "react-icons/fa"
+import { BsBarChartFill } from "react-icons/bs"
 import { InlineWidget } from "react-calendly"
 import faunaApi from "../../utils/faunaApi"
 import stripeApi from "../../utils/stripeApi"
@@ -296,7 +297,7 @@ const HalfPageSchedule = ({
           <Grid item md={6} xs={12} className={classes.iconGrid}>
             <Container maxWidth="md">
               <div className={classes.flex}>
-                <FaAward color="primary" className={classes.smIcon} />
+                <FaAward className={classes.smIcon} />
                 <Typography
                   color="primary"
                   variant="body2"
@@ -312,14 +313,14 @@ const HalfPageSchedule = ({
               </Typography>
               <Divider className={classes.divider} />
               <div className={classes.flex}>
-                <FaWallet color="primary" className={classes.smIcon} />
+                <FaWallet className={classes.smIcon} />
                 <Typography
                   color="primary"
                   variant="body2"
                   component="h2"
                   className={classes.smHeader}
                 >
-                  most affordable in your area
+                  best price in your area
                 </Typography>
               </div>
               <Typography color="primary" variant="body2">
@@ -328,14 +329,14 @@ const HalfPageSchedule = ({
               </Typography>
               <Divider className={classes.divider} />
               <div className={classes.flex}>
-                <FaWallet color="primary" className={classes.smIcon} />
+                <BsBarChartFill className={classes.smIcon} />
                 <Typography
                   color="primary"
                   variant="body2"
                   component="h2"
                   className={classes.smHeader}
                 >
-                  most affordable in your area
+                  guaranteed results
                 </Typography>
               </div>
               <Typography color="primary" variant="body2">
